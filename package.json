@@ -1,0 +1,23 @@
+{
+  "name": "unexpected-check",
+  "version": "1.0.0",
+  "description": "Property based testing plugin for unexpected.js.org",
+  "main": "lib/unexpected-check.js",
+  "scripts": {
+    "test": "mocha"
+  },
+  "keywords": [
+    "testing",
+    "property",
+    "testing",
+    "unexpected"
+  ],
+  "author": "Sune Simonsen",
+  "license": "MIT",
+  "devDependencies": {
+    "eslint": "^1.10.3",
+    "eslint-config-onelint": "0.0.2",
+    "mocha": "^2.3.4",
+    "unexpected": "^10.5.1"
+  }
+}
