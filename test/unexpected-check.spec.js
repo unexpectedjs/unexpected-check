@@ -77,7 +77,7 @@ describe('unexpected-check', function () {
                "  ]");
     })
 
-    it('succeeds for a valid requirement', () => {
+    it('succeeds for a valid requirement', function () {
         expect(function (arr) {
             var sorted = sort(arr, function (a, b) { return a - b; });
 
@@ -87,7 +87,7 @@ describe('unexpected-check', function () {
         }, 'to be valid for all', arrays)
     })
 
-    it('produces minimal output with dependencies between the generated value', () => {
+    it('produces minimal output with dependencies between the generated value', function () {
         expect(function () {
             expect(function (items, i) {
                 expect(items, 'not to contain', i)
