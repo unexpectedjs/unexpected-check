@@ -17,11 +17,11 @@ expect(function (text) {
 }, 'to be valid for all', strings);
 ```
 
-This will run 100 tests with random strings of length 0-200.
+This will run 100 tests with random strings of length 0-200 and succeed.
 
 I found to following code for
 [Run-length encoding](https://en.wikipedia.org/wiki/Run-length_encoding) on the
-[internet](http://rosettacode.org/wiki/Run-length_encoding#JavaScript) let's see
+[internet](http://rosettacode.org/wiki/Run-length_encoding#JavaScript), let's see
 if that code also fulfill our round trip test:
 
 ```js
