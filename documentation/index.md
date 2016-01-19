@@ -109,11 +109,10 @@ expect.use(require('unexpected-check');
 
 ### Browser
 
-Include the `unexpected-sinon.js` found at the lib directory of this
+Include the `unexpected-check.js` found at the lib directory of this
 repository.
 
 ```html
-<script src="sinon.js"></script>
 <script src="unexpected.js"></script>
 <script src="unexpected-check.js"></script>
 ```
