@@ -26,17 +26,19 @@ if that code also fulfill our round trip test:
 
 ```js
 function rleEncode(input) {
-    var encoding = [];
-    input.match(/(.)\1*/g).forEach(function(substr){
-      encoding.push([substr.length, substr[0]]);
-    });
-    return encoding;
+  var encoding = [];
+  input.match(/(.)\1*/g).forEach(function(substr){
+    encoding.push([substr.length, substr[0]]);
+  });
+  return encoding;
 }
 
 function rleDecode(encoded) {
-    var output = "";
-    encoded.forEach(function(pair){ output += new Array(1+pair[0]).join(pair[1]) });
-    return output;
+  var output = "";
+  encoded.forEach(function(pair){
+    output += new Array(1+pair[0]).join(pair[1]);
+  });
+  return output;
 }
 
 expect(function (text) {
