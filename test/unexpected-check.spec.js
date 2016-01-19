@@ -1,7 +1,6 @@
 /*global describe, it*/
 var Generators = require('chance-generators')
 var expect = require('unexpected')
-var assert = require('assert');
 expect.output.preferredWidth = 80;
 
 expect.use(require('../lib/unexpected-check'))
@@ -42,7 +41,7 @@ describe('unexpected-check', function () {
             }, 'to be valid for all', arrays)
         }, 'to throw',
                "Ran 23 iterations and found 20 errors\n" +
-               "counter example:\n" +
+               "counterexample:\n" +
                "\n" +
                "  Generated input: [ -19, -2, -16 ]\n" +
                "\n" +
@@ -63,7 +62,7 @@ describe('unexpected-check', function () {
             }, 'to be valid for all', arrays)
         }, 'to throw',
                "Ran 52 iterations and found 20 errors\n" +
-               "counter example:\n" +
+               "counterexample:\n" +
                "\n" +
                "  Generated input: [ 2, -17, 9, -13, 7 ]\n" +
                "\n" +
@@ -95,7 +94,7 @@ describe('unexpected-check', function () {
             }, 'to be valid for all', arrays, g.integer({ min: -20, max: 20 }))
         }, 'to throw',
                "Ran 96 iterations and found 20 errors\n" +
-               "counter example:\n" +
+               "counterexample:\n" +
                "\n" +
                "  Generated input: [ -7 ], -7\n" +
                "\n" +
