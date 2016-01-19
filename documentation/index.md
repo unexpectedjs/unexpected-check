@@ -6,6 +6,7 @@ repository: https://github.com/unexpectedjs/unexpected-check
 ---
 
 # unexpected-check
+# property based testing plugin for unexpected
 
 This plugin tries to bring property testing to the
 [unexpected](http://unexpected.js.org) assertion library. The idea is that it
