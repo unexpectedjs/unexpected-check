@@ -28,7 +28,7 @@ Let's imagine we wanted to sort arrays of numbers using this function:
 
 ```js
 function sort(arr) {
-    return [].concat(arr).sort();
+  return [].concat(arr).sort();
 }
 ```
 
@@ -45,11 +45,11 @@ var g = require('chance-generators')(42);
 var arrays = g.n(g.integer({ min: -20, max: 20 }), g.integer({ min: 1, max: 20 }));
 
 expect(function (arr) {
-    var sorted = sort(arr);
+  var sorted = sort(arr);
 
-    expect(sorted, 'to have length', arr.length)
-        .and('first item to be less than or equal to all', arr)
-        .and('last item to be greater than or equal to all', arr);
+  expect(sorted, 'to have length', arr.length)
+    .and('first item to be less than or equal to all', arr)
+    .and('last item to be greater than or equal to all', arr);
 }, 'to be valid for all', arrays);
 ```
 
@@ -76,19 +76,19 @@ If we wanted to fix the problem, we would need to use a comparison function:
 
 ```js
 function sort(arr) {
-    return [].concat(arr).sort(function (a, b) {
-      return a - b;
-    });
+  return [].concat(arr).sort(function (a, b) {
+    return a - b;
+  });
 }
 ```
 
 ```js
 expect(function (arr) {
-    var sorted = sort(arr);
+  var sorted = sort(arr);
 
-    expect(sorted, 'to have length', arr.length)
-        .and('first item to be less than or equal to all', arr)
-        .and('last item to be greater than or equal to all', arr);
+  expect(sorted, 'to have length', arr.length)
+    .and('first item to be less than or equal to all', arr)
+    .and('last item to be greater than or equal to all', arr);
 }, 'to be valid for all', arrays);
 ```
 
@@ -130,9 +130,9 @@ Include the library with RequireJS the following way:
 
 ```js#evaluate:false
 define(['unexpected', 'unexpected-check'], funtion (unexpected, unexpectedCheck) {
-   var expect = unexpected.clone();
-   expect.use(unexpectedCheck);
-   // Your code
+  var expect = unexpected.clone();
+  expect.use(unexpectedCheck);
+  // Your code
 });
 ```
 
