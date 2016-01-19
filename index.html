@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=0">
+    <link rel="stylesheet" href="static/normalize.css" type="text/css" media="screen" />
+    <link rel="stylesheet" href="static/main.css" type="text/css" media="screen" />
+    <link rel="shortcut icon" type="image/vnd.microsoft.icon" href="static/bug-icon-black.ico">
+    <title>unexpected-check</title>
+</head>
+<body class="sidebar-hidden">
+    <header>
+        <div class="logo-icon"></div>
+        <nav>
+            <ul>
+                <li class="menu-toggle-item">
+                    <button class="menu-toggle" onclick="toggleSidebar()"></button>
+                </li>
+                
+                <li class="active"><a href="">unexpected-check</a></li>
+                
+                
+                <li class=""><a href="assertions/function/to-be-valid-for-all">Assertions</a></li>
+                
+                
+                
+            </ul>
+        </nav>
+        <div class="search" style="visibility: hidden">
+            <input id="search" placeholder="Search..." value="">
+            <div id="searchDropDown" class="dropDown">
+                <ul id="searchResults"></ul>
+            </div>
+        </div>
+    </header>
+
+<div class="main theme-dark" tabindex="-1">
+    <div class="content">
+        <h1 id="unexpected-check">unexpected-check</h1>
+<h1 id="property-based-testing-plugin-for-unexpected">property based testing plugin for unexpected</h1>
+<p>This plugin tries to bring property testing to the
+<a href="http://unexpected.js.org">unexpected</a> assertion library. The idea is that it
+should be possible to mix property based testing and normal unit-tests using the
+same tool chain.</p>
+<p>This project is still in it early days and features such as failure shrinking
+and asynchronous testing are missing. It is currently not possible to configure
+the number of iterations the tests should be executes either</p>
+<p>I recommend using the plugin together with
+<a href="https://github.com/sunesimonsen/change-generators">chance-generators</a>, but it
+is not a requirement. You can uses any function that produces a random output
+when called as generators.</p>
+<h2 id="usage">Usage</h2>
+<p>Let&#39;s imagine we wanted to sort arrays of numbers using this function:</p>
+<div class="code lang-javascript">
+  <div><span style="color: #FFAA27">function</span>&nbsp;sort<span style="color: #999">(</span>arr<span style="color: #999">)</span>&nbsp;<span style="color: #999">{</span></div>
+  <div>&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #FFAA27">return</span>&nbsp;<span style="color: #999">[].</span>concat<span style="color: #999">(</span>arr<span style="color: #999">).</span>sort<span style="color: #999">();</span></div>
+  <div><span style="color: #999">}</span></div>
+</div><p>Then we could write a test to ensure the following:</p>
+<ul>
+<li>that the resulting array has the same size as the input array.</li>
+<li>that the first item in the sorted array is less than or equal to all items in the input array.</li>
+<li>that the last item in the sorted array is greater than or equal to all items in the input array.</li>
+</ul>
+<p>We do that the following way:</p>
+<div class="code lang-javascript">
+  <div><span style="color: #FFAA27">var</span>&nbsp;g&nbsp;<span style="color: #3CDAFF">=</span>&nbsp;require<span style="color: #999">(</span><span style="color: #3CDAFF">'chance-generators'</span><span style="color: #999">)(</span><span style="color: white">42</span><span style="color: #999">);</span></div>
+  <div><span style="color: #FFAA27">var</span>&nbsp;arrays&nbsp;<span style="color: #3CDAFF">=</span>&nbsp;g<span style="color: #999">.</span>n<span style="color: #999">(</span>g<span style="color: #999">.</span>integer<span style="color: #999">({</span>&nbsp;min<span style="color: #999">:</span>&nbsp;<span style="color: #3CDAFF">-</span><span style="color: white">20</span><span style="color: #999">,</span>&nbsp;max<span style="color: #999">:</span>&nbsp;<span style="color: white">20</span>&nbsp;<span style="color: #999">}),</span>&nbsp;g<span style="color: #999">.</span>integer<span style="color: #999">({</span>&nbsp;min<span style="color: #999">:</span>&nbsp;<span style="color: white">1</span><span style="color: #999">,</span>&nbsp;max<span style="color: #999">:</span>&nbsp;<span style="color: white">20</span>&nbsp;<span style="color: #999">}));</span></div>
+  <div>&nbsp;</div>
+  <div>expect<span style="color: #999">(</span><span style="color: #FFAA27">function</span>&nbsp;<span style="color: #999">(</span>arr<span style="color: #999">)</span>&nbsp;<span style="color: #999">{</span></div>
+  <div>&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #FFAA27">var</span>&nbsp;sorted&nbsp;<span style="color: #3CDAFF">=</span>&nbsp;sort<span style="color: #999">(</span>arr<span style="color: #999">);</span></div>
+  <div>&nbsp;</div>
+  <div>&nbsp;&nbsp;&nbsp;&nbsp;expect<span style="color: #999">(</span>sorted<span style="color: #999">,</span>&nbsp;<span style="color: #3CDAFF">'to&nbsp;have&nbsp;length'</span><span style="color: #999">,</span>&nbsp;arr<span style="color: #999">.</span>length<span style="color: #999">)</span></div>
+  <div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #999">.</span>and<span style="color: #999">(</span><span style="color: #3CDAFF">'first&nbsp;item&nbsp;to&nbsp;be&nbsp;less&nbsp;than&nbsp;or&nbsp;equal&nbsp;to&nbsp;all'</span><span style="color: #999">,</span>&nbsp;arr<span style="color: #999">)</span></div>
+  <div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #999">.</span>and<span style="color: #999">(</span><span style="color: #3CDAFF">'last&nbsp;item&nbsp;to&nbsp;be&nbsp;greater&nbsp;than&nbsp;or&nbsp;equal&nbsp;to&nbsp;all'</span><span style="color: #999">,</span>&nbsp;arr<span style="color: #999">);</span></div>
+  <div><span style="color: #999">},</span>&nbsp;<span style="color: #3CDAFF">'to&nbsp;be&nbsp;valid&nbsp;for&nbsp;all'</span><span style="color: #999">,</span>&nbsp;arrays<span style="color: #999">);</span></div>
+</div><p>But that assumption as actually not true as the build in sort functions is based
+on converting items to strings and comparing them. So you will get the following error:</p>
+<div class="output">
+  <div><span style="color: red; font-weight: bold">Ran&nbsp;</span>23&nbsp;<span style="color: red; font-weight: bold">iterations&nbsp;and&nbsp;found&nbsp;</span>20<span style="color: red; font-weight: bold">&nbsp;errors</span></div>
+  <div><span style="color: red; font-weight: bold">counterexample:</span></div>
+  <div>&nbsp;</div>
+  <div>&nbsp;&nbsp;<div style="display: inline-block; vertical-align: top">
+  <div>Generated&nbsp;input:&nbsp;[&nbsp;-19,&nbsp;-2,&nbsp;-16&nbsp;]</div>
+  <div>&nbsp;</div>
+  <div><div style="display: inline-block; vertical-align: top">
+  <div><span style="color: red; font-weight: bold">expected</span>&nbsp;[&nbsp;-16,&nbsp;-19,&nbsp;-2&nbsp;]</div>
+  <div><span style="color: red; font-weight: bold">first&nbsp;item</span>&nbsp;<span style="color: red; font-weight: bold">to&nbsp;be&nbsp;less&nbsp;than&nbsp;or&nbsp;equal&nbsp;to&nbsp;all</span>&nbsp;[&nbsp;-19,&nbsp;-2,&nbsp;-16&nbsp;]</div>
+  <div>&nbsp;</div>
+  <div>[</div>
+  <div>&nbsp;&nbsp;<div style="display: inline-block; vertical-align: top">
+  <div><div style="display: inline-block; vertical-align: top">
+  <div>-19,&nbsp;<div style="display: inline-block; vertical-align: top">
+  <div><span style="color: red; font-weight: bold">//</span></div>
+</div>&nbsp;<div style="display: inline-block; vertical-align: top">
+  <div><div style="display: inline-block; vertical-align: top">
+  <div><span style="color: red; font-weight: bold">should&nbsp;be&nbsp;greater&nbsp;than&nbsp;or&nbsp;equal&nbsp;to</span>&nbsp;-16</div>
+</div></div>
+</div></div>
+</div></div>
+</div></div>
+  <div>&nbsp;&nbsp;<div style="display: inline-block; vertical-align: top">
+  <div>-2,</div>
+</div></div>
+  <div>&nbsp;&nbsp;<div style="display: inline-block; vertical-align: top">
+  <div>-16</div>
+</div></div>
+  <div>]</div>
+</div></div>
+</div></div>
+</div><p>If we wanted to fix the problem, we would need to use a comparison function:</p>
+<div class="code lang-javascript">
+  <div><span style="color: #FFAA27">function</span>&nbsp;sort<span style="color: #999">(</span>arr<span style="color: #999">)</span>&nbsp;<span style="color: #999">{</span></div>
+  <div>&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #FFAA27">return</span>&nbsp;<span style="color: #999">[].</span>concat<span style="color: #999">(</span>arr<span style="color: #999">).</span>sort<span style="color: #999">(</span><span style="color: #FFAA27">function</span>&nbsp;<span style="color: #999">(</span>a<span style="color: #999">,</span>&nbsp;b<span style="color: #999">)</span>&nbsp;<span style="color: #999">{</span></div>
+  <div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #FFAA27">return</span>&nbsp;a&nbsp;<span style="color: #3CDAFF">-</span>&nbsp;b<span style="color: #999">;</span></div>
+  <div>&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #999">});</span></div>
+  <div><span style="color: #999">}</span></div>
+</div><div class="code lang-javascript">
+  <div>expect<span style="color: #999">(</span><span style="color: #FFAA27">function</span>&nbsp;<span style="color: #999">(</span>arr<span style="color: #999">)</span>&nbsp;<span style="color: #999">{</span></div>
+  <div>&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #FFAA27">var</span>&nbsp;sorted&nbsp;<span style="color: #3CDAFF">=</span>&nbsp;sort<span style="color: #999">(</span>arr<span style="color: #999">);</span></div>
+  <div>&nbsp;</div>
+  <div>&nbsp;&nbsp;&nbsp;&nbsp;expect<span style="color: #999">(</span>sorted<span style="color: #999">,</span>&nbsp;<span style="color: #3CDAFF">'to&nbsp;have&nbsp;length'</span><span style="color: #999">,</span>&nbsp;arr<span style="color: #999">.</span>length<span style="color: #999">)</span></div>
+  <div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #999">.</span>and<span style="color: #999">(</span><span style="color: #3CDAFF">'first&nbsp;item&nbsp;to&nbsp;be&nbsp;less&nbsp;than&nbsp;or&nbsp;equal&nbsp;to&nbsp;all'</span><span style="color: #999">,</span>&nbsp;arr<span style="color: #999">)</span></div>
+  <div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #999">.</span>and<span style="color: #999">(</span><span style="color: #3CDAFF">'last&nbsp;item&nbsp;to&nbsp;be&nbsp;greater&nbsp;than&nbsp;or&nbsp;equal&nbsp;to&nbsp;all'</span><span style="color: #999">,</span>&nbsp;arr<span style="color: #999">);</span></div>
+  <div><span style="color: #999">},</span>&nbsp;<span style="color: #3CDAFF">'to&nbsp;be&nbsp;valid&nbsp;for&nbsp;all'</span><span style="color: #999">,</span>&nbsp;arrays<span style="color: #999">);</span></div>
+</div><h3 id="node">Node</h3>
+<p>Install it with NPM or add it to your <code>package.json</code>:</p>
+<div class="code lang-">
+  <div>$&nbsp;npm&nbsp;install&nbsp;--save-dev&nbsp;unexpected&nbsp;unexpected-check</div>
+</div><p>Then:</p>
+<div class="code lang-javascript">
+  <div><span style="color: #FFAA27">var</span>&nbsp;expect&nbsp;<span style="color: #3CDAFF">=</span>&nbsp;require<span style="color: #999">(</span><span style="color: #3CDAFF">'unexpected'</span><span style="color: #999">);</span></div>
+  <div>expect<span style="color: #999">.</span>use<span style="color: #999">(</span>require<span style="color: #999">(</span><span style="color: #3CDAFF">'unexpected-check'</span><span style="color: #999">);</span></div>
+</div><h3 id="browser">Browser</h3>
+<p>Include the <code>unexpected-sinon.js</code> found at the lib directory of this
+repository.</p>
+<div class="code lang-html">
+  <div><span style="color: #999">&lt;</span><span style="color: white">script&nbsp;</span><span style="color: #3CDAFF">src</span><span style="color: #999">=&quot;</span><span style="color: #FFAA27">sinon.js</span><span style="color: #999">&quot;&gt;&lt;/</span><span style="color: white">script</span><span style="color: #999">&gt;</span></div>
+  <div><span style="color: #999">&lt;</span><span style="color: white">script&nbsp;</span><span style="color: #3CDAFF">src</span><span style="color: #999">=&quot;</span><span style="color: #FFAA27">unexpected.js</span><span style="color: #999">&quot;&gt;&lt;/</span><span style="color: white">script</span><span style="color: #999">&gt;</span></div>
+  <div><span style="color: #999">&lt;</span><span style="color: white">script&nbsp;</span><span style="color: #3CDAFF">src</span><span style="color: #999">=&quot;</span><span style="color: #FFAA27">unexpected-check.js</span><span style="color: #999">&quot;&gt;&lt;/</span><span style="color: white">script</span><span style="color: #999">&gt;</span></div>
+</div><p>this will expose the expect function under the following namespace:</p>
+<div class="code lang-javascript">
+  <div><span style="color: #FFAA27">var</span>&nbsp;expect&nbsp;<span style="color: #3CDAFF">=</span>&nbsp;weknowhow<span style="color: #999">.</span>expect<span style="color: #999">.</span>clone<span style="color: #999">();</span></div>
+  <div>expect<span style="color: #999">.</span>use<span style="color: #999">(</span>weknowhow<span style="color: #999">.</span>unexpectedCheck<span style="color: #999">);</span></div>
+</div><h3 id="requirejs">RequireJS</h3>
+<p>Include the library with RequireJS the following way:</p>
+<div class="code lang-javascript">
+  <div>define<span style="color: #999">([</span><span style="color: #3CDAFF">'unexpected'</span><span style="color: #999">,</span>&nbsp;'unexpected<span style="color: #3CDAFF">-</span>check<span style="color: #999">],</span>&nbsp;funtion&nbsp;<span style="color: #999">(</span>unexpected<span style="color: #999">,</span>&nbsp;unexpectedCheck<span style="color: #999">)</span>&nbsp;<span style="color: #999">{</span></div>
+  <div>&nbsp;&nbsp;&nbsp;<span style="color: #FFAA27">var</span>&nbsp;expect&nbsp;<span style="color: #3CDAFF">=</span>&nbsp;unexpected<span style="color: #999">.</span>clone<span style="color: #999">();</span></div>
+  <div>&nbsp;&nbsp;&nbsp;expect<span style="color: #999">.</span>use<span style="color: #999">(</span>unexpectedCheck<span style="color: #999">);</span></div>
+  <div>&nbsp;&nbsp;<span style="color: gray">&nbsp;//&nbsp;Your&nbsp;code</span></div>
+  <div><span style="color: #999">});</span></div>
+</div><p>Notice that the <a href="www.chancejs.com">chance</a> library some we configured with the
+name <code>chance</code>.</p>
+<h2 id="source">Source</h2>
+<p>The source for this plugin can be found on
+<a href="https://github.com/unexpectedjs/unexpected-check">Github</a>.</p>
+<h2 id="mit-license">MIT License</h2>
+<p>Copyright (c) 2016 Sune Simonsen <a href="&#x6d;&#97;&#105;&#108;&#x74;&#111;&#x3a;&#x73;&#117;&#110;&#101;&#64;&#119;&#101;&#x2d;&#107;&#x6e;&#x6f;&#x77;&#104;&#111;&#x77;&#x2e;&#100;&#107;">&#x73;&#117;&#110;&#101;&#64;&#119;&#101;&#x2d;&#107;&#x6e;&#x6f;&#x77;&#104;&#111;&#x77;&#x2e;&#100;&#107;</a></p>
+<p>Permission is hereby granted, free of charge, to any person obtaining
+a copy of this software and associated documentation files (the
+&#39;Software&#39;), to deal in the Software without restriction, including
+without limitation the rights to use, copy, modify, merge, publish,
+distribute, sublicense, and/or sell copies of the Software, and to
+permit persons to whom the Software is furnished to do so, subject to
+the following conditions:</p>
+<p>The above copyright notice and this permission notice shall be
+included in all copies or substantial portions of the Software.</p>
+<p>THE SOFTWARE IS PROVIDED &#39;AS IS&#39;, WITHOUT WARRANTY OF ANY KIND,
+EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE
+LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION
+OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
+WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.</p>
+
+    </div>
+    <a class="github-ribbon" href="https://github.com/unexpectedjs/unexpected-check"><img style="position: absolute; top: 0; right: 0; border: 0;" src="https://camo.githubusercontent.com/a6677b08c955af8400f44c6298f40e7d19cc5b2d/68747470733a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f72696768745f677261795f3664366436642e706e67" alt="Fork me on GitHub" data-canonical-src="https://s3.amazonaws.com/github/ribbons/forkme_right_gray_6d6d6d.png"></a>
+</div>
+<script type="text/javascript">
+    baseUrl = '';
+</script>
+<script type="text/javascript" src="static/toggleSidebar.js"></script>
+<script type="text/javascript" src="static/rememberScrollPosition.js"></script>
+<script type="text/javascript" src="static/focusMain.js"></script>
+<script type="text/javascript" src="static/search.js"></script>
+</body>
+</html>
+
