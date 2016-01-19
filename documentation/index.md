@@ -8,6 +8,8 @@ repository: https://github.com/unexpectedjs/unexpected-check
 # unexpected-check
 # property based testing plugin for unexpected
 
+<img alt="Checkmate!" src="./unexpected-check.jpg" style="display: block; max-width: 100%">
+
 This plugin tries to bring property testing to the
 [unexpected](http://unexpected.js.org) assertion library. The idea is that it
 should be possible to mix property based testing and normal unit-tests using the
