@@ -74,10 +74,10 @@ following way:</p>
   <div><span style="color: #000000">expect</span><span style="color: #000000">(</span><span style="color: #a71d5d">function</span>&nbsp;<span style="color: #000000">(</span>text<span style="color: #000000">)</span>&nbsp;<span style="color: #000000">{</span></div>
   <div>&nbsp;&nbsp;<span style="color: #000000">expect</span><span style="color: #000000">(</span><span style="color: #000000">unescape</span><span style="color: #000000">(</span><span style="color: #000000">escape</span><span style="color: #000000">(</span>text<span style="color: #000000">)),</span>&nbsp;<span style="color: #df5000">'to&nbsp;equal'</span><span style="color: #000000">,</span>&nbsp;text<span style="color: #000000">);</span></div>
   <div><span style="color: #000000">},</span>&nbsp;<span style="color: #df5000">'to&nbsp;be&nbsp;valid&nbsp;for&nbsp;all'</span><span style="color: #000000">,</span>&nbsp;strings<span style="color: #000000">);</span></div>
-</div><p>This will run 100 tests with random strings of length 0-200.</p>
+</div><p>This will run 100 tests with random strings of length 0-200 and succeed.</p>
 <p>I found to following code for
 <a href="https://en.wikipedia.org/wiki/Run-length_encoding">Run-length encoding</a> on the
-<a href="http://rosettacode.org/wiki/Run-length_encoding#JavaScript">internet</a> let&#39;s see
+<a href="http://rosettacode.org/wiki/Run-length_encoding#JavaScript">internet</a>, let&#39;s see
 if that code also fulfill our round trip test:</p>
 <div class="code lang-javascript">
   <div><span style="color: #a71d5d">function</span>&nbsp;<span style="color: #000000">rleEncode</span><span style="color: #000000">(</span>input<span style="color: #000000">)</span>&nbsp;<span style="color: #000000">{</span></div>
