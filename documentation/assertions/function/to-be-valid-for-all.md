@@ -28,14 +28,14 @@ if that code also fulfill our round trip test:
 function rleEncode(input) {
     var encoding = [];
     input.match(/(.)\1*/g).forEach(function(substr){
-      encoding.push([substr.length, substr[0]])
+      encoding.push([substr.length, substr[0]]);
     });
     return encoding;
 }
 
 function rleDecode(encoded) {
     var output = "";
-    encoded.forEach(function(pair){ output += new Array(1+pair[0]).join(pair[1]) })
+    encoded.forEach(function(pair){ output += new Array(1+pair[0]).join(pair[1]) });
     return output;
 }
 
@@ -59,3 +59,15 @@ also have been found in a unit test case, but these edge cases are easily fund
 using property based testing. Imagine more complex scenarios where code only
 fails for the null character, these cases might be harder to come up with while
 doing normal unit testing.
+
+You can supply as many generators as you want. My examples are using
+[chance-generators](https://github.com/sunesimonsen/change-generators) but you
+can using any function that produces a random output when called.
+
+Here is a test that uses more than one generator:
+
+```js
+expect(function (a, b) {
+  return (a + b).length === a.length + b.length;
+}, 'to be valid for all', g.word, g.word);
+```

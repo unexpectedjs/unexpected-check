@@ -7,13 +7,27 @@ repository: https://github.com/unexpectedjs/unexpected-check
 
 # unexpected-check
 
+This plugin tries to bring property testing to the
+[unexpected](http://unexpected.js.org) assertion library. The idea is that it
+should be possible to mix property based testing and normal unit-tests using the
+same tool chain.
+
+This project is still in it early days and features such as failure shrinking
+and asynchronous testing are missing. It is currently not possible to configure
+the number of iterations the tests should be executes either
+
+I recommend using the plugin together with
+[chance-generators](https://github.com/sunesimonsen/change-generators), but it
+is not a requirement. You can uses any function that produces a random output
+when called as generators.
+
 ## Usage
 
 Let's imagine we wanted to sort arrays of numbers using this function:
 
 ```js
 function sort(arr) {
-    return [].concat(arr).sort()
+    return [].concat(arr).sort();
 }
 ```
 
@@ -34,8 +48,8 @@ expect(function (arr) {
 
     expect(sorted, 'to have length', arr.length)
         .and('first item to be less than or equal to all', arr)
-        .and('last item to be greater than or equal to all', arr)
-}, 'to be valid for all', arrays)
+        .and('last item to be greater than or equal to all', arr);
+}, 'to be valid for all', arrays);
 ```
 
 But that assumption as actually not true as the build in sort functions is based
@@ -63,7 +77,7 @@ If we wanted to fix the problem, we would need to use a comparison function:
 function sort(arr) {
     return [].concat(arr).sort(function (a, b) {
       return a - b;
-    })
+    });
 }
 ```
 
@@ -73,8 +87,8 @@ expect(function (arr) {
 
     expect(sorted, 'to have length', arr.length)
         .and('first item to be less than or equal to all', arr)
-        .and('last item to be greater than or equal to all', arr)
-}, 'to be valid for all', arrays)
+        .and('last item to be greater than or equal to all', arr);
+}, 'to be valid for all', arrays);
 ```
 
 ### Node
