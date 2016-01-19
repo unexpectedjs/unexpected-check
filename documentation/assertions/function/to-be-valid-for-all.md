@@ -55,10 +55,10 @@ counterexample:
 
 Something is failing for the empty string input. The problem is that the regular
 expression in the encoder does not match the empty string. This would probably
-also have been found in a unit test case, but these edge cases are easily fund
-using property based testing. Imagine more complex scenarios where code only
-fails for the null character, these cases might be harder to come up with while
-doing normal unit testing.
+also have been found in a unit test, but these edge cases are easily found using
+property based testing. Imagine more complex scenarios where code only fails for
+the null character, these cases might be harder to come up with while doing
+normal unit testing.
 
 You can supply as many generators as you want. My examples are using
 [chance-generators](https://github.com/sunesimonsen/change-generators) but you
