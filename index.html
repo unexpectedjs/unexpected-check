@@ -69,7 +69,11 @@ as generators.</p>
 <p>We do that the following way:</p>
 <div class="code lang-javascript">
   <div><span style="color: #FFAA27">var</span>&nbsp;g&nbsp;<span style="color: #3CDAFF">=</span>&nbsp;require<span style="color: #999">(</span><span style="color: #3CDAFF">'chance-generators'</span><span style="color: #999">)(</span><span style="color: white">42</span><span style="color: #999">);</span></div>
-  <div><span style="color: #FFAA27">var</span>&nbsp;arrays&nbsp;<span style="color: #3CDAFF">=</span>&nbsp;g<span style="color: #999">.</span>n<span style="color: #999">(</span>g<span style="color: #999">.</span>integer<span style="color: #999">({</span>&nbsp;min<span style="color: #999">:</span>&nbsp;<span style="color: #3CDAFF">-</span><span style="color: white">20</span><span style="color: #999">,</span>&nbsp;max<span style="color: #999">:</span>&nbsp;<span style="color: white">20</span>&nbsp;<span style="color: #999">}),</span>&nbsp;g<span style="color: #999">.</span>integer<span style="color: #999">({</span>&nbsp;min<span style="color: #999">:</span>&nbsp;<span style="color: white">1</span><span style="color: #999">,</span>&nbsp;max<span style="color: #999">:</span>&nbsp;<span style="color: white">20</span>&nbsp;<span style="color: #999">}));</span></div>
+  <div>&nbsp;</div>
+  <div><span style="color: gray">//&nbsp;generate&nbsp;arrays&nbsp;of&nbsp;numbers&nbsp;from&nbsp;-20&nbsp;to&nbsp;20&nbsp;with&nbsp;length&nbsp;varying&nbsp;from&nbsp;1&nbsp;to&nbsp;20</span></div>
+  <div><span style="color: #FFAA27">var</span>&nbsp;numbers&nbsp;<span style="color: #3CDAFF">=</span>&nbsp;g<span style="color: #999">.</span>integer<span style="color: #999">({</span>&nbsp;min<span style="color: #999">:</span>&nbsp;<span style="color: #3CDAFF">-</span><span style="color: white">20</span><span style="color: #999">,</span>&nbsp;max<span style="color: #999">:</span>&nbsp;<span style="color: white">20</span>&nbsp;<span style="color: #999">});</span></div>
+  <div><span style="color: #FFAA27">var</span>&nbsp;lengths&nbsp;<span style="color: #3CDAFF">=</span>&nbsp;g<span style="color: #999">.</span>integer<span style="color: #999">({</span>&nbsp;min<span style="color: #999">:</span>&nbsp;<span style="color: white">1</span><span style="color: #999">,</span>&nbsp;max<span style="color: #999">:</span>&nbsp;<span style="color: white">20</span>&nbsp;<span style="color: #999">});</span></div>
+  <div><span style="color: #FFAA27">var</span>&nbsp;arrays&nbsp;<span style="color: #3CDAFF">=</span>&nbsp;g<span style="color: #999">.</span>n<span style="color: #999">(</span>numbers<span style="color: #999">,</span>&nbsp;lengths<span style="color: #999">);</span></div>
   <div>&nbsp;</div>
   <div>expect<span style="color: #999">(</span><span style="color: #FFAA27">function</span>&nbsp;<span style="color: #999">(</span>arr<span style="color: #999">)</span>&nbsp;<span style="color: #999">{</span></div>
   <div>&nbsp;&nbsp;<span style="color: #FFAA27">var</span>&nbsp;sorted&nbsp;<span style="color: #3CDAFF">=</span>&nbsp;sort<span style="color: #999">(</span>arr<span style="color: #999">);</span></div>
@@ -155,7 +159,7 @@ name <code>chance</code>.</p>
 <p>The source for this plugin can be found on
 <a href="https://github.com/unexpectedjs/unexpected-check">Github</a>.</p>
 <h2 id="mit-license">MIT License</h2>
-<p>Copyright (c) 2016 Sune Simonsen <a href="&#109;&#x61;&#x69;&#108;&#116;&#111;&#x3a;&#115;&#x75;&#x6e;&#101;&#x40;&#119;&#101;&#45;&#107;&#110;&#111;&#119;&#104;&#x6f;&#x77;&#x2e;&#x64;&#107;">&#115;&#x75;&#x6e;&#101;&#x40;&#119;&#101;&#45;&#107;&#110;&#111;&#119;&#104;&#x6f;&#x77;&#x2e;&#x64;&#107;</a></p>
+<p>Copyright (c) 2016 Sune Simonsen <a href="&#x6d;&#x61;&#105;&#x6c;&#x74;&#111;&#58;&#115;&#117;&#x6e;&#101;&#x40;&#119;&#101;&#45;&#x6b;&#110;&#x6f;&#x77;&#x68;&#111;&#119;&#x2e;&#100;&#x6b;">&#115;&#117;&#x6e;&#101;&#x40;&#119;&#101;&#45;&#x6b;&#110;&#x6f;&#x77;&#x68;&#111;&#119;&#x2e;&#100;&#x6b;</a></p>
 <p>Permission is hereby granted, free of charge, to any person obtaining
 a copy of this software and associated documentation files (the
 &#39;Software&#39;), to deal in the Software without restriction, including
