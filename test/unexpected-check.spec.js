@@ -1,4 +1,4 @@
-/*global describe, it*/
+/*global describe, it, beforeEach*/
 var Generators = require('chance-generators');
 var expect = require('unexpected');
 expect.output.preferredWidth = 80;
@@ -21,15 +21,18 @@ expect.addAssertion('<array> last item <assertion>', function (expect, subject) 
     return expect.shift(subject[subject.length - 1]);
 });
 
-var g = new Generators(42);
-
 function sort(arr, cmp) {
     return [].concat(arr).sort(cmp);
 }
 
-var arrays = g.n(g.integer({ min: -20, max: 20 }), g.integer({ min: 1, max: 20 }));
-
 describe('unexpected-check', function () {
+    var g;
+    var arrays;
+    beforeEach(function () {
+        g = new Generators(666);
+        arrays = g.n(g.integer({ min: -20, max: 20 }), g.integer({ min: 1, max: 20 }));
+    });
+
     it('fails with an informative error message', function () {
         expect(function () {
             expect(function (arr) {
@@ -40,16 +43,16 @@ describe('unexpected-check', function () {
                     .and('last item to be greater than or equal to all', arr);
             }, 'to be valid for all', arrays);
         }, 'to throw',
-               'Ran 44 iterations and found 20 errors\n' +
+               'Ran 37 iterations and found 20 errors\n' +
                'counterexample:\n' +
                '\n' +
-               '  Generated input: [ 18, 4 ]\n' +
+               '  Generated input: [ -15, -20 ]\n' +
                '\n' +
-               '  expected [ 18, 4 ] first item to be less than or equal to all [ 18, 4 ]\n' +
+               '  expected [ -15, -20 ] first item to be less than or equal to all [ -15, -20 ]\n' +
                '\n' +
                '  [\n' +
-               '    18,\n' +
-               '    4 // should be greater than or equal to 18\n' +
+               '    -15,\n' +
+               '    -20 // should be greater than or equal to -15\n' +
                '  ]');
     });
 
@@ -59,7 +62,7 @@ describe('unexpected-check', function () {
                 expect(arr, 'not to contain', 2);
             }, 'to be valid for all', arrays);
         }, 'to throw',
-               'Ran 25 iterations and found 20 errors\n' +
+               'Ran 32 iterations and found 20 errors\n' +
                'counterexample:\n' +
                '\n' +
                '  Generated input: [ 2 ]\n' +
@@ -87,15 +90,15 @@ describe('unexpected-check', function () {
                 expect(items, 'not to contain', i);
             }, 'to be valid for all', arrays, g.integer({ min: -20, max: 20 }));
         }, 'to throw',
-               'Ran 100 iterations and found 18 errors\n' +
+               'Ran 100 iterations and found 14 errors\n' +
                'counterexample:\n' +
                '\n' +
-               '  Generated input: [ 3 ], 3\n' +
+               '  Generated input: [ -4 ], -4\n' +
                '\n' +
-               '  expected [ 3 ] not to contain 3\n' +
+               '  expected [ -4 ] not to contain -4\n' +
                '\n' +
                '  [\n' +
-               '    3 // should be removed\n' +
+               '    -4 // should be removed\n' +
                '  ]');
     });
 
@@ -107,17 +110,47 @@ describe('unexpected-check', function () {
                 });
             }, 'to be valid for all', arrays);
         }, 'to throw',
-               'Ran 100 iterations and found 17 errors\n' +
+               'Ran 100 iterations and found 7 errors\n' +
                'counterexample:\n' +
                '\n' +
-               '  Generated input: [ -19, 1 ]\n' +
+               '  Generated input: [ -8, -5, 18, 3 ]\n' +
                '\n' +
-               '  expected [ -19, 1 ]\n' +
+               '  expected [ -8, -5, 18, 3 ]\n' +
                '  to have items satisfying function (item, i) { expect(item, \'not to be\', i); }\n' +
                '\n' +
                '  [\n' +
-               '    -19,\n' +
-               '    1 // should not be 1\n' +
+               '    -8,\n' +
+               '    -5,\n' +
+               '    18,\n' +
+               '    3 // should not be 3\n' +
+               '  ]');
+    });
+
+    it('finds invalid strings', function () {
+        var arrays = g.n(g.string, g.integer({ min: 1, max: 20 }));
+
+        expect(function () {
+            expect(function (items) {
+                expect(items, 'to have items satisfying', function (item) {
+                    expect(item, 'not to match', /[!@#$%^&*()_+]/);
+                });
+            }, 'to be valid for all', arrays);
+        }, 'to throw',
+               'Ran 20 iterations and found 20 errors\n' +
+               'counterexample:\n' +
+               '\n' +
+               '  Generated input: [ \']1V3ZRFOmgiE*\' ]\n' +
+               '\n' +
+               '  expected [ \']1V3ZRFOmgiE*\' ] to have items satisfying\n' +
+               '  function (item) {\n' +
+               '    expect(item, \'not to match\', /[!@#$%^&*()_+]/);\n' +
+               '  }\n' +
+               '\n' +
+               '  [\n' +
+               '    \']1V3ZRFOmgiE*\' // should not match /[!@#$%^&*()_+]/\n' +
+               '                    //\n' +
+               '                    // ]1V3ZRFOmgiE*\n' +
+               '                    //             ^\n' +
                '  ]');
     });
 });
