@@ -49,7 +49,11 @@ We do that the following way:
 
 ```js
 var g = require('chance-generators')(42);
-var arrays = g.n(g.integer({ min: -20, max: 20 }), g.integer({ min: 1, max: 20 }));
+
+// generate arrays of numbers from -20 to 20 with length varying from 1 to 20
+var numbers = g.integer({ min: -20, max: 20 });
+var lengths = g.integer({ min: 1, max: 20 });
+var arrays = g.n(numbers, lengths);
 
 expect(function (arr) {
   var sorted = sort(arr);
