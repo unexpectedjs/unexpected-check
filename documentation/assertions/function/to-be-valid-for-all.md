@@ -73,3 +73,56 @@ expect(function (a, b) {
   return (a + b).length === a.length + b.length;
 }, 'to be valid for all', g.word, g.word);
 ```
+
+Another example could be to generate actions. 
+
+Let's create a simple queue:
+
+```js
+function Queue() {
+  this.buffer = [];
+}
+Queue.prototype.enqueue = function (value) {
+  this.buffer.push(value);
+};
+Queue.prototype.dequeue = function () {
+  return this.buffer.shift(1);
+};
+Queue.prototype.isEmpty = function () {
+  return this.buffer.length === 0;
+};
+Queue.prototype.drainTo = function (array) {
+  while (!this.isEmpty()) {
+    array.push(this.dequeue());
+  }
+};
+```
+
+Now let's test that items enqueued always comes out in the right order:
+
+```js
+var action = g.pick([
+  { name: 'enqueue', value: g.string }, 
+  { name: 'dequeue' }
+]);
+
+var actions = g.n(action, 200);
+
+expect(function (actions) {
+  var queue = new Queue();
+  var enqueued = [];
+  var dequeued = [];
+  actions.forEach(function (action) {
+    if (action.name === 'enqueue') {
+      enqueued.push(action.value);
+      queue.enqueue(action.value);
+    } else if (!queue.isEmpty()) {
+      dequeued.push(queue.dequeue());
+    }
+  });
+
+  queue.drainTo(dequeued);
+
+  expect(dequeued, 'to equal', enqueued);
+}, 'to be valid for all', actions);
+```

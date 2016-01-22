@@ -19,4 +19,8 @@ unexpected.addAssertion('<array> last item <assertion>', function (expect, subje
     return expect.shift(subject[subject.length - 1]);
 });
 
+unexpected.addAssertion('<any> to be contained by <array>', function (expect, item, array) {
+    expect(array.indexOf(item) !== -1, 'to be true');
+});
+
 expect = unexpected.clone();
