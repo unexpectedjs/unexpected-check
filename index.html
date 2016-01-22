@@ -39,17 +39,21 @@
         <h1 id="unexpected-check">unexpected-check</h1>
 <h1 id="property-based-testing-plugin-for-unexpected">property based testing plugin for unexpected</h1>
 <p><img alt="Checkmate!" src="./unexpected-check.jpg" style="display: block; max-width: 100%"></p>
-<p>This plugin tries to bring property testing to the
+<p>This plugin tries to bring generative testing (aka property testing) to the
 <a href="http://unexpected.js.org">unexpected</a> assertion library. The idea is that it
 should be possible to mix property based testing and normal unit-tests using the
 same tool chain.</p>
-<p>This project is still in it early days and features such as failure shrinking
-and asynchronous testing are missing. It is currently not possible to configure
-the number of iterations the tests should be executes either</p>
+<p>If the generators you supply supports shrinking by providing a <code>shrink</code> function
+on the generator function, unexpected-check will try to shrink the error space
+as much as possible and therefore provide much more precise error cases.</p>
+<p>This project is still in it early days and asynchronous testing are missing. It
+is currently not possible to configure the number of iterations the tests should
+be executed either.</p>
 <p>I recommend using the plugin together with
-<a href="https://github.com/sunesimonsen/change-generators">chance-generators</a>, but it
-is not a requirement. You can uses any function that produces a random output
-when called as generators.</p>
+<a href="https://github.com/sunesimonsen/change-generators">chance-generators</a> as it
+provides a huge range of generators and supports shrinking, but it is not a
+requirement. You can uses any function that produces a random output when called
+as generators.</p>
 <h2 id="usage">Usage</h2>
 <p>Let&#39;s imagine we wanted to sort arrays of numbers using this function:</p>
 <div class="code lang-javascript">
@@ -77,33 +81,29 @@ when called as generators.</p>
 </div><p>But that assumption as actually not true as the build in sort functions is based
 on converting items to strings and comparing them. So you will get the following error:</p>
 <div class="output">
-  <div><span style="color: red; font-weight: bold">Ran&nbsp;</span>23&nbsp;<span style="color: red; font-weight: bold">iterations&nbsp;and&nbsp;found&nbsp;</span>20<span style="color: red; font-weight: bold">&nbsp;errors</span></div>
+  <div><span style="color: red; font-weight: bold">Ran&nbsp;</span>44&nbsp;<span style="color: red; font-weight: bold">iterations&nbsp;and&nbsp;found&nbsp;</span>20<span style="color: red; font-weight: bold">&nbsp;errors</span></div>
   <div><span style="color: red; font-weight: bold">counterexample:</span></div>
   <div>&nbsp;</div>
   <div>&nbsp;&nbsp;<div style="display: inline-block; vertical-align: top">
-  <div>Generated&nbsp;input:&nbsp;[&nbsp;-19,&nbsp;-2,&nbsp;-16&nbsp;]</div>
+  <div>Generated&nbsp;input:&nbsp;[&nbsp;18,&nbsp;4&nbsp;]</div>
   <div>&nbsp;</div>
   <div><div style="display: inline-block; vertical-align: top">
-  <div><span style="color: red; font-weight: bold">expected</span>&nbsp;[&nbsp;-16,&nbsp;-19,&nbsp;-2&nbsp;]</div>
-  <div><span style="color: red; font-weight: bold">first&nbsp;item</span>&nbsp;<span style="color: red; font-weight: bold">to&nbsp;be&nbsp;less&nbsp;than&nbsp;or&nbsp;equal&nbsp;to&nbsp;all</span>&nbsp;[&nbsp;-19,&nbsp;-2,&nbsp;-16&nbsp;]</div>
+  <div><span style="color: red; font-weight: bold">expected</span>&nbsp;[&nbsp;18,&nbsp;4&nbsp;]&nbsp;<span style="color: red; font-weight: bold">first&nbsp;item</span>&nbsp;<span style="color: red; font-weight: bold">to&nbsp;be&nbsp;less&nbsp;than&nbsp;or&nbsp;equal&nbsp;to&nbsp;all</span>&nbsp;[&nbsp;18,&nbsp;4&nbsp;]</div>
   <div>&nbsp;</div>
   <div>[</div>
   <div>&nbsp;&nbsp;<div style="display: inline-block; vertical-align: top">
+  <div>18,</div>
+</div></div>
+  <div>&nbsp;&nbsp;<div style="display: inline-block; vertical-align: top">
   <div><div style="display: inline-block; vertical-align: top">
-  <div>-19,&nbsp;<div style="display: inline-block; vertical-align: top">
+  <div>4&nbsp;<div style="display: inline-block; vertical-align: top">
   <div><span style="color: red; font-weight: bold">//</span></div>
 </div>&nbsp;<div style="display: inline-block; vertical-align: top">
   <div><div style="display: inline-block; vertical-align: top">
-  <div><span style="color: red; font-weight: bold">should&nbsp;be&nbsp;greater&nbsp;than&nbsp;or&nbsp;equal&nbsp;to</span>&nbsp;-16</div>
+  <div><span style="color: red; font-weight: bold">should&nbsp;be&nbsp;greater&nbsp;than&nbsp;or&nbsp;equal&nbsp;to</span>&nbsp;18</div>
 </div></div>
 </div></div>
 </div></div>
-</div></div>
-  <div>&nbsp;&nbsp;<div style="display: inline-block; vertical-align: top">
-  <div>-2,</div>
-</div></div>
-  <div>&nbsp;&nbsp;<div style="display: inline-block; vertical-align: top">
-  <div>-16</div>
 </div></div>
   <div>]</div>
 </div></div>
@@ -155,7 +155,7 @@ name <code>chance</code>.</p>
 <p>The source for this plugin can be found on
 <a href="https://github.com/unexpectedjs/unexpected-check">Github</a>.</p>
 <h2 id="mit-license">MIT License</h2>
-<p>Copyright (c) 2016 Sune Simonsen <a href="&#x6d;&#97;&#105;&#x6c;&#116;&#111;&#x3a;&#x73;&#x75;&#x6e;&#101;&#x40;&#119;&#101;&#x2d;&#107;&#110;&#111;&#x77;&#104;&#111;&#119;&#x2e;&#100;&#107;">&#x73;&#x75;&#x6e;&#101;&#x40;&#119;&#101;&#x2d;&#107;&#110;&#111;&#x77;&#104;&#111;&#119;&#x2e;&#100;&#107;</a></p>
+<p>Copyright (c) 2016 Sune Simonsen <a href="&#x6d;&#x61;&#105;&#108;&#x74;&#x6f;&#x3a;&#115;&#x75;&#110;&#x65;&#x40;&#x77;&#x65;&#45;&#x6b;&#x6e;&#x6f;&#119;&#x68;&#111;&#x77;&#46;&#x64;&#x6b;">&#115;&#x75;&#110;&#x65;&#x40;&#x77;&#x65;&#45;&#x6b;&#x6e;&#x6f;&#119;&#x68;&#111;&#x77;&#46;&#x64;&#x6b;</a></p>
 <p>Permission is hereby granted, free of charge, to any person obtaining
 a copy of this software and associated documentation files (the
 &#39;Software&#39;), to deal in the Software without restriction, including
