@@ -10,19 +10,24 @@ repository: https://github.com/unexpectedjs/unexpected-check
 
 <img alt="Checkmate!" src="./unexpected-check.jpg" style="display: block; max-width: 100%">
 
-This plugin tries to bring property testing to the
+This plugin tries to bring generative testing (aka property testing) to the
 [unexpected](http://unexpected.js.org) assertion library. The idea is that it
 should be possible to mix property based testing and normal unit-tests using the
 same tool chain.
 
-This project is still in it early days and features such as failure shrinking
-and asynchronous testing are missing. It is currently not possible to configure
-the number of iterations the tests should be executes either
+If the generators you supply supports shrinking by providing a `shrink` function
+on the generator function, unexpected-check will try to shrink the error space
+as much as possible and therefore provide much more precise error cases.
+
+This project is still in it early days and asynchronous testing are missing. It
+is currently not possible to configure the number of iterations the tests should
+be executed either.
 
 I recommend using the plugin together with
-[chance-generators](https://github.com/sunesimonsen/change-generators), but it
-is not a requirement. You can uses any function that produces a random output
-when called as generators.
+[chance-generators](https://github.com/sunesimonsen/change-generators) as it
+provides a huge range of generators and supports shrinking, but it is not a
+requirement. You can uses any function that produces a random output when called
+as generators.
 
 ## Usage
 
@@ -59,18 +64,16 @@ But that assumption as actually not true as the build in sort functions is based
 on converting items to strings and comparing them. So you will get the following error:
 
 ```output
-Ran 23 iterations and found 20 errors
+Ran 44 iterations and found 20 errors
 counterexample:
 
-  Generated input: [ -19, -2, -16 ]
+  Generated input: [ 18, 4 ]
 
-  expected [ -16, -19, -2 ]
-  first item to be less than or equal to all [ -19, -2, -16 ]
+  expected [ 18, 4 ] first item to be less than or equal to all [ 18, 4 ]
 
   [
-    -19, // should be greater than or equal to -16
-    -2,
-    -16
+    18,
+    4 // should be greater than or equal to 18
   ]
 ```
 

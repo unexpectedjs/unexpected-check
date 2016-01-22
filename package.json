@@ -18,7 +18,7 @@
   "author": "Sune Simonsen",
   "license": "MIT",
   "devDependencies": {
-    "chance-generators": "1.0.1",
+    "chance-generators": "1.1.0",
     "eslint": "1.10.3",
     "eslint-config-onelint": "0.0.2",
     "lodash.escape": "3.1.0",
