@@ -124,6 +124,52 @@ can using any function that produces a random output when called.</p>
   <div><span style="color: #000000">expect</span><span style="color: #000000">(</span><span style="color: #a71d5d">function</span>&nbsp;<span style="color: #000000">(</span>a<span style="color: #000000">,</span>&nbsp;b<span style="color: #000000">)</span>&nbsp;<span style="color: #000000">{</span></div>
   <div>&nbsp;&nbsp;<span style="color: #a71d5d">return</span>&nbsp;<span style="color: #000000">(</span>a&nbsp;<span style="color: #a71d5d">+</span>&nbsp;b<span style="color: #000000">).</span>length&nbsp;<span style="color: #a71d5d">===</span>&nbsp;a<span style="color: #000000">.</span>length&nbsp;<span style="color: #a71d5d">+</span>&nbsp;b<span style="color: #000000">.</span>length<span style="color: #000000">;</span></div>
   <div><span style="color: #000000">},</span>&nbsp;<span style="color: #df5000">'to&nbsp;be&nbsp;valid&nbsp;for&nbsp;all'</span><span style="color: #000000">,</span>&nbsp;g<span style="color: #000000">.</span>word<span style="color: #000000">,</span>&nbsp;g<span style="color: #000000">.</span>word<span style="color: #000000">);</span></div>
+</div><p>Another example could be to generate actions. </p>
+<p>Let&#39;s create a simple queue:</p>
+<div class="code lang-javascript">
+  <div><span style="color: #a71d5d">function</span>&nbsp;<span style="color: #000000">Queue</span><span style="color: #000000">()</span>&nbsp;<span style="color: #000000">{</span></div>
+  <div>&nbsp;&nbsp;<span style="color: #a71d5d">this</span><span style="color: #000000">.</span>buffer&nbsp;<span style="color: #a71d5d">=</span>&nbsp;<span style="color: #000000">[];</span></div>
+  <div><span style="color: #000000">}</span></div>
+  <div>Queue<span style="color: #000000">.</span>prototype<span style="color: #000000">.</span>enqueue&nbsp;<span style="color: #a71d5d">=</span>&nbsp;<span style="color: #a71d5d">function</span>&nbsp;<span style="color: #000000">(</span>value<span style="color: #000000">)</span>&nbsp;<span style="color: #000000">{</span></div>
+  <div>&nbsp;&nbsp;<span style="color: #a71d5d">this</span><span style="color: #000000">.</span>buffer<span style="color: #000000">.</span><span style="color: #000000">push</span><span style="color: #000000">(</span>value<span style="color: #000000">);</span></div>
+  <div><span style="color: #000000">};</span></div>
+  <div>Queue<span style="color: #000000">.</span>prototype<span style="color: #000000">.</span>dequeue&nbsp;<span style="color: #a71d5d">=</span>&nbsp;<span style="color: #a71d5d">function</span>&nbsp;<span style="color: #000000">()</span>&nbsp;<span style="color: #000000">{</span></div>
+  <div>&nbsp;&nbsp;<span style="color: #a71d5d">return</span>&nbsp;<span style="color: #a71d5d">this</span><span style="color: #000000">.</span>buffer<span style="color: #000000">.</span><span style="color: #000000">shift</span><span style="color: #000000">(</span><span style="color: #0086b3">1</span><span style="color: #000000">);</span></div>
+  <div><span style="color: #000000">};</span></div>
+  <div>Queue<span style="color: #000000">.</span>prototype<span style="color: #000000">.</span>isEmpty&nbsp;<span style="color: #a71d5d">=</span>&nbsp;<span style="color: #a71d5d">function</span>&nbsp;<span style="color: #000000">()</span>&nbsp;<span style="color: #000000">{</span></div>
+  <div>&nbsp;&nbsp;<span style="color: #a71d5d">return</span>&nbsp;<span style="color: #a71d5d">this</span><span style="color: #000000">.</span>buffer<span style="color: #000000">.</span>length&nbsp;<span style="color: #a71d5d">===</span>&nbsp;<span style="color: #0086b3">0</span><span style="color: #000000">;</span></div>
+  <div><span style="color: #000000">};</span></div>
+  <div>Queue<span style="color: #000000">.</span>prototype<span style="color: #000000">.</span>drainTo&nbsp;<span style="color: #a71d5d">=</span>&nbsp;<span style="color: #a71d5d">function</span>&nbsp;<span style="color: #000000">(</span>array<span style="color: #000000">)</span>&nbsp;<span style="color: #000000">{</span></div>
+  <div>&nbsp;&nbsp;<span style="color: #a71d5d">while</span>&nbsp;<span style="color: #000000">(</span><span style="color: #a71d5d">!</span><span style="color: #a71d5d">this</span><span style="color: #000000">.</span><span style="color: #000000">isEmpty</span><span style="color: #000000">())</span>&nbsp;<span style="color: #000000">{</span></div>
+  <div>&nbsp;&nbsp;&nbsp;&nbsp;array<span style="color: #000000">.</span><span style="color: #000000">push</span><span style="color: #000000">(</span><span style="color: #a71d5d">this</span><span style="color: #000000">.</span><span style="color: #000000">dequeue</span><span style="color: #000000">());</span></div>
+  <div>&nbsp;&nbsp;<span style="color: #000000">}</span></div>
+  <div><span style="color: #000000">};</span></div>
+</div><p>Now let&#39;s test that items enqueued always comes out in the right order:</p>
+<div class="code lang-javascript">
+  <div><span style="color: #a71d5d">var</span>&nbsp;action&nbsp;<span style="color: #a71d5d">=</span>&nbsp;g<span style="color: #000000">.</span><span style="color: #000000">pick</span><span style="color: #000000">([</span></div>
+  <div>&nbsp;&nbsp;<span style="color: #000000">{</span>&nbsp;name<span style="color: #000000">:</span>&nbsp;<span style="color: #df5000">'enqueue'</span><span style="color: #000000">,</span>&nbsp;value<span style="color: #000000">:</span>&nbsp;g<span style="color: #000000">.</span>string&nbsp;<span style="color: #000000">},</span>&nbsp;</div>
+  <div>&nbsp;&nbsp;<span style="color: #000000">{</span>&nbsp;name<span style="color: #000000">:</span>&nbsp;<span style="color: #df5000">'dequeue'</span>&nbsp;<span style="color: #000000">}</span></div>
+  <div><span style="color: #000000">]);</span></div>
+  <div>&nbsp;</div>
+  <div><span style="color: #a71d5d">var</span>&nbsp;actions&nbsp;<span style="color: #a71d5d">=</span>&nbsp;g<span style="color: #000000">.</span><span style="color: #000000">n</span><span style="color: #000000">(</span>action<span style="color: #000000">,</span>&nbsp;<span style="color: #0086b3">200</span><span style="color: #000000">);</span></div>
+  <div>&nbsp;</div>
+  <div><span style="color: #000000">expect</span><span style="color: #000000">(</span><span style="color: #a71d5d">function</span>&nbsp;<span style="color: #000000">(</span>actions<span style="color: #000000">)</span>&nbsp;<span style="color: #000000">{</span></div>
+  <div>&nbsp;&nbsp;<span style="color: #a71d5d">var</span>&nbsp;queue&nbsp;<span style="color: #a71d5d">=</span>&nbsp;<span style="color: #a71d5d">new</span>&nbsp;Queue<span style="color: #000000">();</span></div>
+  <div>&nbsp;&nbsp;<span style="color: #a71d5d">var</span>&nbsp;enqueued&nbsp;<span style="color: #a71d5d">=</span>&nbsp;<span style="color: #000000">[];</span></div>
+  <div>&nbsp;&nbsp;<span style="color: #a71d5d">var</span>&nbsp;dequeued&nbsp;<span style="color: #a71d5d">=</span>&nbsp;<span style="color: #000000">[];</span></div>
+  <div>&nbsp;&nbsp;actions<span style="color: #000000">.</span><span style="color: #000000">forEach</span><span style="color: #000000">(</span><span style="color: #a71d5d">function</span>&nbsp;<span style="color: #000000">(</span>action<span style="color: #000000">)</span>&nbsp;<span style="color: #000000">{</span></div>
+  <div>&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #a71d5d">if</span>&nbsp;<span style="color: #000000">(</span>action<span style="color: #000000">.</span>name&nbsp;<span style="color: #a71d5d">===</span>&nbsp;<span style="color: #df5000">'enqueue'</span><span style="color: #000000">)</span>&nbsp;<span style="color: #000000">{</span></div>
+  <div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;enqueued<span style="color: #000000">.</span><span style="color: #000000">push</span><span style="color: #000000">(</span>action<span style="color: #000000">.</span>value<span style="color: #000000">);</span></div>
+  <div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;queue<span style="color: #000000">.</span><span style="color: #000000">enqueue</span><span style="color: #000000">(</span>action<span style="color: #000000">.</span>value<span style="color: #000000">);</span></div>
+  <div>&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #000000">}</span>&nbsp;<span style="color: #a71d5d">else</span>&nbsp;<span style="color: #a71d5d">if</span>&nbsp;<span style="color: #000000">(</span><span style="color: #a71d5d">!</span>queue<span style="color: #000000">.</span><span style="color: #000000">isEmpty</span><span style="color: #000000">())</span>&nbsp;<span style="color: #000000">{</span></div>
+  <div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;dequeued<span style="color: #000000">.</span><span style="color: #000000">push</span><span style="color: #000000">(</span>queue<span style="color: #000000">.</span><span style="color: #000000">dequeue</span><span style="color: #000000">());</span></div>
+  <div>&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #000000">}</span></div>
+  <div>&nbsp;&nbsp;<span style="color: #000000">});</span></div>
+  <div>&nbsp;</div>
+  <div>&nbsp;&nbsp;queue<span style="color: #000000">.</span><span style="color: #000000">drainTo</span><span style="color: #000000">(</span>dequeued<span style="color: #000000">);</span></div>
+  <div>&nbsp;</div>
+  <div>&nbsp;&nbsp;<span style="color: #000000">expect</span><span style="color: #000000">(</span>dequeued<span style="color: #000000">,</span>&nbsp;<span style="color: #df5000">'to&nbsp;equal'</span><span style="color: #000000">,</span>&nbsp;enqueued<span style="color: #000000">);</span></div>
+  <div><span style="color: #000000">},</span>&nbsp;<span style="color: #df5000">'to&nbsp;be&nbsp;valid&nbsp;for&nbsp;all'</span><span style="color: #000000">,</span>&nbsp;actions<span style="color: #000000">);</span></div>
 </div>
         </div>
     </div>
