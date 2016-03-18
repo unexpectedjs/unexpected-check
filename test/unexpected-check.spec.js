@@ -41,9 +41,13 @@ describe('unexpected-check', function () {
                 expect(sorted, 'to have length', arr.length)
                     .and('first item to be less than or equal to all', arr)
                     .and('last item to be greater than or equal to all', arr);
-            }, 'to be valid for all', arrays);
+            }, 'to be valid for all', {
+                generators: [arrays],
+                maxIterations: 20,
+                maxErrors: 20
+            });
         }, 'to throw',
-               'Ran 37 iterations and found 20 errors\n' +
+               'Ran 20 iterations and found 12 errors\n' +
                'counterexample:\n' +
                '\n' +
                '  Generated input: [ -15, -20 ]\n' +

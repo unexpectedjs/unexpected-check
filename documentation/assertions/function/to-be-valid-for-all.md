@@ -19,6 +19,22 @@ expect(function (text) {
 
 This will run 100 tests with random strings of length 0-200 and succeed.
 
+You can specify the max number of iterations that the test should run and the
+number of errors it should collect before stopping.
+
+The algorithm searches for the smallest error output, so the more errors you
+allow it to collect the better the output will be. 
+
+```js
+expect(function (text) {
+  expect(unescape(escape(text)), 'to equal', text);
+}, 'to be valid for all', {
+  generators: [strings],
+  maxIterations: 1000,
+  maxErrors: 30
+});
+```
+
 I found to following code for
 [Run-length encoding](https://en.wikipedia.org/wiki/Run-length_encoding) on the
 [internet](http://rosettacode.org/wiki/Run-length_encoding#JavaScript), let's see
@@ -41,13 +57,15 @@ function rleDecode(encoded) {
   return output;
 }
 
+var g = require('chance-generators')(13);
+var strings = g.string({ length: g.natural({ max: 200 }) });
 expect(function (text) {
   expect(rleDecode(rleEncode(text)), 'to equal', text);
 }, 'to be valid for all', strings);
 ```
 
 ```output
-Ran 34 iterations and found 20 errors
+Ran 86 iterations and found 20 errors
 counterexample:
 
   Generated input: ''
