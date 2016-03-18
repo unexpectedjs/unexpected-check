@@ -94,7 +94,7 @@ describe('unexpected-check', function () {
                 expect(items, 'not to contain', i);
             }, 'to be valid for all', arrays, g.integer({ min: -20, max: 20 }));
         }, 'to throw',
-               'Ran 100 iterations and found 14 errors\n' +
+               'Ran 143 iterations and found 20 errors\n' +
                'counterexample:\n' +
                '\n' +
                '  Generated input: [ -4 ], -4\n' +
@@ -114,7 +114,7 @@ describe('unexpected-check', function () {
                 });
             }, 'to be valid for all', arrays);
         }, 'to throw',
-               'Ran 100 iterations and found 7 errors\n' +
+               'Ran 282 iterations and found 20 errors\n' +
                'counterexample:\n' +
                '\n' +
                '  Generated input: [ -8, -5, 18, 3 ]\n' +

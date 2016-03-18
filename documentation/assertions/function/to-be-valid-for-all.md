@@ -17,7 +17,7 @@ expect(function (text) {
 }, 'to be valid for all', strings);
 ```
 
-This will run 100 tests with random strings of length 0-200 and succeed.
+This will run 300 tests with random strings of length 0-200 and succeed.
 
 You can specify the max number of iterations that the test should run and the
 number of errors it should collect before stopping.
