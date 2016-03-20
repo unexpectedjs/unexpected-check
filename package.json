@@ -6,8 +6,8 @@
   "scripts": {
     "lint": "eslint .",
     "test": "npm run lint && mocha test/**/*.spec.js documentation/**/*.md",
-    "generate-site": "generate-site --require ./bootstrap.js",
-    "update-examples": "generate-site --require ./bootstrap.js --update-examples"
+    "generate-site": "generate-site --require ./bootstrap-unexpected-markdown.js",
+    "update-examples": "generate-site --require ./bootstrap-unexpected-markdown.js --update-examples"
   },
   "keywords": [
     "testing",
