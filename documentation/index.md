@@ -19,10 +19,6 @@ If the generators you supply supports shrinking by providing a `shrink` function
 on the generator function, unexpected-check will try to shrink the error space
 as much as possible and therefore provide much more precise error cases.
 
-This project is still in it early days and asynchronous testing are missing. It
-is currently not possible to configure the number of iterations the tests should
-be executed either.
-
 I recommend using the plugin together with
 [chance-generators](https://github.com/sunesimonsen/change-generators) as it
 provides a huge range of generators and supports shrinking, but it is not a
@@ -41,30 +37,43 @@ function sort(arr) {
 
 Then we could write a test to ensure the following:
 
-* that the resulting array has the same size as the input array.
-* that the first item in the sorted array is less than or equal to all items in the input array.
-* that the last item in the sorted array is greater than or equal to all items in the input array.
+* the resulting array has the same size as the input array.
+* the resulting array is sorted.
 
-We do that the following way:
+First we will create an assertion for checking that an array is sorted:
+
+```js
+expect.addAssertion('<array> to be sorted', function (expect, subject) {
+  var isSorted = subject.every(function (x, i) {
+    return subject.slice(i).every(function (y) {
+      return x <= y;
+    });
+  });
+  expect(isSorted, 'to be true');
+});
+```
+
+Then we generate the input arrays:
 
 ```js
 var g = require('chance-generators')(42);
-
 // generate arrays of numbers from -20 to 20 with length varying from 1 to 20
 var numbers = g.integer({ min: -20, max: 20 });
 var lengths = g.integer({ min: 1, max: 20 });
 var arrays = g.n(numbers, lengths);
+```
 
+Finally we make the assertion:
+
+```js
 expect(function (arr) {
   var sorted = sort(arr);
-
-  expect(sorted, 'to have length', arr.length)
-    .and('first item to be less than or equal to all', arr)
-    .and('last item to be greater than or equal to all', arr);
+  expect(sorted, 'to have length', arr.length);
+  expect(sort(arr), 'to be sorted');
 }, 'to be valid for all', arrays);
 ```
 
-But that assumption as actually not true as the build in sort functions is based
+But that assumption as actually not true as the build-in sort functions is based
 on converting items to strings and comparing them. So you will get the following error:
 
 ```output
@@ -73,12 +82,7 @@ counterexample:
 
   Generated input: [ 18, 4 ]
 
-  expected [ 18, 4 ] first item to be less than or equal to all [ 18, 4 ]
-
-  [
-    18,
-    4 // should be greater than or equal to 18
-  ]
+  expected [ 18, 4 ] to be sorted
 ```
 
 If we wanted to fix the problem, we would need to use a comparison function:
@@ -94,10 +98,8 @@ function sort(arr) {
 ```js
 expect(function (arr) {
   var sorted = sort(arr);
-
-  expect(sorted, 'to have length', arr.length)
-    .and('first item to be less than or equal to all', arr)
-    .and('last item to be greater than or equal to all', arr);
+  expect(sorted, 'to have length', arr.length);
+  expect(sort(arr), 'to be sorted');
 }, 'to be valid for all', arrays);
 ```
 

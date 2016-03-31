@@ -1,5 +1,5 @@
 --reporter spec
 --recursive
 --check-leaks
---require ./bootstrap.js
+--require ./bootstrap-unexpected-markdown.js
 --compilers md:unexpected-markdown
