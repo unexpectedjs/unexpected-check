@@ -46,9 +46,6 @@ same tool chain.</p>
 <p>If the generators you supply supports shrinking by providing a <code>shrink</code> function
 on the generator function, unexpected-check will try to shrink the error space
 as much as possible and therefore provide much more precise error cases.</p>
-<p>This project is still in it early days and asynchronous testing are missing. It
-is currently not possible to configure the number of iterations the tests should
-be executed either.</p>
 <p>I recommend using the plugin together with
 <a href="https://github.com/sunesimonsen/change-generators">chance-generators</a> as it
 provides a huge range of generators and supports shrinking, but it is not a
@@ -62,27 +59,34 @@ as generators.</p>
   <div><span style="color: #999">}</span></div>
 </div><p>Then we could write a test to ensure the following:</p>
 <ul>
-<li>that the resulting array has the same size as the input array.</li>
-<li>that the first item in the sorted array is less than or equal to all items in the input array.</li>
-<li>that the last item in the sorted array is greater than or equal to all items in the input array.</li>
+<li>the resulting array has the same size as the input array.</li>
+<li>the resulting array is sorted.</li>
 </ul>
-<p>We do that the following way:</p>
+<p>First we will create an assertion for checking that an array is sorted:</p>
+<div class="code lang-javascript">
+  <div>expect<span style="color: #999">.</span>addAssertion<span style="color: #999">(</span><span style="color: #3CDAFF">'&lt;array&gt;&nbsp;to&nbsp;be&nbsp;sorted'</span><span style="color: #999">,</span>&nbsp;<span style="color: #FFAA27">function</span>&nbsp;<span style="color: #999">(</span>expect<span style="color: #999">,</span>&nbsp;subject<span style="color: #999">)</span>&nbsp;<span style="color: #999">{</span></div>
+  <div>&nbsp;&nbsp;<span style="color: #FFAA27">var</span>&nbsp;isSorted&nbsp;<span style="color: #3CDAFF">=</span>&nbsp;subject<span style="color: #999">.</span>every<span style="color: #999">(</span><span style="color: #FFAA27">function</span>&nbsp;<span style="color: #999">(</span>x<span style="color: #999">,</span>&nbsp;i<span style="color: #999">)</span>&nbsp;<span style="color: #999">{</span></div>
+  <div>&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #FFAA27">return</span>&nbsp;subject<span style="color: #999">.</span>slice<span style="color: #999">(</span>i<span style="color: #999">).</span>every<span style="color: #999">(</span><span style="color: #FFAA27">function</span>&nbsp;<span style="color: #999">(</span>y<span style="color: #999">)</span>&nbsp;<span style="color: #999">{</span></div>
+  <div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #FFAA27">return</span>&nbsp;x&nbsp;<span style="color: #3CDAFF">&lt;=</span>&nbsp;y<span style="color: #999">;</span></div>
+  <div>&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #999">});</span></div>
+  <div>&nbsp;&nbsp;<span style="color: #999">});</span></div>
+  <div>&nbsp;&nbsp;expect<span style="color: #999">(</span>isSorted<span style="color: #999">,</span>&nbsp;<span style="color: #3CDAFF">'to&nbsp;be&nbsp;true'</span><span style="color: #999">);</span></div>
+  <div><span style="color: #999">});</span></div>
+</div><p>Then we generate the input arrays:</p>
 <div class="code lang-javascript">
   <div><span style="color: #FFAA27">var</span>&nbsp;g&nbsp;<span style="color: #3CDAFF">=</span>&nbsp;require<span style="color: #999">(</span><span style="color: #3CDAFF">'chance-generators'</span><span style="color: #999">)(</span><span style="color: white">42</span><span style="color: #999">);</span></div>
-  <div>&nbsp;</div>
   <div><span style="color: gray">//&nbsp;generate&nbsp;arrays&nbsp;of&nbsp;numbers&nbsp;from&nbsp;-20&nbsp;to&nbsp;20&nbsp;with&nbsp;length&nbsp;varying&nbsp;from&nbsp;1&nbsp;to&nbsp;20</span></div>
   <div><span style="color: #FFAA27">var</span>&nbsp;numbers&nbsp;<span style="color: #3CDAFF">=</span>&nbsp;g<span style="color: #999">.</span>integer<span style="color: #999">({</span>&nbsp;min<span style="color: #999">:</span>&nbsp;<span style="color: #3CDAFF">-</span><span style="color: white">20</span><span style="color: #999">,</span>&nbsp;max<span style="color: #999">:</span>&nbsp;<span style="color: white">20</span>&nbsp;<span style="color: #999">});</span></div>
   <div><span style="color: #FFAA27">var</span>&nbsp;lengths&nbsp;<span style="color: #3CDAFF">=</span>&nbsp;g<span style="color: #999">.</span>integer<span style="color: #999">({</span>&nbsp;min<span style="color: #999">:</span>&nbsp;<span style="color: white">1</span><span style="color: #999">,</span>&nbsp;max<span style="color: #999">:</span>&nbsp;<span style="color: white">20</span>&nbsp;<span style="color: #999">});</span></div>
   <div><span style="color: #FFAA27">var</span>&nbsp;arrays&nbsp;<span style="color: #3CDAFF">=</span>&nbsp;g<span style="color: #999">.</span>n<span style="color: #999">(</span>numbers<span style="color: #999">,</span>&nbsp;lengths<span style="color: #999">);</span></div>
-  <div>&nbsp;</div>
+</div><p>Finally we make the assertion:</p>
+<div class="code lang-javascript">
   <div>expect<span style="color: #999">(</span><span style="color: #FFAA27">function</span>&nbsp;<span style="color: #999">(</span>arr<span style="color: #999">)</span>&nbsp;<span style="color: #999">{</span></div>
   <div>&nbsp;&nbsp;<span style="color: #FFAA27">var</span>&nbsp;sorted&nbsp;<span style="color: #3CDAFF">=</span>&nbsp;sort<span style="color: #999">(</span>arr<span style="color: #999">);</span></div>
-  <div>&nbsp;</div>
-  <div>&nbsp;&nbsp;expect<span style="color: #999">(</span>sorted<span style="color: #999">,</span>&nbsp;<span style="color: #3CDAFF">'to&nbsp;have&nbsp;length'</span><span style="color: #999">,</span>&nbsp;arr<span style="color: #999">.</span>length<span style="color: #999">)</span></div>
-  <div>&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #999">.</span>and<span style="color: #999">(</span><span style="color: #3CDAFF">'first&nbsp;item&nbsp;to&nbsp;be&nbsp;less&nbsp;than&nbsp;or&nbsp;equal&nbsp;to&nbsp;all'</span><span style="color: #999">,</span>&nbsp;arr<span style="color: #999">)</span></div>
-  <div>&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #999">.</span>and<span style="color: #999">(</span><span style="color: #3CDAFF">'last&nbsp;item&nbsp;to&nbsp;be&nbsp;greater&nbsp;than&nbsp;or&nbsp;equal&nbsp;to&nbsp;all'</span><span style="color: #999">,</span>&nbsp;arr<span style="color: #999">);</span></div>
+  <div>&nbsp;&nbsp;expect<span style="color: #999">(</span>sorted<span style="color: #999">,</span>&nbsp;<span style="color: #3CDAFF">'to&nbsp;have&nbsp;length'</span><span style="color: #999">,</span>&nbsp;arr<span style="color: #999">.</span>length<span style="color: #999">);</span></div>
+  <div>&nbsp;&nbsp;expect<span style="color: #999">(</span>sort<span style="color: #999">(</span>arr<span style="color: #999">),</span>&nbsp;<span style="color: #3CDAFF">'to&nbsp;be&nbsp;sorted'</span><span style="color: #999">);</span></div>
   <div><span style="color: #999">},</span>&nbsp;<span style="color: #3CDAFF">'to&nbsp;be&nbsp;valid&nbsp;for&nbsp;all'</span><span style="color: #999">,</span>&nbsp;arrays<span style="color: #999">);</span></div>
-</div><p>But that assumption as actually not true as the build in sort functions is based
+</div><p>But that assumption as actually not true as the build-in sort functions is based
 on converting items to strings and comparing them. So you will get the following error:</p>
 <div class="output">
   <div><span style="color: red; font-weight: bold">Ran&nbsp;</span>44&nbsp;<span style="color: red; font-weight: bold">iterations&nbsp;and&nbsp;found&nbsp;</span>20<span style="color: red; font-weight: bold">&nbsp;errors</span></div>
@@ -92,24 +96,7 @@ on converting items to strings and comparing them. So you will get the following
   <div>Generated&nbsp;input:&nbsp;[&nbsp;18,&nbsp;4&nbsp;]</div>
   <div>&nbsp;</div>
   <div><div style="display: inline-block; vertical-align: top">
-  <div><span style="color: red; font-weight: bold">expected</span>&nbsp;[&nbsp;18,&nbsp;4&nbsp;]&nbsp;<span style="color: red; font-weight: bold">first&nbsp;item</span>&nbsp;<span style="color: red; font-weight: bold">to&nbsp;be&nbsp;less&nbsp;than&nbsp;or&nbsp;equal&nbsp;to&nbsp;all</span>&nbsp;[&nbsp;18,&nbsp;4&nbsp;]</div>
-  <div>&nbsp;</div>
-  <div>[</div>
-  <div>&nbsp;&nbsp;<div style="display: inline-block; vertical-align: top">
-  <div>18,</div>
-</div></div>
-  <div>&nbsp;&nbsp;<div style="display: inline-block; vertical-align: top">
-  <div><div style="display: inline-block; vertical-align: top">
-  <div>4&nbsp;<div style="display: inline-block; vertical-align: top">
-  <div><span style="color: red; font-weight: bold">//</span></div>
-</div>&nbsp;<div style="display: inline-block; vertical-align: top">
-  <div><div style="display: inline-block; vertical-align: top">
-  <div><span style="color: red; font-weight: bold">should&nbsp;be&nbsp;greater&nbsp;than&nbsp;or&nbsp;equal&nbsp;to</span>&nbsp;18</div>
-</div></div>
-</div></div>
-</div></div>
-</div></div>
-  <div>]</div>
+  <div><span style="color: red; font-weight: bold">expected</span>&nbsp;[&nbsp;18,&nbsp;4&nbsp;]&nbsp;<span style="color: red; font-weight: bold">to&nbsp;be&nbsp;sorted</span></div>
 </div></div>
 </div></div>
 </div><p>If we wanted to fix the problem, we would need to use a comparison function:</p>
@@ -122,10 +109,8 @@ on converting items to strings and comparing them. So you will get the following
 </div><div class="code lang-javascript">
   <div>expect<span style="color: #999">(</span><span style="color: #FFAA27">function</span>&nbsp;<span style="color: #999">(</span>arr<span style="color: #999">)</span>&nbsp;<span style="color: #999">{</span></div>
   <div>&nbsp;&nbsp;<span style="color: #FFAA27">var</span>&nbsp;sorted&nbsp;<span style="color: #3CDAFF">=</span>&nbsp;sort<span style="color: #999">(</span>arr<span style="color: #999">);</span></div>
-  <div>&nbsp;</div>
-  <div>&nbsp;&nbsp;expect<span style="color: #999">(</span>sorted<span style="color: #999">,</span>&nbsp;<span style="color: #3CDAFF">'to&nbsp;have&nbsp;length'</span><span style="color: #999">,</span>&nbsp;arr<span style="color: #999">.</span>length<span style="color: #999">)</span></div>
-  <div>&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #999">.</span>and<span style="color: #999">(</span><span style="color: #3CDAFF">'first&nbsp;item&nbsp;to&nbsp;be&nbsp;less&nbsp;than&nbsp;or&nbsp;equal&nbsp;to&nbsp;all'</span><span style="color: #999">,</span>&nbsp;arr<span style="color: #999">)</span></div>
-  <div>&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #999">.</span>and<span style="color: #999">(</span><span style="color: #3CDAFF">'last&nbsp;item&nbsp;to&nbsp;be&nbsp;greater&nbsp;than&nbsp;or&nbsp;equal&nbsp;to&nbsp;all'</span><span style="color: #999">,</span>&nbsp;arr<span style="color: #999">);</span></div>
+  <div>&nbsp;&nbsp;expect<span style="color: #999">(</span>sorted<span style="color: #999">,</span>&nbsp;<span style="color: #3CDAFF">'to&nbsp;have&nbsp;length'</span><span style="color: #999">,</span>&nbsp;arr<span style="color: #999">.</span>length<span style="color: #999">);</span></div>
+  <div>&nbsp;&nbsp;expect<span style="color: #999">(</span>sort<span style="color: #999">(</span>arr<span style="color: #999">),</span>&nbsp;<span style="color: #3CDAFF">'to&nbsp;be&nbsp;sorted'</span><span style="color: #999">);</span></div>
   <div><span style="color: #999">},</span>&nbsp;<span style="color: #3CDAFF">'to&nbsp;be&nbsp;valid&nbsp;for&nbsp;all'</span><span style="color: #999">,</span>&nbsp;arrays<span style="color: #999">);</span></div>
 </div><h3 id="node">Node</h3>
 <p>Install it with NPM or add it to your <code>package.json</code>:</p>
@@ -159,7 +144,7 @@ name <code>chance</code>.</p>
 <p>The source for this plugin can be found on
 <a href="https://github.com/unexpectedjs/unexpected-check">Github</a>.</p>
 <h2 id="mit-license">MIT License</h2>
-<p>Copyright (c) 2016 Sune Simonsen <a href="&#109;&#97;&#x69;&#x6c;&#x74;&#x6f;&#58;&#115;&#117;&#x6e;&#x65;&#x40;&#x77;&#x65;&#45;&#x6b;&#110;&#111;&#x77;&#104;&#x6f;&#x77;&#x2e;&#100;&#x6b;">&#115;&#117;&#x6e;&#x65;&#x40;&#x77;&#x65;&#45;&#x6b;&#110;&#111;&#x77;&#104;&#x6f;&#x77;&#x2e;&#100;&#x6b;</a></p>
+<p>Copyright (c) 2016 Sune Simonsen <a href="&#x6d;&#x61;&#x69;&#108;&#x74;&#111;&#x3a;&#115;&#x75;&#110;&#x65;&#64;&#x77;&#x65;&#x2d;&#x6b;&#110;&#111;&#119;&#104;&#111;&#x77;&#x2e;&#100;&#x6b;">&#115;&#x75;&#110;&#x65;&#64;&#x77;&#x65;&#x2d;&#x6b;&#110;&#111;&#119;&#104;&#111;&#x77;&#x2e;&#100;&#x6b;</a></p>
 <p>Permission is hereby granted, free of charge, to any person obtaining
 a copy of this software and associated documentation files (the
 &#39;Software&#39;), to deal in the Software without restriction, including

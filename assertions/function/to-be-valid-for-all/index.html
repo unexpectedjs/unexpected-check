@@ -55,6 +55,8 @@
             
                 <ul class="declarations">
                 
+                    <li>&lt;function&gt; to be valid for all &lt;object&gt;</li>
+                
                     <li>&lt;function&gt; to be valid for all &lt;function+&gt;</li>
                 
                 </ul>
@@ -74,8 +76,20 @@ following way:</p>
   <div><span style="color: #000000">expect</span><span style="color: #000000">(</span><span style="color: #a71d5d">function</span>&nbsp;<span style="color: #000000">(</span>text<span style="color: #000000">)</span>&nbsp;<span style="color: #000000">{</span></div>
   <div>&nbsp;&nbsp;<span style="color: #000000">expect</span><span style="color: #000000">(</span><span style="color: #000000">unescape</span><span style="color: #000000">(</span><span style="color: #000000">escape</span><span style="color: #000000">(</span>text<span style="color: #000000">)),</span>&nbsp;<span style="color: #df5000">'to&nbsp;equal'</span><span style="color: #000000">,</span>&nbsp;text<span style="color: #000000">);</span></div>
   <div><span style="color: #000000">},</span>&nbsp;<span style="color: #df5000">'to&nbsp;be&nbsp;valid&nbsp;for&nbsp;all'</span><span style="color: #000000">,</span>&nbsp;strings<span style="color: #000000">);</span></div>
-</div><p>This will run 100 tests with random strings of length 0-200 and succeed.</p>
-<p>I found to following code for
+</div><p>This will run 300 tests with random strings of length 0-200 and succeed.</p>
+<p>You can specify the max number of iterations that the test should run and the
+number of errors it should collect before stopping.</p>
+<p>The algorithm searches for the smallest error output, so the more errors you
+allow it to collect the better the output will be. </p>
+<div class="code lang-javascript">
+  <div><span style="color: #000000">expect</span><span style="color: #000000">(</span><span style="color: #a71d5d">function</span>&nbsp;<span style="color: #000000">(</span>text<span style="color: #000000">)</span>&nbsp;<span style="color: #000000">{</span></div>
+  <div>&nbsp;&nbsp;<span style="color: #000000">expect</span><span style="color: #000000">(</span><span style="color: #000000">unescape</span><span style="color: #000000">(</span><span style="color: #000000">escape</span><span style="color: #000000">(</span>text<span style="color: #000000">)),</span>&nbsp;<span style="color: #df5000">'to&nbsp;equal'</span><span style="color: #000000">,</span>&nbsp;text<span style="color: #000000">);</span></div>
+  <div><span style="color: #000000">},</span>&nbsp;<span style="color: #df5000">'to&nbsp;be&nbsp;valid&nbsp;for&nbsp;all'</span><span style="color: #000000">,</span>&nbsp;<span style="color: #000000">{</span></div>
+  <div>&nbsp;&nbsp;generators<span style="color: #000000">:</span>&nbsp;<span style="color: #000000">[</span>strings<span style="color: #000000">],</span></div>
+  <div>&nbsp;&nbsp;maxIterations<span style="color: #000000">:</span>&nbsp;<span style="color: #0086b3">1000</span><span style="color: #000000">,</span></div>
+  <div>&nbsp;&nbsp;maxErrors<span style="color: #000000">:</span>&nbsp;<span style="color: #0086b3">30</span></div>
+  <div><span style="color: #000000">});</span></div>
+</div><p>I found to following code for
 <a href="https://en.wikipedia.org/wiki/Run-length_encoding">Run-length encoding</a> on the
 <a href="http://rosettacode.org/wiki/Run-length_encoding#JavaScript">internet</a>, let&#39;s see
 if that code also fulfill our round trip test:</p>
@@ -96,11 +110,13 @@ if that code also fulfill our round trip test:</p>
   <div>&nbsp;&nbsp;<span style="color: #a71d5d">return</span>&nbsp;output<span style="color: #000000">;</span></div>
   <div><span style="color: #000000">}</span></div>
   <div>&nbsp;</div>
+  <div><span style="color: #a71d5d">var</span>&nbsp;g&nbsp;<span style="color: #a71d5d">=</span>&nbsp;<span style="color: #000000">require</span><span style="color: #000000">(</span><span style="color: #df5000">'chance-generators'</span><span style="color: #000000">)(</span><span style="color: #0086b3">13</span><span style="color: #000000">);</span></div>
+  <div><span style="color: #a71d5d">var</span>&nbsp;strings&nbsp;<span style="color: #a71d5d">=</span>&nbsp;g<span style="color: #000000">.</span><span style="color: #000000">string</span><span style="color: #000000">({</span>&nbsp;length<span style="color: #000000">:</span>&nbsp;g<span style="color: #000000">.</span><span style="color: #000000">natural</span><span style="color: #000000">({</span>&nbsp;max<span style="color: #000000">:</span>&nbsp;<span style="color: #0086b3">200</span>&nbsp;<span style="color: #000000">})</span>&nbsp;<span style="color: #000000">});</span></div>
   <div><span style="color: #000000">expect</span><span style="color: #000000">(</span><span style="color: #a71d5d">function</span>&nbsp;<span style="color: #000000">(</span>text<span style="color: #000000">)</span>&nbsp;<span style="color: #000000">{</span></div>
   <div>&nbsp;&nbsp;<span style="color: #000000">expect</span><span style="color: #000000">(</span><span style="color: #000000">rleDecode</span><span style="color: #000000">(</span><span style="color: #000000">rleEncode</span><span style="color: #000000">(</span>text<span style="color: #000000">)),</span>&nbsp;<span style="color: #df5000">'to&nbsp;equal'</span><span style="color: #000000">,</span>&nbsp;text<span style="color: #000000">);</span></div>
   <div><span style="color: #000000">},</span>&nbsp;<span style="color: #df5000">'to&nbsp;be&nbsp;valid&nbsp;for&nbsp;all'</span><span style="color: #000000">,</span>&nbsp;strings<span style="color: #000000">);</span></div>
 </div><div class="output">
-  <div><span style="color: red; font-weight: bold">Ran&nbsp;</span><span style="color: #0086b3">34</span>&nbsp;<span style="color: red; font-weight: bold">iterations&nbsp;and&nbsp;found&nbsp;</span><span style="color: #0086b3">20</span><span style="color: red; font-weight: bold">&nbsp;errors</span></div>
+  <div><span style="color: red; font-weight: bold">Ran&nbsp;</span><span style="color: #0086b3">86</span>&nbsp;<span style="color: red; font-weight: bold">iterations&nbsp;and&nbsp;found&nbsp;</span><span style="color: #0086b3">20</span><span style="color: red; font-weight: bold">&nbsp;errors</span></div>
   <div><span style="color: red; font-weight: bold">counterexample:</span></div>
   <div>&nbsp;</div>
   <div>&nbsp;&nbsp;<div style="display: inline-block; vertical-align: top">
