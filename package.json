@@ -25,7 +25,7 @@
     "lodash.unescape": "3.1.0",
     "mocha": "2.3.4",
     "unexpected": "10.5.1",
-    "unexpected-documentation-site-generator": "4.0.0",
+    "unexpected-documentation-site-generator": "^4.0.0",
     "unexpected-markdown": "^1.4.0"
   }
 }
