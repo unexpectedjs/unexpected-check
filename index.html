@@ -54,8 +54,8 @@ as generators.</p>
 <h2 id="usage">Usage</h2>
 <p>Let&#39;s imagine we wanted to sort arrays of numbers using this function:</p>
 <div class="code lang-javascript">
-  <div><span style="color: #FFAA27">function</span>&nbsp;sort<span style="color: #999">(</span>arr<span style="color: #999">)</span>&nbsp;<span style="color: #999">{</span></div>
-  <div>&nbsp;&nbsp;<span style="color: #FFAA27">return</span>&nbsp;<span style="color: #999">[].</span>concat<span style="color: #999">(</span>arr<span style="color: #999">).</span>sort<span style="color: #999">();</span></div>
+  <div><span style="color: #F92672">function</span>&nbsp;sort<span style="color: #999">(</span>arr<span style="color: #999">)</span>&nbsp;<span style="color: #999">{</span></div>
+  <div>&nbsp;&nbsp;<span style="color: #F92672">return</span>&nbsp;<span style="color: #999">[].</span>concat<span style="color: #999">(</span>arr<span style="color: #999">).</span>sort<span style="color: #999">();</span></div>
   <div><span style="color: #999">}</span></div>
 </div><p>Then we could write a test to ensure the following:</p>
 <ul>
@@ -64,79 +64,79 @@ as generators.</p>
 </ul>
 <p>First we will create an assertion for checking that an array is sorted:</p>
 <div class="code lang-javascript">
-  <div>expect<span style="color: #999">.</span>addAssertion<span style="color: #999">(</span><span style="color: #3CDAFF">'&lt;array&gt;&nbsp;to&nbsp;be&nbsp;sorted'</span><span style="color: #999">,</span>&nbsp;<span style="color: #FFAA27">function</span>&nbsp;<span style="color: #999">(</span>expect<span style="color: #999">,</span>&nbsp;subject<span style="color: #999">)</span>&nbsp;<span style="color: #999">{</span></div>
-  <div>&nbsp;&nbsp;<span style="color: #FFAA27">var</span>&nbsp;isSorted&nbsp;<span style="color: #3CDAFF">=</span>&nbsp;subject<span style="color: #999">.</span>every<span style="color: #999">(</span><span style="color: #FFAA27">function</span>&nbsp;<span style="color: #999">(</span>x<span style="color: #999">,</span>&nbsp;i<span style="color: #999">)</span>&nbsp;<span style="color: #999">{</span></div>
-  <div>&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #FFAA27">return</span>&nbsp;subject<span style="color: #999">.</span>slice<span style="color: #999">(</span>i<span style="color: #999">).</span>every<span style="color: #999">(</span><span style="color: #FFAA27">function</span>&nbsp;<span style="color: #999">(</span>y<span style="color: #999">)</span>&nbsp;<span style="color: #999">{</span></div>
-  <div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #FFAA27">return</span>&nbsp;x&nbsp;<span style="color: #3CDAFF">&lt;=</span>&nbsp;y<span style="color: #999">;</span></div>
+  <div>expect<span style="color: #999">.</span>addAssertion<span style="color: #999">(</span><span style="color: #E6DB74">'&lt;array&gt;&nbsp;to&nbsp;be&nbsp;sorted'</span><span style="color: #999">,</span>&nbsp;<span style="color: #F92672">function</span>&nbsp;<span style="color: #999">(</span>expect<span style="color: #999">,</span>&nbsp;subject<span style="color: #999">)</span>&nbsp;<span style="color: #999">{</span></div>
+  <div>&nbsp;&nbsp;<span style="color: #F92672">var</span>&nbsp;isSorted&nbsp;<span style="color: #F92672">=</span>&nbsp;subject<span style="color: #999">.</span>every<span style="color: #999">(</span><span style="color: #F92672">function</span>&nbsp;<span style="color: #999">(</span>x<span style="color: #999">,</span>&nbsp;i<span style="color: #999">)</span>&nbsp;<span style="color: #999">{</span></div>
+  <div>&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #F92672">return</span>&nbsp;subject<span style="color: #999">.</span>slice<span style="color: #999">(</span>i<span style="color: #999">).</span>every<span style="color: #999">(</span><span style="color: #F92672">function</span>&nbsp;<span style="color: #999">(</span>y<span style="color: #999">)</span>&nbsp;<span style="color: #999">{</span></div>
+  <div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #F92672">return</span>&nbsp;x&nbsp;<span style="color: #F92672">&lt;=</span>&nbsp;y<span style="color: #999">;</span></div>
   <div>&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #999">});</span></div>
   <div>&nbsp;&nbsp;<span style="color: #999">});</span></div>
-  <div>&nbsp;&nbsp;expect<span style="color: #999">(</span>isSorted<span style="color: #999">,</span>&nbsp;<span style="color: #3CDAFF">'to&nbsp;be&nbsp;true'</span><span style="color: #999">);</span></div>
+  <div>&nbsp;&nbsp;expect<span style="color: #999">(</span>isSorted<span style="color: #999">,</span>&nbsp;<span style="color: #E6DB74">'to&nbsp;be&nbsp;true'</span><span style="color: #999">);</span></div>
   <div><span style="color: #999">});</span></div>
 </div><p>Then we generate the input arrays:</p>
 <div class="code lang-javascript">
-  <div><span style="color: #FFAA27">var</span>&nbsp;g&nbsp;<span style="color: #3CDAFF">=</span>&nbsp;require<span style="color: #999">(</span><span style="color: #3CDAFF">'chance-generators'</span><span style="color: #999">)(</span><span style="color: white">42</span><span style="color: #999">);</span></div>
-  <div><span style="color: gray">//&nbsp;generate&nbsp;arrays&nbsp;of&nbsp;numbers&nbsp;from&nbsp;-20&nbsp;to&nbsp;20&nbsp;with&nbsp;length&nbsp;varying&nbsp;from&nbsp;1&nbsp;to&nbsp;20</span></div>
-  <div><span style="color: #FFAA27">var</span>&nbsp;numbers&nbsp;<span style="color: #3CDAFF">=</span>&nbsp;g<span style="color: #999">.</span>integer<span style="color: #999">({</span>&nbsp;min<span style="color: #999">:</span>&nbsp;<span style="color: #3CDAFF">-</span><span style="color: white">20</span><span style="color: #999">,</span>&nbsp;max<span style="color: #999">:</span>&nbsp;<span style="color: white">20</span>&nbsp;<span style="color: #999">});</span></div>
-  <div><span style="color: #FFAA27">var</span>&nbsp;lengths&nbsp;<span style="color: #3CDAFF">=</span>&nbsp;g<span style="color: #999">.</span>integer<span style="color: #999">({</span>&nbsp;min<span style="color: #999">:</span>&nbsp;<span style="color: white">1</span><span style="color: #999">,</span>&nbsp;max<span style="color: #999">:</span>&nbsp;<span style="color: white">20</span>&nbsp;<span style="color: #999">});</span></div>
-  <div><span style="color: #FFAA27">var</span>&nbsp;arrays&nbsp;<span style="color: #3CDAFF">=</span>&nbsp;g<span style="color: #999">.</span>n<span style="color: #999">(</span>numbers<span style="color: #999">,</span>&nbsp;lengths<span style="color: #999">);</span></div>
+  <div><span style="color: #F92672">var</span>&nbsp;g&nbsp;<span style="color: #F92672">=</span>&nbsp;require<span style="color: #999">(</span><span style="color: #E6DB74">'chance-generators'</span><span style="color: #999">)(</span><span style="color: #66D9EF; font-weight: bold">42</span><span style="color: #999">);</span></div>
+  <div><span style="color: #888">//&nbsp;generate&nbsp;arrays&nbsp;of&nbsp;numbers&nbsp;from&nbsp;-20&nbsp;to&nbsp;20&nbsp;with&nbsp;length&nbsp;varying&nbsp;from&nbsp;1&nbsp;to&nbsp;20</span></div>
+  <div><span style="color: #F92672">var</span>&nbsp;numbers&nbsp;<span style="color: #F92672">=</span>&nbsp;g<span style="color: #999">.</span>integer<span style="color: #999">({</span>&nbsp;min<span style="color: #999">:</span>&nbsp;<span style="color: #F92672">-</span><span style="color: #66D9EF; font-weight: bold">20</span><span style="color: #999">,</span>&nbsp;max<span style="color: #999">:</span>&nbsp;<span style="color: #66D9EF; font-weight: bold">20</span>&nbsp;<span style="color: #999">});</span></div>
+  <div><span style="color: #F92672">var</span>&nbsp;lengths&nbsp;<span style="color: #F92672">=</span>&nbsp;g<span style="color: #999">.</span>integer<span style="color: #999">({</span>&nbsp;min<span style="color: #999">:</span>&nbsp;<span style="color: #66D9EF; font-weight: bold">1</span><span style="color: #999">,</span>&nbsp;max<span style="color: #999">:</span>&nbsp;<span style="color: #66D9EF; font-weight: bold">20</span>&nbsp;<span style="color: #999">});</span></div>
+  <div><span style="color: #F92672">var</span>&nbsp;arrays&nbsp;<span style="color: #F92672">=</span>&nbsp;g<span style="color: #999">.</span>n<span style="color: #999">(</span>numbers<span style="color: #999">,</span>&nbsp;lengths<span style="color: #999">);</span></div>
 </div><p>Finally we make the assertion:</p>
 <div class="code lang-javascript">
-  <div>expect<span style="color: #999">(</span><span style="color: #FFAA27">function</span>&nbsp;<span style="color: #999">(</span>arr<span style="color: #999">)</span>&nbsp;<span style="color: #999">{</span></div>
-  <div>&nbsp;&nbsp;<span style="color: #FFAA27">var</span>&nbsp;sorted&nbsp;<span style="color: #3CDAFF">=</span>&nbsp;sort<span style="color: #999">(</span>arr<span style="color: #999">);</span></div>
-  <div>&nbsp;&nbsp;expect<span style="color: #999">(</span>sorted<span style="color: #999">,</span>&nbsp;<span style="color: #3CDAFF">'to&nbsp;have&nbsp;length'</span><span style="color: #999">,</span>&nbsp;arr<span style="color: #999">.</span>length<span style="color: #999">);</span></div>
-  <div>&nbsp;&nbsp;expect<span style="color: #999">(</span>sort<span style="color: #999">(</span>arr<span style="color: #999">),</span>&nbsp;<span style="color: #3CDAFF">'to&nbsp;be&nbsp;sorted'</span><span style="color: #999">);</span></div>
-  <div><span style="color: #999">},</span>&nbsp;<span style="color: #3CDAFF">'to&nbsp;be&nbsp;valid&nbsp;for&nbsp;all'</span><span style="color: #999">,</span>&nbsp;arrays<span style="color: #999">);</span></div>
+  <div>expect<span style="color: #999">(</span><span style="color: #F92672">function</span>&nbsp;<span style="color: #999">(</span>arr<span style="color: #999">)</span>&nbsp;<span style="color: #999">{</span></div>
+  <div>&nbsp;&nbsp;<span style="color: #F92672">var</span>&nbsp;sorted&nbsp;<span style="color: #F92672">=</span>&nbsp;sort<span style="color: #999">(</span>arr<span style="color: #999">);</span></div>
+  <div>&nbsp;&nbsp;expect<span style="color: #999">(</span>sorted<span style="color: #999">,</span>&nbsp;<span style="color: #E6DB74">'to&nbsp;have&nbsp;length'</span><span style="color: #999">,</span>&nbsp;arr<span style="color: #999">.</span>length<span style="color: #999">);</span></div>
+  <div>&nbsp;&nbsp;expect<span style="color: #999">(</span>sort<span style="color: #999">(</span>arr<span style="color: #999">),</span>&nbsp;<span style="color: #E6DB74">'to&nbsp;be&nbsp;sorted'</span><span style="color: #999">);</span></div>
+  <div><span style="color: #999">},</span>&nbsp;<span style="color: #E6DB74">'to&nbsp;be&nbsp;valid&nbsp;for&nbsp;all'</span><span style="color: #999">,</span>&nbsp;arrays<span style="color: #999">);</span></div>
 </div><p>But that assumption as actually not true as the build-in sort functions is based
 on converting items to strings and comparing them. So you will get the following error:</p>
 <div class="output">
-  <div><span style="color: red; font-weight: bold">Ran&nbsp;</span>44&nbsp;<span style="color: red; font-weight: bold">iterations&nbsp;and&nbsp;found&nbsp;</span>20<span style="color: red; font-weight: bold">&nbsp;errors</span></div>
-  <div><span style="color: red; font-weight: bold">counterexample:</span></div>
+  <div><span style="color: #F92672; font-weight: bold">Ran&nbsp;</span><span style="color: #66D9EF">44</span>&nbsp;<span style="color: #F92672; font-weight: bold">iterations&nbsp;and&nbsp;found&nbsp;</span><span style="color: #66D9EF">20</span><span style="color: #F92672; font-weight: bold">&nbsp;errors</span></div>
+  <div><span style="color: #F92672; font-weight: bold">counterexample:</span></div>
   <div>&nbsp;</div>
   <div>&nbsp;&nbsp;<div style="display: inline-block; vertical-align: top">
-  <div>Generated&nbsp;input:&nbsp;[&nbsp;18,&nbsp;4&nbsp;]</div>
+  <div>Generated&nbsp;input:&nbsp;[&nbsp;<span style="color: #66D9EF">18</span>,&nbsp;<span style="color: #66D9EF">4</span>&nbsp;]</div>
   <div>&nbsp;</div>
   <div><div style="display: inline-block; vertical-align: top">
-  <div><span style="color: red; font-weight: bold">expected</span>&nbsp;[&nbsp;18,&nbsp;4&nbsp;]&nbsp;<span style="color: red; font-weight: bold">to&nbsp;be&nbsp;sorted</span></div>
+  <div><span style="color: #F92672; font-weight: bold">expected</span>&nbsp;[&nbsp;<span style="color: #66D9EF">18</span>,&nbsp;<span style="color: #66D9EF">4</span>&nbsp;]&nbsp;<span style="color: #F92672; font-weight: bold">to&nbsp;be&nbsp;sorted</span></div>
 </div></div>
 </div></div>
 </div><p>If we wanted to fix the problem, we would need to use a comparison function:</p>
 <div class="code lang-javascript">
-  <div><span style="color: #FFAA27">function</span>&nbsp;sort<span style="color: #999">(</span>arr<span style="color: #999">)</span>&nbsp;<span style="color: #999">{</span></div>
-  <div>&nbsp;&nbsp;<span style="color: #FFAA27">return</span>&nbsp;<span style="color: #999">[].</span>concat<span style="color: #999">(</span>arr<span style="color: #999">).</span>sort<span style="color: #999">(</span><span style="color: #FFAA27">function</span>&nbsp;<span style="color: #999">(</span>a<span style="color: #999">,</span>&nbsp;b<span style="color: #999">)</span>&nbsp;<span style="color: #999">{</span></div>
-  <div>&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #FFAA27">return</span>&nbsp;a&nbsp;<span style="color: #3CDAFF">-</span>&nbsp;b<span style="color: #999">;</span></div>
+  <div><span style="color: #F92672">function</span>&nbsp;sort<span style="color: #999">(</span>arr<span style="color: #999">)</span>&nbsp;<span style="color: #999">{</span></div>
+  <div>&nbsp;&nbsp;<span style="color: #F92672">return</span>&nbsp;<span style="color: #999">[].</span>concat<span style="color: #999">(</span>arr<span style="color: #999">).</span>sort<span style="color: #999">(</span><span style="color: #F92672">function</span>&nbsp;<span style="color: #999">(</span>a<span style="color: #999">,</span>&nbsp;b<span style="color: #999">)</span>&nbsp;<span style="color: #999">{</span></div>
+  <div>&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #F92672">return</span>&nbsp;a&nbsp;<span style="color: #F92672">-</span>&nbsp;b<span style="color: #999">;</span></div>
   <div>&nbsp;&nbsp;<span style="color: #999">});</span></div>
   <div><span style="color: #999">}</span></div>
 </div><div class="code lang-javascript">
-  <div>expect<span style="color: #999">(</span><span style="color: #FFAA27">function</span>&nbsp;<span style="color: #999">(</span>arr<span style="color: #999">)</span>&nbsp;<span style="color: #999">{</span></div>
-  <div>&nbsp;&nbsp;<span style="color: #FFAA27">var</span>&nbsp;sorted&nbsp;<span style="color: #3CDAFF">=</span>&nbsp;sort<span style="color: #999">(</span>arr<span style="color: #999">);</span></div>
-  <div>&nbsp;&nbsp;expect<span style="color: #999">(</span>sorted<span style="color: #999">,</span>&nbsp;<span style="color: #3CDAFF">'to&nbsp;have&nbsp;length'</span><span style="color: #999">,</span>&nbsp;arr<span style="color: #999">.</span>length<span style="color: #999">);</span></div>
-  <div>&nbsp;&nbsp;expect<span style="color: #999">(</span>sort<span style="color: #999">(</span>arr<span style="color: #999">),</span>&nbsp;<span style="color: #3CDAFF">'to&nbsp;be&nbsp;sorted'</span><span style="color: #999">);</span></div>
-  <div><span style="color: #999">},</span>&nbsp;<span style="color: #3CDAFF">'to&nbsp;be&nbsp;valid&nbsp;for&nbsp;all'</span><span style="color: #999">,</span>&nbsp;arrays<span style="color: #999">);</span></div>
+  <div>expect<span style="color: #999">(</span><span style="color: #F92672">function</span>&nbsp;<span style="color: #999">(</span>arr<span style="color: #999">)</span>&nbsp;<span style="color: #999">{</span></div>
+  <div>&nbsp;&nbsp;<span style="color: #F92672">var</span>&nbsp;sorted&nbsp;<span style="color: #F92672">=</span>&nbsp;sort<span style="color: #999">(</span>arr<span style="color: #999">);</span></div>
+  <div>&nbsp;&nbsp;expect<span style="color: #999">(</span>sorted<span style="color: #999">,</span>&nbsp;<span style="color: #E6DB74">'to&nbsp;have&nbsp;length'</span><span style="color: #999">,</span>&nbsp;arr<span style="color: #999">.</span>length<span style="color: #999">);</span></div>
+  <div>&nbsp;&nbsp;expect<span style="color: #999">(</span>sort<span style="color: #999">(</span>arr<span style="color: #999">),</span>&nbsp;<span style="color: #E6DB74">'to&nbsp;be&nbsp;sorted'</span><span style="color: #999">);</span></div>
+  <div><span style="color: #999">},</span>&nbsp;<span style="color: #E6DB74">'to&nbsp;be&nbsp;valid&nbsp;for&nbsp;all'</span><span style="color: #999">,</span>&nbsp;arrays<span style="color: #999">);</span></div>
 </div><h3 id="node">Node</h3>
 <p>Install it with NPM or add it to your <code>package.json</code>:</p>
 <div class="code lang-">
   <div>$&nbsp;npm&nbsp;install&nbsp;--save-dev&nbsp;unexpected&nbsp;unexpected-check</div>
 </div><p>Then:</p>
 <div class="code lang-javascript">
-  <div><span style="color: #FFAA27">var</span>&nbsp;expect&nbsp;<span style="color: #3CDAFF">=</span>&nbsp;require<span style="color: #999">(</span><span style="color: #3CDAFF">'unexpected'</span><span style="color: #999">);</span></div>
-  <div>expect<span style="color: #999">.</span>use<span style="color: #999">(</span>require<span style="color: #999">(</span><span style="color: #3CDAFF">'unexpected-check'</span><span style="color: #999">);</span></div>
+  <div><span style="color: #F92672">var</span>&nbsp;expect&nbsp;<span style="color: #F92672">=</span>&nbsp;require<span style="color: #999">(</span><span style="color: #E6DB74">'unexpected'</span><span style="color: #999">);</span></div>
+  <div>expect<span style="color: #999">.</span>use<span style="color: #999">(</span>require<span style="color: #999">(</span><span style="color: #E6DB74">'unexpected-check'</span><span style="color: #999">);</span></div>
 </div><h3 id="browser">Browser</h3>
 <p>Include the <code>unexpected-check.js</code> found at the lib directory of this
 repository.</p>
 <div class="code lang-html">
-  <div><span style="color: #999">&lt;</span><span style="color: white">script&nbsp;</span><span style="color: #3CDAFF">src</span><span style="color: #999">=&quot;</span><span style="color: #FFAA27">unexpected.js</span><span style="color: #999">&quot;&gt;&lt;/</span><span style="color: white">script</span><span style="color: #999">&gt;</span></div>
-  <div><span style="color: #999">&lt;</span><span style="color: white">script&nbsp;</span><span style="color: #3CDAFF">src</span><span style="color: #999">=&quot;</span><span style="color: #FFAA27">unexpected-check.js</span><span style="color: #999">&quot;&gt;&lt;/</span><span style="color: white">script</span><span style="color: #999">&gt;</span></div>
+  <div><span style="color: #999">&lt;</span><span style="color: #66D9EF; font-weight: bold">script&nbsp;</span><span style="color: #E6DB74">src</span><span style="color: #999">=&quot;</span><span style="color: #F92672">unexpected.js</span><span style="color: #999">&quot;&gt;&lt;/</span><span style="color: #66D9EF; font-weight: bold">script</span><span style="color: #999">&gt;</span></div>
+  <div><span style="color: #999">&lt;</span><span style="color: #66D9EF; font-weight: bold">script&nbsp;</span><span style="color: #E6DB74">src</span><span style="color: #999">=&quot;</span><span style="color: #F92672">unexpected-check.js</span><span style="color: #999">&quot;&gt;&lt;/</span><span style="color: #66D9EF; font-weight: bold">script</span><span style="color: #999">&gt;</span></div>
 </div><p>this will expose the expect function under the following namespace:</p>
 <div class="code lang-javascript">
-  <div><span style="color: #FFAA27">var</span>&nbsp;expect&nbsp;<span style="color: #3CDAFF">=</span>&nbsp;weknowhow<span style="color: #999">.</span>expect<span style="color: #999">.</span>clone<span style="color: #999">();</span></div>
+  <div><span style="color: #F92672">var</span>&nbsp;expect&nbsp;<span style="color: #F92672">=</span>&nbsp;weknowhow<span style="color: #999">.</span>expect<span style="color: #999">.</span>clone<span style="color: #999">();</span></div>
   <div>expect<span style="color: #999">.</span>use<span style="color: #999">(</span>weknowhow<span style="color: #999">.</span>unexpectedCheck<span style="color: #999">);</span></div>
 </div><h3 id="requirejs">RequireJS</h3>
 <p>Include the library with RequireJS the following way:</p>
 <div class="code lang-javascript">
-  <div>define<span style="color: #999">([</span><span style="color: #3CDAFF">'unexpected'</span><span style="color: #999">,</span>&nbsp;<span style="color: #3CDAFF">'unexpected-check'</span><span style="color: #999">],</span>&nbsp;funtion&nbsp;<span style="color: #999">(</span>unexpected<span style="color: #999">,</span>&nbsp;unexpectedCheck<span style="color: #999">)</span>&nbsp;<span style="color: #999">{</span></div>
-  <div>&nbsp;&nbsp;<span style="color: #FFAA27">var</span>&nbsp;expect&nbsp;<span style="color: #3CDAFF">=</span>&nbsp;unexpected<span style="color: #999">.</span>clone<span style="color: #999">();</span></div>
+  <div>define<span style="color: #999">([</span><span style="color: #E6DB74">'unexpected'</span><span style="color: #999">,</span>&nbsp;<span style="color: #E6DB74">'unexpected-check'</span><span style="color: #999">],</span>&nbsp;funtion&nbsp;<span style="color: #999">(</span>unexpected<span style="color: #999">,</span>&nbsp;unexpectedCheck<span style="color: #999">)</span>&nbsp;<span style="color: #999">{</span></div>
+  <div>&nbsp;&nbsp;<span style="color: #F92672">var</span>&nbsp;expect&nbsp;<span style="color: #F92672">=</span>&nbsp;unexpected<span style="color: #999">.</span>clone<span style="color: #999">();</span></div>
   <div>&nbsp;&nbsp;expect<span style="color: #999">.</span>use<span style="color: #999">(</span>unexpectedCheck<span style="color: #999">);</span></div>
-  <div>&nbsp;<span style="color: gray">&nbsp;//&nbsp;Your&nbsp;code</span></div>
+  <div>&nbsp;<span style="color: #888">&nbsp;//&nbsp;Your&nbsp;code</span></div>
   <div><span style="color: #999">});</span></div>
 </div><p>Notice that the <a href="www.chancejs.com">chance</a> library some we configured with the
 name <code>chance</code>.</p>
@@ -144,7 +144,7 @@ name <code>chance</code>.</p>
 <p>The source for this plugin can be found on
 <a href="https://github.com/unexpectedjs/unexpected-check">Github</a>.</p>
 <h2 id="mit-license">MIT License</h2>
-<p>Copyright (c) 2016 Sune Simonsen <a href="&#109;&#x61;&#x69;&#108;&#x74;&#111;&#x3a;&#115;&#x75;&#x6e;&#101;&#x40;&#119;&#x65;&#45;&#107;&#110;&#111;&#119;&#x68;&#111;&#x77;&#x2e;&#100;&#x6b;">&#115;&#x75;&#x6e;&#101;&#x40;&#119;&#x65;&#45;&#107;&#110;&#111;&#119;&#x68;&#111;&#x77;&#x2e;&#100;&#x6b;</a></p>
+<p>Copyright (c) 2016 Sune Simonsen <a href="&#x6d;&#97;&#105;&#108;&#x74;&#111;&#x3a;&#115;&#x75;&#x6e;&#101;&#64;&#119;&#101;&#x2d;&#x6b;&#x6e;&#111;&#x77;&#x68;&#x6f;&#x77;&#46;&#x64;&#x6b;">&#115;&#x75;&#x6e;&#101;&#64;&#119;&#101;&#x2d;&#x6b;&#x6e;&#111;&#x77;&#x68;&#x6f;&#x77;&#46;&#x64;&#x6b;</a></p>
 <p>Permission is hereby granted, free of charge, to any person obtaining
 a copy of this software and associated documentation files (the
 &#39;Software&#39;), to deal in the Software without restriction, including
