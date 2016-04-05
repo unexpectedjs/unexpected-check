@@ -50,13 +50,13 @@ describe('unexpected-check', function () {
                'Ran 20 iterations and found 12 errors\n' +
                'counterexample:\n' +
                '\n' +
-               '  Generated input: [ -15, -20 ]\n' +
+               '  Generated input: [ -20, -15 ]\n' +
                '\n' +
-               '  expected [ -15, -20 ] first item to be less than or equal to all [ -15, -20 ]\n' +
+               '  expected [ -15, -20 ] first item to be less than or equal to all [ -20, -15 ]\n' +
                '\n' +
                '  [\n' +
-               '    -15,\n' +
-               '    -20 // should be greater than or equal to -15\n' +
+               '    -20, // should be greater than or equal to -15\n' +
+               '    -15\n' +
                '  ]');
     });
 
