@@ -1,6 +1,6 @@
 {
   "name": "unexpected-check",
-  "version": "1.3.0",
+  "version": "1.4.0",
   "description": "Property based testing plugin for unexpected",
   "main": "lib/unexpected-check.js",
   "scripts": {
