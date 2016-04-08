@@ -65,12 +65,12 @@ expect(function (text) {
 ```
 
 ```output
-Ran 86 iterations and found 20 errors
+Ran 67 iterations and found 1 errors
 counterexample:
 
   Generated input: ''
 
-  Cannot read property 'forEach' of null
+  TypeError('Cannot read property \'forEach\' of null')
 ```
 
 Something is failing for the empty string input. The problem is that the regular
@@ -119,7 +119,7 @@ Queue.prototype.drainTo = function (array) {
 Now let's test that items enqueued always comes out in the right order:
 
 ```js
-var action = g.pick([
+var action = g.pickone([
   { name: 'enqueue', value: g.string }, 
   { name: 'dequeue' }
 ]);

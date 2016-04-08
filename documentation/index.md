@@ -80,7 +80,7 @@ on converting items to strings and comparing them. So you will get the following
 Ran 44 iterations and found 20 errors
 counterexample:
 
-  Generated input: [ 18, 4 ]
+  Generated input: [ 4, 18 ]
 
   expected [ 18, 4 ] to be sorted
 ```
