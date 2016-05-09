@@ -116,14 +116,14 @@ if that code also fulfill our round trip test:</p>
   <div>&nbsp;&nbsp;<span style="color: #000000">expect</span><span style="color: #000000">(</span><span style="color: #000000">rleDecode</span><span style="color: #000000">(</span><span style="color: #000000">rleEncode</span><span style="color: #000000">(</span>text<span style="color: #000000">)),</span>&nbsp;<span style="color: #df5000">'to&nbsp;equal'</span><span style="color: #000000">,</span>&nbsp;text<span style="color: #000000">);</span></div>
   <div><span style="color: #000000">},</span>&nbsp;<span style="color: #df5000">'to&nbsp;be&nbsp;valid&nbsp;for&nbsp;all'</span><span style="color: #000000">,</span>&nbsp;strings<span style="color: #000000">);</span></div>
 </div><div class="output">
-  <div><span style="color: red; font-weight: bold">Ran&nbsp;</span><span style="color: #0086b3">86</span>&nbsp;<span style="color: red; font-weight: bold">iterations&nbsp;and&nbsp;found&nbsp;</span><span style="color: #0086b3">20</span><span style="color: red; font-weight: bold">&nbsp;errors</span></div>
+  <div><span style="color: red; font-weight: bold">Ran&nbsp;</span><span style="color: #0086b3">67</span>&nbsp;<span style="color: red; font-weight: bold">iterations&nbsp;and&nbsp;found&nbsp;</span><span style="color: #0086b3">1</span><span style="color: red; font-weight: bold">&nbsp;errors</span></div>
   <div><span style="color: red; font-weight: bold">counterexample:</span></div>
   <div>&nbsp;</div>
   <div>&nbsp;&nbsp;<div style="display: inline-block; vertical-align: top">
   <div>Generated&nbsp;input:&nbsp;<span style="color: #df5000">''</span></div>
   <div>&nbsp;</div>
   <div><div style="display: inline-block; vertical-align: top">
-  <div>Cannot&nbsp;read&nbsp;property&nbsp;'forEach'&nbsp;of&nbsp;null</div>
+  <div>TypeError(<span style="color: #df5000">'Cannot&nbsp;read&nbsp;property&nbsp;\'forEach\'&nbsp;of&nbsp;null'</span>)</div>
 </div></div>
 </div></div>
 </div><p>Something is failing for the empty string input. The problem is that the regular
@@ -162,7 +162,7 @@ can using any function that produces a random output when called.</p>
   <div><span style="color: #000000">};</span></div>
 </div><p>Now let&#39;s test that items enqueued always comes out in the right order:</p>
 <div class="code lang-javascript">
-  <div><span style="color: #a71d5d">var</span>&nbsp;action&nbsp;<span style="color: #a71d5d">=</span>&nbsp;g<span style="color: #000000">.</span><span style="color: #000000">pick</span><span style="color: #000000">([</span></div>
+  <div><span style="color: #a71d5d">var</span>&nbsp;action&nbsp;<span style="color: #a71d5d">=</span>&nbsp;g<span style="color: #000000">.</span><span style="color: #000000">pickone</span><span style="color: #000000">([</span></div>
   <div>&nbsp;&nbsp;<span style="color: #000000">{</span>&nbsp;name<span style="color: #000000">:</span>&nbsp;<span style="color: #df5000">'enqueue'</span><span style="color: #000000">,</span>&nbsp;value<span style="color: #000000">:</span>&nbsp;g<span style="color: #000000">.</span>string&nbsp;<span style="color: #000000">},</span>&nbsp;</div>
   <div>&nbsp;&nbsp;<span style="color: #000000">{</span>&nbsp;name<span style="color: #000000">:</span>&nbsp;<span style="color: #df5000">'dequeue'</span>&nbsp;<span style="color: #000000">}</span></div>
   <div><span style="color: #000000">]);</span></div>
