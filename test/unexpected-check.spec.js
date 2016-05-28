@@ -157,4 +157,48 @@ describe('unexpected-check', function () {
                '                    //             ^\n' +
                '  ]');
     });
+
+    it('supports asynchronous bodies', function () {
+        return expect(
+            expect(function (items, i) {
+                return expect.promise(function () {
+                    expect(items, 'not to contain', i);
+                }).delay(1);
+            }, 'to be valid for all', arrays, g.integer({ min: -20, max: 20 }))
+        , 'to be rejected with',
+            'Ran 143 iterations and found 20 errors\n' +
+            'counterexample:\n' +
+            '\n' +
+            '  Generated input: [ -4 ], -4\n' +
+            '\n' +
+            '  expected [ -4 ] not to contain -4\n' +
+            '\n' +
+            '  [\n' +
+            '    -4 // should be removed\n' +
+            '  ]');
+    });
+
+    it('supports a mix between synchronous and asynchronous bodies', function () {
+        return expect(
+            expect(function (items, i) {
+                if (i % 2 === 0) {
+                    expect(items, 'not to contain', i);
+                } else {
+                    return expect.promise(function () {
+                        expect(items, 'not to contain', i);
+                    }).delay(1);
+                }
+            }, 'to be valid for all', arrays, g.integer({ min: -20, max: 20 }))
+        , 'to be rejected with',
+            'Ran 143 iterations and found 20 errors\n' +
+            'counterexample:\n' +
+            '\n' +
+            '  Generated input: [ -4 ], -4\n' +
+            '\n' +
+            '  expected [ -4 ] not to contain -4\n' +
+            '\n' +
+            '  [\n' +
+            '    -4 // should be removed\n' +
+            '  ]');
+    });
 });

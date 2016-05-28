@@ -150,6 +150,30 @@ define(['unexpected', 'unexpected-check'], funtion (unexpected, unexpectedCheck)
 Notice that the [chance](www.chancejs.com) library some we configured with the
 name `chance`.
 
+## Asynchronous testing
+
+Support for asynchronous testing by returning a promise from the subject
+function:
+
+```js#async:true
+expect.use(require('unexpected-stream'));
+
+return expect(function (text) {
+  return expect(
+    text,
+    'when piped through',
+    [
+      require('zlib').Gzip(),
+      require('zlib').Gunzip()
+    ],
+    'to yield output satisfying',
+    'when decoded as', 'utf-8',
+    'to equal',
+    text
+  );
+}, 'to be valid for all', g.string);
+```
+
 ## Source
 
 The source for this plugin can be found on

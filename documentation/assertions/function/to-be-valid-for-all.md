@@ -1,4 +1,4 @@
-An assertion that runs the subject function up to 100 times with different
+An assertion that runs the subject function up to 300 times with different
 generated input. If the subject function fails an error is thrown.
 
 Let's tests that
@@ -143,4 +143,26 @@ expect(function (actions) {
 
   expect(dequeued, 'to equal', enqueued);
 }, 'to be valid for all', actions);
+```
+
+Support for asynchronous testing by returning a promise from the subject
+function:
+
+```js#async:true
+expect.use(require('unexpected-stream'));
+
+return expect(function (text) {
+  return expect(
+    text,
+    'when piped through',
+    [
+      require('zlib').Gzip(),
+      require('zlib').Gunzip()
+    ],
+    'to yield output satisfying',
+    'when decoded as', 'utf-8',
+    'to equal',
+    text
+  );
+}, 'to be valid for all', g.string);
 ```
