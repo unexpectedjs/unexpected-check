@@ -140,11 +140,31 @@ repository.</p>
   <div><span style="color: #999">});</span></div>
 </div><p>Notice that the <a href="www.chancejs.com">chance</a> library some we configured with the
 name <code>chance</code>.</p>
-<h2 id="source">Source</h2>
+<h2 id="asynchronous-testing">Asynchronous testing</h2>
+<p>Support for asynchronous testing by returning a promise from the subject
+function:</p>
+<div class="code lang-javascript">
+  <div>expect<span style="color: #999">.</span>use<span style="color: #999">(</span>require<span style="color: #999">(</span><span style="color: #E6DB74">'unexpected-stream'</span><span style="color: #999">));</span></div>
+  <div>&nbsp;</div>
+  <div><span style="color: #F92672">return</span>&nbsp;expect<span style="color: #999">(</span><span style="color: #F92672">function</span>&nbsp;<span style="color: #999">(</span>text<span style="color: #999">)</span>&nbsp;<span style="color: #999">{</span></div>
+  <div>&nbsp;&nbsp;<span style="color: #F92672">return</span>&nbsp;expect<span style="color: #999">(</span></div>
+  <div>&nbsp;&nbsp;&nbsp;&nbsp;text<span style="color: #999">,</span></div>
+  <div>&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #E6DB74">'when&nbsp;piped&nbsp;through'</span><span style="color: #999">,</span></div>
+  <div>&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #999">[</span></div>
+  <div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;require<span style="color: #999">(</span><span style="color: #E6DB74">'zlib'</span><span style="color: #999">).</span>Gzip<span style="color: #999">(),</span></div>
+  <div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;require<span style="color: #999">(</span><span style="color: #E6DB74">'zlib'</span><span style="color: #999">).</span>Gunzip<span style="color: #999">()</span></div>
+  <div>&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #999">],</span></div>
+  <div>&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #E6DB74">'to&nbsp;yield&nbsp;output&nbsp;satisfying'</span><span style="color: #999">,</span></div>
+  <div>&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #E6DB74">'when&nbsp;decoded&nbsp;as'</span><span style="color: #999">,</span>&nbsp;<span style="color: #E6DB74">'utf-8'</span><span style="color: #999">,</span></div>
+  <div>&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #E6DB74">'to&nbsp;equal'</span><span style="color: #999">,</span></div>
+  <div>&nbsp;&nbsp;&nbsp;&nbsp;text</div>
+  <div>&nbsp;&nbsp;<span style="color: #999">);</span></div>
+  <div><span style="color: #999">},</span>&nbsp;<span style="color: #E6DB74">'to&nbsp;be&nbsp;valid&nbsp;for&nbsp;all'</span><span style="color: #999">,</span>&nbsp;g<span style="color: #999">.</span>string<span style="color: #999">);</span></div>
+</div><h2 id="source">Source</h2>
 <p>The source for this plugin can be found on
 <a href="https://github.com/unexpectedjs/unexpected-check">Github</a>.</p>
 <h2 id="mit-license">MIT License</h2>
-<p>Copyright (c) 2016 Sune Simonsen <a href="&#109;&#x61;&#105;&#x6c;&#116;&#x6f;&#x3a;&#x73;&#x75;&#110;&#x65;&#x40;&#119;&#x65;&#45;&#107;&#110;&#x6f;&#119;&#104;&#x6f;&#x77;&#46;&#100;&#107;">&#x73;&#x75;&#110;&#x65;&#x40;&#119;&#x65;&#45;&#107;&#110;&#x6f;&#119;&#104;&#x6f;&#x77;&#46;&#100;&#107;</a></p>
+<p>Copyright (c) 2016 Sune Simonsen <a href="&#109;&#97;&#x69;&#x6c;&#x74;&#x6f;&#58;&#x73;&#x75;&#110;&#101;&#64;&#x77;&#101;&#45;&#107;&#x6e;&#x6f;&#119;&#x68;&#x6f;&#119;&#x2e;&#100;&#x6b;">&#x73;&#x75;&#110;&#101;&#64;&#x77;&#101;&#45;&#107;&#x6e;&#x6f;&#119;&#x68;&#x6f;&#119;&#x2e;&#100;&#x6b;</a></p>
 <p>Permission is hereby granted, free of charge, to any person obtaining
 a copy of this software and associated documentation files (the
 &#39;Software&#39;), to deal in the Software without restriction, including
