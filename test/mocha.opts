@@ -1,5 +1,6 @@
 --reporter spec
 --recursive
 --check-leaks
+--timeout 10000
 --require ./bootstrap-unexpected-markdown.js
 --compilers md:unexpected-markdown
