@@ -10,6 +10,10 @@ repository: https://github.com/unexpectedjs/unexpected-check
 
 <img alt="Checkmate!" src="./unexpected-check.jpg" style="display: block; max-width: 100%">
 
+[![NPM version](https://badge.fury.io/js/unexpected-check.svg)](http://badge.fury.io/js/unexpected-check)
+[![Build Status](https://travis-ci.org/unexpectedjs/unexpected-check.svg?branch=master)](https://travis-ci.org/unexpectedjs/unexpected-check)
+[![Dependency Status](https://david-dm.org/unexpectedjs/unexpected-check.svg)](https://david-dm.org/unexpectedjs/unexpected-check)
+
 This plugin tries to bring generative testing (aka property testing) to the
 [unexpected](http://unexpected.js.org) assertion library. The idea is that it
 should be possible to mix property based testing and normal unit-tests using the
