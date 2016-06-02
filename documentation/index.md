@@ -26,7 +26,7 @@ as much as possible and therefore provide much more precise error cases.
 I recommend using the plugin together with
 [chance-generators](https://sunesimonsen.github.io/chance-generators/) as it
 provides a huge range of generators and supports shrinking, but it is not a
-requirement. You can uses any function that produces a random output when called
+requirement. You can use any function that produces a random output when called
 as generators.
 
 ## Usage
