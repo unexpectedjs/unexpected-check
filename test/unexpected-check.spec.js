@@ -137,20 +137,20 @@ describe('unexpected-check', function () {
                 });
             }, 'to be valid for all', arrays);
         }, 'to throw',
-               'Ran 152 iterations and found 20 errors\n' +
+               'Ran 33 iterations and found 20 errors\n' +
                'counterexample:\n' +
                '\n' +
-               '  Generated input: [ \'#\' ]\n' +
+               '  Generated input: [ \'(\' ]\n' +
                '\n' +
-               '  expected [ \'#\' ] to have items satisfying\n' +
+               '  expected [ \'(\' ] to have items satisfying\n' +
                '  function (item) {\n' +
                '    expect(item, \'not to match\', /[!@#$%^&*()_+]/);\n' +
                '  }\n' +
                '\n' +
                '  [\n' +
-               '    \'#\' // should not match /[!@#$%^&*()_+]/\n' +
+               '    \'(\' // should not match /[!@#$%^&*()_+]/\n' +
                '        //\n' +
-               '        // #\n' +
+               '        // (\n' +
                '        // ^\n' +
                '  ]');
     });
