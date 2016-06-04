@@ -81,10 +81,10 @@ But that assumption as actually not true as the build-in sort functions is based
 on converting items to strings and comparing them. So you will get the following error:
 
 ```output
-Ran 43 iterations and found 20 errors
+Ran 300 iterations and found 8 errors
 counterexample:
 
-  Generated input: [ 2, 10 ]
+  Generated input: [ 10, 2 ]
 
   expected [ 10, 2 ] to be sorted
 ```
