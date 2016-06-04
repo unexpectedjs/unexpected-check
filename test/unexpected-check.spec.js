@@ -43,11 +43,11 @@ describe('unexpected-check', function () {
                     .and('last item to be greater than or equal to all', arr);
             }, 'to be valid for all', {
                 generators: [arrays],
-                maxIterations: 150,
-                maxErrors: 20
+                maxIterations: 130,
+                maxErrors: 15
             });
         }, 'to throw',
-               'Ran 150 iterations and found 13 errors\n' +
+               'Ran 130 iterations and found 12 errors\n' +
                'counterexample:\n' +
                '\n' +
                '  Generated input: [ -1, -2 ]\n' +
