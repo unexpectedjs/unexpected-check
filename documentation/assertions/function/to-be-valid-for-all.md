@@ -65,7 +65,7 @@ expect(function (text) {
 ```
 
 ```output
-Ran 67 iterations and found 1 errors
+Ran 68 iterations and found 2 errors
 counterexample:
 
   Generated input: ''
