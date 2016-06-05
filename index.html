@@ -87,16 +87,16 @@ as generators.</p>
   <div>expect<span style="color: #999">(</span><span style="color: #F92672">function</span>&nbsp;<span style="color: #999">(</span>arr<span style="color: #999">)</span>&nbsp;<span style="color: #999">{</span></div>
   <div>&nbsp;&nbsp;<span style="color: #F92672">var</span>&nbsp;sorted&nbsp;<span style="color: #F92672">=</span>&nbsp;sort<span style="color: #999">(</span>arr<span style="color: #999">);</span></div>
   <div>&nbsp;&nbsp;expect<span style="color: #999">(</span>sorted<span style="color: #999">,</span>&nbsp;<span style="color: #E6DB74">'to&nbsp;have&nbsp;length'</span><span style="color: #999">,</span>&nbsp;arr<span style="color: #999">.</span>length<span style="color: #999">);</span></div>
-  <div>&nbsp;&nbsp;expect<span style="color: #999">(</span>sort<span style="color: #999">(</span>arr<span style="color: #999">),</span>&nbsp;<span style="color: #E6DB74">'to&nbsp;be&nbsp;sorted'</span><span style="color: #999">);</span></div>
+  <div>&nbsp;&nbsp;expect<span style="color: #999">(</span>sorted<span style="color: #999">,</span>&nbsp;<span style="color: #E6DB74">'to&nbsp;be&nbsp;sorted'</span><span style="color: #999">);</span></div>
   <div><span style="color: #999">},</span>&nbsp;<span style="color: #E6DB74">'to&nbsp;be&nbsp;valid&nbsp;for&nbsp;all'</span><span style="color: #999">,</span>&nbsp;arrays<span style="color: #999">);</span></div>
 </div><p>But that assumption as actually not true as the build-in sort functions is based
 on converting items to strings and comparing them. So you will get the following error:</p>
 <div class="output">
-  <div><span style="color: #F92672; font-weight: bold">Ran&nbsp;</span><span style="color: #66D9EF">300</span>&nbsp;<span style="color: #F92672; font-weight: bold">iterations&nbsp;and&nbsp;found&nbsp;</span><span style="color: #66D9EF">8</span><span style="color: #F92672; font-weight: bold">&nbsp;errors</span></div>
+  <div><span style="color: #F92672; font-weight: bold">Ran&nbsp;</span><span style="color: #66D9EF">1000</span>&nbsp;<span style="color: #F92672; font-weight: bold">iterations&nbsp;and&nbsp;found&nbsp;</span><span style="color: #66D9EF">14</span><span style="color: #F92672; font-weight: bold">&nbsp;errors</span></div>
   <div><span style="color: #F92672; font-weight: bold">counterexample:</span></div>
   <div>&nbsp;</div>
   <div>&nbsp;&nbsp;<div style="display: inline-block; vertical-align: top">
-  <div>Generated&nbsp;input:&nbsp;[&nbsp;<span style="color: #66D9EF">10</span>,&nbsp;<span style="color: #66D9EF">2</span>&nbsp;]</div>
+  <div>Generated&nbsp;input:&nbsp;[&nbsp;<span style="color: #66D9EF">2</span>,&nbsp;<span style="color: #66D9EF">10</span>&nbsp;]</div>
   <div>&nbsp;</div>
   <div><div style="display: inline-block; vertical-align: top">
   <div><span style="color: #F92672; font-weight: bold">expected</span>&nbsp;[&nbsp;<span style="color: #66D9EF">10</span>,&nbsp;<span style="color: #66D9EF">2</span>&nbsp;]&nbsp;<span style="color: #F92672; font-weight: bold">to&nbsp;be&nbsp;sorted</span></div>
@@ -104,16 +104,16 @@ on converting items to strings and comparing them. So you will get the following
 </div></div>
 </div><p>If we wanted to fix the problem, we would need to use a comparison function:</p>
 <div class="code lang-javascript">
-  <div><span style="color: #F92672">function</span>&nbsp;sort<span style="color: #999">(</span>arr<span style="color: #999">)</span>&nbsp;<span style="color: #999">{</span></div>
+  <div><span style="color: #F92672">function</span>&nbsp;sortNumbers<span style="color: #999">(</span>arr<span style="color: #999">)</span>&nbsp;<span style="color: #999">{</span></div>
   <div>&nbsp;&nbsp;<span style="color: #F92672">return</span>&nbsp;<span style="color: #999">[].</span>concat<span style="color: #999">(</span>arr<span style="color: #999">).</span>sort<span style="color: #999">(</span><span style="color: #F92672">function</span>&nbsp;<span style="color: #999">(</span>a<span style="color: #999">,</span>&nbsp;b<span style="color: #999">)</span>&nbsp;<span style="color: #999">{</span></div>
   <div>&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #F92672">return</span>&nbsp;a&nbsp;<span style="color: #F92672">-</span>&nbsp;b<span style="color: #999">;</span></div>
   <div>&nbsp;&nbsp;<span style="color: #999">});</span></div>
   <div><span style="color: #999">}</span></div>
 </div><div class="code lang-javascript">
   <div>expect<span style="color: #999">(</span><span style="color: #F92672">function</span>&nbsp;<span style="color: #999">(</span>arr<span style="color: #999">)</span>&nbsp;<span style="color: #999">{</span></div>
-  <div>&nbsp;&nbsp;<span style="color: #F92672">var</span>&nbsp;sorted&nbsp;<span style="color: #F92672">=</span>&nbsp;sort<span style="color: #999">(</span>arr<span style="color: #999">);</span></div>
+  <div>&nbsp;&nbsp;<span style="color: #F92672">var</span>&nbsp;sorted&nbsp;<span style="color: #F92672">=</span>&nbsp;sortNumbers<span style="color: #999">(</span>arr<span style="color: #999">);</span></div>
   <div>&nbsp;&nbsp;expect<span style="color: #999">(</span>sorted<span style="color: #999">,</span>&nbsp;<span style="color: #E6DB74">'to&nbsp;have&nbsp;length'</span><span style="color: #999">,</span>&nbsp;arr<span style="color: #999">.</span>length<span style="color: #999">);</span></div>
-  <div>&nbsp;&nbsp;expect<span style="color: #999">(</span>sort<span style="color: #999">(</span>arr<span style="color: #999">),</span>&nbsp;<span style="color: #E6DB74">'to&nbsp;be&nbsp;sorted'</span><span style="color: #999">);</span></div>
+  <div>&nbsp;&nbsp;expect<span style="color: #999">(</span>sorted<span style="color: #999">,</span>&nbsp;<span style="color: #E6DB74">'to&nbsp;be&nbsp;sorted'</span><span style="color: #999">);</span></div>
   <div><span style="color: #999">},</span>&nbsp;<span style="color: #E6DB74">'to&nbsp;be&nbsp;valid&nbsp;for&nbsp;all'</span><span style="color: #999">,</span>&nbsp;arrays<span style="color: #999">);</span></div>
 </div><h3 id="node">Node</h3>
 <p>Install it with NPM or add it to your <code>package.json</code>:</p>
@@ -163,11 +163,46 @@ function:</p>
   <div>&nbsp;&nbsp;&nbsp;&nbsp;text</div>
   <div>&nbsp;&nbsp;<span style="color: #999">);</span></div>
   <div><span style="color: #999">},</span>&nbsp;<span style="color: #E6DB74">'to&nbsp;be&nbsp;valid&nbsp;for&nbsp;all'</span><span style="color: #999">,</span>&nbsp;g<span style="color: #999">.</span>string<span style="color: #999">);</span></div>
-</div><h2 id="source">Source</h2>
+</div><h2 id="options">Options</h2>
+<ul>
+<li><code>generators</code> (default []): an array of generators used to generate the example
+data.</li>
+<li><code>maxIterations</code> (default 300): the number of iterations that the subject
+function it ran when no errors occur.</li>
+<li><code>maxErrorIterations</code> (default 1000): the number of iterations unexpected-check
+can use to find a better error when an error occurs.</li>
+<li><code>maxErrors</code> (default 20): the number of found errors before stopping the input
+shrinking process.</li>
+</ul>
+<div class="code lang-javascript">
+  <div>expect<span style="color: #999">(</span><span style="color: #F92672">function</span>&nbsp;<span style="color: #999">(</span>arr<span style="color: #999">)</span>&nbsp;<span style="color: #999">{</span></div>
+  <div>&nbsp;&nbsp;<span style="color: #F92672">var</span>&nbsp;sorted&nbsp;<span style="color: #F92672">=</span>&nbsp;sort<span style="color: #999">(</span>arr<span style="color: #999">);</span></div>
+  <div>&nbsp;&nbsp;expect<span style="color: #999">(</span>sorted<span style="color: #999">,</span>&nbsp;<span style="color: #E6DB74">'to&nbsp;have&nbsp;length'</span><span style="color: #999">,</span>&nbsp;arr<span style="color: #999">.</span>length<span style="color: #999">);</span></div>
+  <div>&nbsp;&nbsp;expect<span style="color: #999">(</span>sorted<span style="color: #999">,</span>&nbsp;<span style="color: #E6DB74">'to&nbsp;be&nbsp;sorted'</span><span style="color: #999">);</span></div>
+  <div><span style="color: #999">},</span>&nbsp;<span style="color: #E6DB74">'to&nbsp;be&nbsp;valid&nbsp;for&nbsp;all'</span><span style="color: #999">,</span>&nbsp;<span style="color: #999">{</span></div>
+  <div>&nbsp;&nbsp;&nbsp;&nbsp;generators<span style="color: #999">:</span>&nbsp;<span style="color: #999">[</span>arrays<span style="color: #999">],</span></div>
+  <div>&nbsp;&nbsp;&nbsp;&nbsp;maxIterations<span style="color: #999">:</span>&nbsp;<span style="color: #66D9EF; font-weight: bold">100</span><span style="color: #999">,</span></div>
+  <div>&nbsp;&nbsp;&nbsp;&nbsp;maxErrorIterations<span style="color: #999">:</span>&nbsp;<span style="color: #66D9EF; font-weight: bold">100</span><span style="color: #999">,</span></div>
+  <div>&nbsp;&nbsp;&nbsp;&nbsp;maxErrors<span style="color: #999">:</span>&nbsp;<span style="color: #66D9EF; font-weight: bold">15</span></div>
+  <div><span style="color: #999">});</span></div>
+</div><div class="output">
+  <div><span style="color: #F92672; font-weight: bold">Ran&nbsp;</span><span style="color: #66D9EF">100</span>&nbsp;<span style="color: #F92672; font-weight: bold">iterations&nbsp;and&nbsp;found&nbsp;</span><span style="color: #66D9EF">4</span><span style="color: #F92672; font-weight: bold">&nbsp;errors</span></div>
+  <div><span style="color: #F92672; font-weight: bold">counterexample:</span></div>
+  <div>&nbsp;</div>
+  <div>&nbsp;&nbsp;<div style="display: inline-block; vertical-align: top">
+  <div>Generated&nbsp;input:&nbsp;[&nbsp;<span style="color: #66D9EF">0</span>,&nbsp;<span style="color: #66D9EF">-1</span>,&nbsp;<span style="color: #66D9EF">4</span>,&nbsp;<span style="color: #66D9EF">10</span>&nbsp;]</div>
+  <div>&nbsp;</div>
+  <div><div style="display: inline-block; vertical-align: top">
+  <div><span style="color: #F92672; font-weight: bold">expected</span>&nbsp;[&nbsp;<span style="color: #66D9EF">-1</span>,&nbsp;<span style="color: #66D9EF">0</span>,&nbsp;<span style="color: #66D9EF">10</span>,&nbsp;<span style="color: #66D9EF">4</span>&nbsp;]&nbsp;<span style="color: #F92672; font-weight: bold">to&nbsp;be&nbsp;sorted</span></div>
+</div></div>
+</div></div>
+</div><p>As you can see the input shrinking is worse with less iterations, but it will be
+a bit faster.</p>
+<h2 id="source">Source</h2>
 <p>The source for this plugin can be found on
 <a href="https://github.com/unexpectedjs/unexpected-check">Github</a>.</p>
 <h2 id="mit-license">MIT License</h2>
-<p>Copyright (c) 2016 Sune Simonsen <a href="&#x6d;&#97;&#105;&#108;&#x74;&#111;&#x3a;&#115;&#x75;&#x6e;&#101;&#64;&#x77;&#101;&#45;&#x6b;&#110;&#x6f;&#x77;&#104;&#x6f;&#x77;&#46;&#x64;&#x6b;">&#115;&#x75;&#x6e;&#101;&#64;&#x77;&#101;&#45;&#x6b;&#110;&#x6f;&#x77;&#104;&#x6f;&#x77;&#46;&#x64;&#x6b;</a></p>
+<p>Copyright (c) 2016 Sune Simonsen <a href="&#x6d;&#x61;&#105;&#x6c;&#116;&#111;&#x3a;&#x73;&#117;&#110;&#101;&#64;&#x77;&#x65;&#45;&#x6b;&#110;&#111;&#x77;&#104;&#x6f;&#x77;&#x2e;&#x64;&#107;">&#x73;&#117;&#110;&#101;&#64;&#x77;&#x65;&#45;&#x6b;&#110;&#111;&#x77;&#104;&#x6f;&#x77;&#x2e;&#x64;&#107;</a></p>
 <p>Permission is hereby granted, free of charge, to any person obtaining
 a copy of this software and associated documentation files (the
 &#39;Software&#39;), to deal in the Software without restriction, including
