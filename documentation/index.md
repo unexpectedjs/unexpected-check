@@ -73,7 +73,7 @@ Finally we make the assertion:
 expect(function (arr) {
   var sorted = sort(arr);
   expect(sorted, 'to have length', arr.length);
-  expect(sort(arr), 'to be sorted');
+  expect(sorted, 'to be sorted');
 }, 'to be valid for all', arrays);
 ```
 
@@ -81,10 +81,10 @@ But that assumption as actually not true as the build-in sort functions is based
 on converting items to strings and comparing them. So you will get the following error:
 
 ```output
-Ran 300 iterations and found 8 errors
+Ran 1000 iterations and found 14 errors
 counterexample:
 
-  Generated input: [ 10, 2 ]
+  Generated input: [ 2, 10 ]
 
   expected [ 10, 2 ] to be sorted
 ```
@@ -92,7 +92,7 @@ counterexample:
 If we wanted to fix the problem, we would need to use a comparison function:
 
 ```js
-function sort(arr) {
+function sortNumbers(arr) {
   return [].concat(arr).sort(function (a, b) {
     return a - b;
   });
@@ -101,9 +101,9 @@ function sort(arr) {
 
 ```js
 expect(function (arr) {
-  var sorted = sort(arr);
+  var sorted = sortNumbers(arr);
   expect(sorted, 'to have length', arr.length);
-  expect(sort(arr), 'to be sorted');
+  expect(sorted, 'to be sorted');
 }, 'to be valid for all', arrays);
 ```
 
@@ -177,6 +177,42 @@ return expect(function (text) {
   );
 }, 'to be valid for all', g.string);
 ```
+
+## Options
+
+* `generators` (default []): an array of generators used to generate the example
+  data.
+* `maxIterations` (default 300): the number of iterations that the subject
+  function it ran when no errors occur.
+* `maxErrorIterations` (default 1000): the number of iterations unexpected-check
+  can use to find a better error when an error occurs.
+* `maxErrors` (default 20): the number of found errors before stopping the input
+  shrinking process.
+
+```js
+expect(function (arr) {
+  var sorted = sort(arr);
+  expect(sorted, 'to have length', arr.length);
+  expect(sorted, 'to be sorted');
+}, 'to be valid for all', {
+    generators: [arrays],
+    maxIterations: 100,
+    maxErrorIterations: 100,
+    maxErrors: 15
+});
+```
+
+```output
+Ran 100 iterations and found 4 errors
+counterexample:
+
+  Generated input: [ 0, -1, 4, 10 ]
+
+  expected [ -1, 0, 10, 4 ] to be sorted
+```
+
+As you can see the input shrinking is worse with less iterations, but it will be
+a bit faster.
 
 ## Source
 
