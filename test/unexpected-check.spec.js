@@ -5,20 +5,13 @@ expect.output.preferredWidth = 80;
 
 expect.use(require('../lib/unexpected-check'));
 
-expect.addAssertion('<number> to be less than or equal to all <array>', function (expect, subject, array) {
-    expect(array, 'to have items satisfying', expect.it('to be greater than or equal to', subject));
-});
-
-expect.addAssertion('<number> to be greater than or equal to all <array>', function (expect, subject, array) {
-    expect(array, 'to have items satisfying', expect.it('to be less than or equal to', subject));
-});
-
-expect.addAssertion('<array> first item <assertion>', function (expect, subject) {
-    return expect.shift(subject[0]);
-});
-
-expect.addAssertion('<array> last item <assertion>', function (expect, subject) {
-    return expect.shift(subject[subject.length - 1]);
+expect.addAssertion('<array> to be sorted', function (expect, subject) {
+    var isSorted = subject.every(function (x, i) {
+        return subject.slice(i).every(function (y) {
+            return x <= y;
+        });
+    });
+    expect(isSorted, 'to be true');
 });
 
 function sort(arr, cmp) {
@@ -39,8 +32,7 @@ describe('unexpected-check', function () {
                 var sorted = sort(arr);
 
                 expect(sorted, 'to have length', arr.length)
-                    .and('first item to be less than or equal to all', arr)
-                    .and('last item to be greater than or equal to all', arr);
+                  .and('to be sorted');
             }, 'to be valid for all', {
                 generators: [arrays],
                 maxIterations: 50,
@@ -53,12 +45,7 @@ describe('unexpected-check', function () {
                '\n' +
                '  Generated input: [ -1, -2 ]\n' +
                '\n' +
-               '  expected [ -1, -2 ] first item to be less than or equal to all [ -1, -2 ]\n' +
-               '\n' +
-               '  [\n' +
-               '    -1,\n' +
-               '    -2 // should be greater than or equal to -1\n' +
-               '  ]');
+               '  expected [ -1, -2 ] to be sorted');
     });
 
     it('find errors in the specification', function () {
@@ -84,8 +71,7 @@ describe('unexpected-check', function () {
             var sorted = sort(arr, function (a, b) { return a - b; });
 
             expect(sorted, 'to have length', arr.length)
-                .and('first item to be less than or equal to all', arr)
-                .and('last item to be greater than or equal to all', arr);
+              .and('to be sorted');
         }, 'to be valid for all', arrays);
     });
 
