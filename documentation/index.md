@@ -84,6 +84,7 @@ Ran 1000 iterations and found 14 errors
 counterexample:
 
   Generated input: [ 2, 10 ]
+  with: n(integer({ min: -20, max: 20 }), integer({ min: 1, max: 20 }))
 
   expected [ 10, 2 ] to be sorted
 ```
@@ -206,6 +207,7 @@ Ran 100 iterations and found 4 errors
 counterexample:
 
   Generated input: [ 0, -1, 4, 10 ]
+  with: n(integer({ min: -20, max: 20 }), integer({ min: 1, max: 20 }))
 
   expected [ -1, 0, 10, 4 ] to be sorted
 ```

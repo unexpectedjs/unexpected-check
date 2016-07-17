@@ -69,6 +69,7 @@ Ran 67 iterations and found 1 errors
 counterexample:
 
   Generated input: ''
+  with: string({ length: natural({ max: 200 }) })
 
   TypeError('Cannot read property \'forEach\' of null')
 ```
