@@ -14,6 +14,10 @@ expect.addAssertion('<array> to be sorted', function (expect, subject) {
     expect(isSorted, 'to be true');
 });
 
+expect.addAssertion('<any> to inspect as <string>', function (expect, subject, value) {
+    expect(expect.inspect(subject).toString(), 'to equal', value);
+});
+
 function sort(arr, cmp) {
     return [].concat(arr).sort(cmp);
 }
@@ -191,5 +195,15 @@ describe('unexpected-check', function () {
             '  [\n' +
             '    0 // should be removed\n' +
             '  ]');
+    });
+
+    it('inspects mapped generators correctly', function () {
+        expect(
+            arrays.map(function (value) {
+                return 'number: ' + value;
+            }),
+            'to inspect as',
+            'n(integer({ min: -20, max: 20 }), integer({ min: 1, max: 20 })).map(function (value) { return \'number: \' + value; })'
+        );
     });
 });
