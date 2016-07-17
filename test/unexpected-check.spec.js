@@ -44,6 +44,7 @@ describe('unexpected-check', function () {
                'counterexample:\n' +
                '\n' +
                '  Generated input: [ -1, -2 ]\n' +
+               '  with: n(integer({ min: -20, max: 20 }), integer({ min: 1, max: 20 }))\n' +
                '\n' +
                '  expected [ -1, -2 ] to be sorted');
     });
@@ -58,6 +59,7 @@ describe('unexpected-check', function () {
                'counterexample:\n' +
                '\n' +
                '  Generated input: [ 2 ]\n' +
+               '  with: n(integer({ min: -20, max: 20 }), integer({ min: 1, max: 20 }))\n' +
                '\n' +
                '  expected [ 2 ] not to contain 2\n' +
                '\n' +
@@ -85,6 +87,7 @@ describe('unexpected-check', function () {
                'counterexample:\n' +
                '\n' +
                '  Generated input: [ 0 ], 0\n' +
+               '  with: n(integer({ min: -20, max: 20 }), integer({ min: 1, max: 20 })), integer({ min: -20, max: 20 })\n' +
                '\n' +
                '  expected [ 0 ] not to contain 0\n' +
                '\n' +
@@ -105,6 +108,7 @@ describe('unexpected-check', function () {
                'counterexample:\n' +
                '\n' +
                '  Generated input: [ 0 ]\n' +
+               '  with: n(integer({ min: -20, max: 20 }), integer({ min: 1, max: 20 }))\n' +
                '\n' +
                '  expected [ 0 ]\n' +
                '  to have items satisfying function (item, i) { expect(item, \'not to be\', i); }\n' +
@@ -128,6 +132,7 @@ describe('unexpected-check', function () {
                'counterexample:\n' +
                '\n' +
                '  Generated input: [ \')\' ]\n' +
+               '  with: n(string, integer({ min: 1, max: 20 }))\n' +
                '\n' +
                '  expected [ \')\' ] to have items satisfying\n' +
                '  function (item) {\n' +
@@ -154,6 +159,7 @@ describe('unexpected-check', function () {
             'counterexample:\n' +
             '\n' +
             '  Generated input: [ 0 ], 0\n' +
+            '  with: n(integer({ min: -20, max: 20 }), integer({ min: 1, max: 20 })), integer({ min: -20, max: 20 })\n' +
             '\n' +
             '  expected [ 0 ] not to contain 0\n' +
             '\n' +
@@ -178,6 +184,7 @@ describe('unexpected-check', function () {
             'counterexample:\n' +
             '\n' +
             '  Generated input: [ 0 ], 0\n' +
+            '  with: n(integer({ min: -20, max: 20 }), integer({ min: 1, max: 20 })), integer({ min: -20, max: 20 })\n' +
             '\n' +
             '  expected [ 0 ] not to contain 0\n' +
             '\n' +
