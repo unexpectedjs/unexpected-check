@@ -46,14 +46,5 @@ function makePrefixGenerator(str) {
 
     Generated input: ''
 
-    expected 'abc' when fuzzed by
-    function makePrefixGenerator(str) {
-      return g.integer({
-        min: 0,
-        max: str.length - 1
-      }).map(function (prefixLength) {
-        return str.substr(0, prefixLength);
-      });
-    } to match /^a/
-      expected '' to match /^a/
+    expected '' to match /^a/
 ```
