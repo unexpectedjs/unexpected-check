@@ -183,7 +183,9 @@ return expect(function (text) {
 * `generators` (default []): an array of generators used to generate the example
   data.
 * `maxIterations` (default 300): the number of iterations that the subject
-  function it ran when no errors occur.
+  function it ran when no errors occur. You can control the default for this
+  option by setting the environment variable `UNEXPECTED_CHECK_MAX_ITERATIONS`
+  or setting the query parameter `maxiterations` in the browser.
 * `maxErrorIterations` (default 1000): the number of iterations unexpected-check
   can use to find a better error when an error occurs.
 * `maxErrors` (default 20): the number of found errors before stopping the input
