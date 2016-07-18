@@ -45,6 +45,9 @@ function makePrefixGenerator(str) {
   counterexample:
 
     Generated input: ''
+    with: integer({ min: 0, max: 2 }).map(function (prefixLength) {
+      return str.substr(0, prefixLength);
+    })
 
     expected '' to match /^a/
 ```

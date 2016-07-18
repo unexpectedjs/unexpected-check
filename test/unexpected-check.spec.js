@@ -219,20 +219,20 @@ describe('unexpected-check', function () {
                 return fuzzer;
             });
 
-            return expect('abcdef', 'when fuzzed by', prefixGenerator, 'to be a string').then(function () {
+            expect('abcdef', 'when fuzzed by', prefixGenerator, 'to be a string').then(function () {
                 expect(prefixGenerator, 'was called once');
                 expect(fuzzer, 'was called times', 300);
             });
         });
 
         it('should error out with a counterexample', function () {
-            return expect(function () {
-                return expect('abcdef', 'when fuzzed by', function prefixGenerator(str) {
+            expect(function () {
+                expect('abcdef', 'when fuzzed by', function prefixGenerator(str) {
                     return g.integer({min: 1, max: str.length - 1}).map(function (prefixLength) {
                         return str.substr(0, prefixLength);
                     });
                 }, 'to have length', 5);
-            }, 'to error with',
+            }, 'to throw',
                 "expected 'abcdef' when fuzzed by\n" +
                 "function prefixGenerator(str) {\n" +
                 "  return g.integer({min: 1, max: str.length - 1}).map(function (prefixLength) {\n" +
