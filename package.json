@@ -2,6 +2,7 @@
   "name": "unexpected-check",
   "version": "1.9.1",
   "description": "Property based testing plugin for unexpected",
+  "repository": "git://github.com/unexpectedjs/unexpected-check.git",
   "main": "lib/unexpected-check.js",
   "scripts": {
     "lint": "eslint .",
