@@ -32,28 +32,18 @@ expect('abc', 'when fuzzed by', makePrefixGenerator, 'to match', /^a/);
 ```
 
 ```output
-expected 'abc' when fuzzed by
-function makePrefixGenerator(str) {
-  return g.integer({
-    min: 0,
-    max: str.length - 1
-  }).map(function (prefixLength) {
-    return str.substr(0, prefixLength);
-  });
-} to match /^a/
-  Ran 2 iterations and found 1 errors
-  counterexample:
+Ran 2 iterations and found 1 errors
+counterexample:
 
-    Generated input: ''
+  Generated input: ''
+  with: fuzz('abc', function makePrefixGenerator(str) {
+    return g.integer({
+      min: 0,
+      max: str.length - 1
+    }).map(function (prefixLength) {
+      return str.substr(0, prefixLength);
+    });
+  })
 
-    expected 'abc' when fuzzed by
-    function makePrefixGenerator(str) {
-      return g.integer({
-        min: 0,
-        max: str.length - 1
-      }).map(function (prefixLength) {
-        return str.substr(0, prefixLength);
-      });
-    } to match /^a/
-      expected '' to match /^a/
+  expected '' to match /^a/
 ```

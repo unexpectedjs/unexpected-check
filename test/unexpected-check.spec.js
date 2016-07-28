@@ -233,25 +233,18 @@ describe('unexpected-check', function () {
                     });
                 }, 'to have length', 5);
             }, 'to error with',
-                "expected 'abcdef' when fuzzed by\n" +
-                "function prefixGenerator(str) {\n" +
-                "  return g.integer({min: 1, max: str.length - 1}).map(function (prefixLength) {\n" +
-                "    return str.substr(0, prefixLength);\n" +
-                "  });\n" +
-                "} to have length 5\n" +
-                "  Ran 2 iterations and found 2 errors\n" +
-                "  counterexample:\n" +
+                "Ran 2 iterations and found 2 errors\n" +
+                "counterexample:\n" +
                 "\n" +
-                "    Generated input: 'a'\n" +
+                "  Generated input: 'a'\n" +
+                "  with: fuzz('abcdef', function prefixGenerator(str) {\n" +
+                "    return g.integer({min: 1, max: str.length - 1}).map(function (prefixLength) {\n" +
+                "      return str.substr(0, prefixLength);\n" +
+                "    });\n" +
+                "  })\n" +
                 "\n" +
-                "    expected 'abcdef' when fuzzed by\n" +
-                "    function prefixGenerator(str) {\n" +
-                "      return g.integer({min: 1, max: str.length - 1}).map(function (prefixLength) {\n" +
-                "        return str.substr(0, prefixLength);\n" +
-                "      });\n" +
-                "    } to have length 5\n" +
-                "      expected 'a' to have length 5\n" +
-                "        expected 1 to be 5"
+                "  expected 'a' to have length 5\n" +
+                "    expected 1 to be 5"
             );
         });
     });
