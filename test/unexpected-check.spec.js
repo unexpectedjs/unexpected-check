@@ -3,7 +3,8 @@ var Generators = require('chance-generators');
 var expect = require('unexpected');
 expect.output.preferredWidth = 80;
 
-expect.use(require('../lib/unexpected-check'));
+var sinon = require('sinon');
+expect.use(require('../lib/unexpected-check')).use(require('unexpected-sinon'));
 
 expect.addAssertion('<array> to be sorted', function (expect, subject) {
     var isSorted = subject.every(function (x, i) {
@@ -205,5 +206,46 @@ describe('unexpected-check', function () {
             'to inspect as',
             'n(integer({ min: -20, max: 20 }), integer({ min: 1, max: 20 })).map(function (value) { return \'number: \' + value; })'
         );
+    });
+
+    describe('when fuzzed by assertion', function () {
+        it('should use the supplied function to make a generator from the subject and use the generator to make test cases', function () {
+            var fuzzer;
+
+            var prefixGenerator = sinon.spy(function prefixGenerator(str) {
+                fuzzer = sinon.spy(g.integer({min: 1, max: str.length - 1}).map(function (prefixLength) {
+                    return str.substr(0, prefixLength);
+                }));
+                return fuzzer;
+            });
+
+            return expect('abcdef', 'when fuzzed by', prefixGenerator, 'to be a string').then(function () {
+                expect(prefixGenerator, 'was called once');
+                expect(fuzzer, 'was called times', 300);
+            });
+        });
+
+        it('should error out with a counterexample', function () {
+            return expect(function () {
+                return expect('abcdef', 'when fuzzed by', function prefixGenerator(str) {
+                    return g.integer({min: 1, max: str.length - 1}).map(function (prefixLength) {
+                        return str.substr(0, prefixLength);
+                    });
+                }, 'to have length', 5);
+            }, 'to error with',
+                "Ran 2 iterations and found 2 errors\n" +
+                "counterexample:\n" +
+                "\n" +
+                "  Generated input: 'a'\n" +
+                "  with: fuzz('abcdef', function prefixGenerator(str) {\n" +
+                "    return g.integer({min: 1, max: str.length - 1}).map(function (prefixLength) {\n" +
+                "      return str.substr(0, prefixLength);\n" +
+                "    });\n" +
+                "  })\n" +
+                "\n" +
+                "  expected 'a' to have length 5\n" +
+                "    expected 1 to be 5"
+            );
+        });
     });
 });
