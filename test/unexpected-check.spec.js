@@ -60,7 +60,7 @@ describe('unexpected-check', function () {
                 expect(arr, 'not to contain', 2);
             }, 'to be valid for all', arrays);
         }, 'to throw',
-               'Ran 62 iterations and found 20 errors\n' +
+               'Ran 154 iterations and found 50 errors\n' +
                'counterexample:\n' +
                '\n' +
                '  Generated input: [ 2 ]\n' +
@@ -133,7 +133,7 @@ describe('unexpected-check', function () {
                 });
             }, 'to be valid for all', arrays);
         }, 'to throw',
-               'Ran 64 iterations and found 20 errors\n' +
+               'Ran 119 iterations and found 50 errors\n' +
                'counterexample:\n' +
                '\n' +
                '  Generated input: [ \')\' ]\n' +
