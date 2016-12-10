@@ -109,7 +109,7 @@ describe('unexpected-check', function () {
                 });
             }, 'to be valid for all', arrays);
         }, 'to throw',
-               'Ran 18 iterations and found 5 errors\n' +
+               'Ran 19 iterations and found 9 errors\n' +
                'counterexample:\n' +
                '\n' +
                '  Generated input: [ 0 ]\n' +
