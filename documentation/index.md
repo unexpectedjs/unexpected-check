@@ -144,15 +144,12 @@ expect.use(weknowhow.unexpectedCheck);
 Include the library with RequireJS the following way:
 
 ```js#evaluate:false
-define(['unexpected', 'unexpected-check'], funtion (unexpected, unexpectedCheck) {
+define(['unexpected', 'unexpected-check'], function (unexpected, unexpectedCheck) {
   var expect = unexpected.clone();
   expect.use(unexpectedCheck);
   // Your code
 });
 ```
-
-Notice that the [chance](www.chancejs.com) library some we configured with the
-name `chance`.
 
 ## Asynchronous testing
 
