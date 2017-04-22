@@ -136,14 +136,12 @@ repository.</p>
 </div><h3 id="requirejs">RequireJS</h3>
 <p>Include the library with RequireJS the following way:</p>
 <div class="code lang-javascript">
-  <div>define<span style="color: #999">([</span><span style="color: #E6DB74">'unexpected'</span><span style="color: #999">,</span>&nbsp;<span style="color: #E6DB74">'unexpected-check'</span><span style="color: #999">],</span>&nbsp;funtion&nbsp;<span style="color: #999">(</span>unexpected<span style="color: #999">,</span>&nbsp;unexpectedCheck<span style="color: #999">)</span>&nbsp;<span style="color: #999">{</span></div>
+  <div>define<span style="color: #999">([</span><span style="color: #E6DB74">'unexpected'</span><span style="color: #999">,</span>&nbsp;<span style="color: #E6DB74">'unexpected-check'</span><span style="color: #999">],</span>&nbsp;<span style="color: #F92672">function</span>&nbsp;<span style="color: #999">(</span>unexpected<span style="color: #999">,</span>&nbsp;unexpectedCheck<span style="color: #999">)</span>&nbsp;<span style="color: #999">{</span></div>
   <div>&nbsp;&nbsp;<span style="color: #F92672">var</span>&nbsp;expect&nbsp;<span style="color: #F92672">=</span>&nbsp;unexpected<span style="color: #999">.</span>clone<span style="color: #999">();</span></div>
   <div>&nbsp;&nbsp;expect<span style="color: #999">.</span>use<span style="color: #999">(</span>unexpectedCheck<span style="color: #999">);</span></div>
   <div>&nbsp;<span style="color: #888">&nbsp;//&nbsp;Your&nbsp;code</span></div>
   <div><span style="color: #999">});</span></div>
-</div><p>Notice that the <a href="www.chancejs.com">chance</a> library some we configured with the
-name <code>chance</code>.</p>
-<h2 id="asynchronous-testing">Asynchronous testing</h2>
+</div><h2 id="asynchronous-testing">Asynchronous testing</h2>
 <p>Support for asynchronous testing by returning a promise from the subject
 function:</p>
 <div class="code lang-javascript">
@@ -205,7 +203,7 @@ a bit faster.</p>
 <p>The source for this plugin can be found on
 <a href="https://github.com/unexpectedjs/unexpected-check">Github</a>.</p>
 <h2 id="mit-license">MIT License</h2>
-<p>Copyright (c) 2016 Sune Simonsen <a href="&#x6d;&#97;&#105;&#x6c;&#x74;&#111;&#x3a;&#x73;&#x75;&#x6e;&#x65;&#x40;&#119;&#101;&#x2d;&#107;&#110;&#x6f;&#119;&#x68;&#x6f;&#119;&#x2e;&#100;&#x6b;">&#x73;&#x75;&#x6e;&#x65;&#x40;&#119;&#101;&#x2d;&#107;&#110;&#x6f;&#119;&#x68;&#x6f;&#119;&#x2e;&#100;&#x6b;</a></p>
+<p>Copyright (c) 2016 Sune Simonsen <a href="&#x6d;&#x61;&#105;&#x6c;&#116;&#x6f;&#58;&#x73;&#x75;&#110;&#101;&#x40;&#119;&#x65;&#45;&#x6b;&#110;&#111;&#x77;&#104;&#x6f;&#x77;&#x2e;&#100;&#x6b;">&#x73;&#x75;&#110;&#101;&#x40;&#119;&#x65;&#45;&#x6b;&#110;&#111;&#x77;&#104;&#x6f;&#x77;&#x2e;&#100;&#x6b;</a></p>
 <p>Permission is hereby granted, free of charge, to any person obtaining
 a copy of this software and associated documentation files (the
 &#39;Software&#39;), to deal in the Software without restriction, including
