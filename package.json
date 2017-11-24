@@ -31,5 +31,10 @@
     "unexpected-markdown": "^1.4.0",
     "unexpected-sinon": "^10.2.1",
     "unexpected-stream": "2.0.3"
+  },
+  "dependencies": {
+    "escodegen": "^1.9.0",
+    "esprima": "^4.0.0",
+    "estraverse": "^4.2.0"
   }
 }
