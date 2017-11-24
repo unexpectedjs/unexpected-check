@@ -118,6 +118,25 @@ describe('instrumentAst', function () {
         });
     });
 
+    it('should instrument a getter', function () {
+        expect(function () {
+            var baz = {
+                get foo() {
+                    return bar();
+                }
+            };
+            baz();
+        }, 'to come out as', function () {
+            var baz = {
+                get foo() {
+                    recordLocation(1);
+                    return bar();
+                }
+            };
+            baz();
+        });
+    });
+
     it('should instrument an if statement', function () {
         expect(function () {
             if (true) {
