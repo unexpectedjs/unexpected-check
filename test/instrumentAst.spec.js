@@ -336,6 +336,46 @@ describe('instrumentAst', function () {
         });
     });
 
+    describe('with a for...of loop', function () {
+        it('should instrument the body', function () {
+            expect(function () {
+                for (var a of bar()) {
+                    a();
+                }
+            }, 'to come out as', function () {
+                for (var a of bar()) {
+                    recordLocation(1);
+                    a();
+                }
+            });
+        });
+
+        it('should convert a non-block body to a block', function () {
+            expect(function () {
+                /* eslint-disable curly */
+                for (var a of bar()) bar();
+                /* eslint-enable curly */
+            }, 'to come out as', function () {
+                for (var a of bar()) {
+                    recordLocation(1);
+                    bar();
+                }
+            });
+        });
+
+        it('should convert an empty body to a block', function () {
+            expect(function () {
+                /* eslint-disable curly */
+                for (var a of bar());
+                /* eslint-enable curly */
+            }, 'to come out as', function () {
+                for (var a of bar()) {
+                    recordLocation(1);
+                }
+            });
+        });
+    });
+
     it('should instrument a switch statement', function () {
         expect(function () {
             switch (foo) {
