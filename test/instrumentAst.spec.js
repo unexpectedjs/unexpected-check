@@ -313,25 +313,27 @@ describe('instrumentAst', function () {
         it('should convert a non-block body to a block', function () {
             expect(function () {
                 /* eslint-disable curly */
-                for (var a in bar()) bar();
+                for (var a in bar()) a();
                 /* eslint-enable curly */
             }, 'to come out as', function () {
                 for (var a in bar()) {
                     recordLocation(1);
-                    bar();
+                    a();
                 }
             });
         });
 
         it('should convert an empty body to a block', function () {
             expect(function () {
-                /* eslint-disable curly */
+                /* eslint-disable curly, no-unused-vars */
                 for (var a in bar());
-                /* eslint-enable curly */
+                /* eslint-enable curly, no-unused-vars */
             }, 'to come out as', function () {
+                /* eslint-disable no-unused-vars */
                 for (var a in bar()) {
                     recordLocation(1);
                 }
+                /* eslint-enable no-unused-vars */
             });
         });
     });
@@ -353,25 +355,27 @@ describe('instrumentAst', function () {
         it('should convert a non-block body to a block', function () {
             expect(function () {
                 /* eslint-disable curly */
-                for (var a of bar()) bar();
+                for (var a of bar()) a();
                 /* eslint-enable curly */
             }, 'to come out as', function () {
                 for (var a of bar()) {
                     recordLocation(1);
-                    bar();
+                    a();
                 }
             });
         });
 
         it('should convert an empty body to a block', function () {
             expect(function () {
-                /* eslint-disable curly */
+                /* eslint-disable curly, no-unused-vars */
                 for (var a of bar());
-                /* eslint-enable curly */
+                /* eslint-enable curly, no-unused-vars */
             }, 'to come out as', function () {
+                /* eslint-disable no-unused-vars */
                 for (var a of bar()) {
                     recordLocation(1);
                 }
+                /* eslint-enable no-unused-vars */
             });
         });
     });
@@ -430,10 +434,12 @@ describe('instrumentAst', function () {
     it('should instrument a default parameter', function () {
         expect(function () {
             function baz({ theThing } = {}) {}
+            baz();
         }, 'to come out as', function () {
             function baz({ theThing } = (recordLocation(2), {})) {
                 recordLocation(1);
             }
+            baz();
         });
     });
 
