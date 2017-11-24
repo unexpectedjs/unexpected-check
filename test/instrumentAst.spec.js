@@ -427,6 +427,16 @@ describe('instrumentAst', function () {
         });
     });
 
+    it('should instrument a default parameter', function () {
+        expect(function () {
+            function baz({ theThing } = {}) {}
+        }, 'to come out as', function () {
+            function baz({ theThing } = (recordLocation(2), {})) {
+                recordLocation(1);
+            }
+        });
+    });
+
     describe('with a try...catch', function () {
         it('should instrument the catch block', function () {
             expect(function () {
