@@ -155,6 +155,21 @@ describe('instrumentAst', function () {
         });
     });
 
+    it('should add and instrument the else branch if not already present', function () {
+        expect(function () {
+            if (true) {
+                foo();
+            }
+        }, 'to come out as', function () {
+            if (true) {
+                recordLocation(1);
+                foo();
+            } else {
+                recordLocation(2);
+            }
+        });
+    });
+
     it('should rewrite a non-block consequent to a block and add the instrumentation', function () {
         expect(function () {
             /* eslint-disable curly */
