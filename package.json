@@ -19,7 +19,6 @@
   "author": "Sune Simonsen",
   "license": "MIT",
   "devDependencies": {
-    "chance-generators": "2.1.0",
     "eslint": "2.13.1",
     "eslint-config-onelint": "1.2.0",
     "lodash.escape": "3.1.0",
@@ -33,6 +32,7 @@
     "unexpected-stream": "2.0.3"
   },
   "dependencies": {
+    "chance-generators": "file:../chance-generators",
     "escodegen": "^1.9.0",
     "esprima": "^4.0.0",
     "estraverse": "^4.2.0",
