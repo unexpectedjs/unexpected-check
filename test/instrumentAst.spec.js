@@ -22,9 +22,18 @@ expect.addAssertion('<function> to come out as <function>', (expect, subject, va
         return nextLocationNumber++;
     }
     expect(
-        escodegen.generate(instrumentAst(toAst(subject), getNextLocationNumber)),
-        '[not] to equal',
+        escodegen.generate(instrumentAst(toAst(subject), getNextLocationNumber).instrumentedAst),
+        'to equal',
         escodegen.generate(toAst(value))
+    );
+});
+
+expect.addAssertion('<function> to yield magic values <array>', (expect, subject, expectedMagicValues) => {
+    expect.errorMode = 'nested';
+    expect(
+        [...instrumentAst(toAst(subject), () => 1).magicValues],
+        'to equal',
+        expectedMagicValues
     );
 });
 
@@ -492,6 +501,31 @@ describe('instrumentAst', function () {
                     bar();
                 }
             });
+        });
+    });
+
+    describe('gathering of magic values', function () {
+        it('should extract string literals', function () {
+            expect(function () {
+                if (foo() === 'bar' && (bar() === 456) === true) {
+                    return 'yeah';
+                }
+            }, 'to yield magic values', [
+                'bar',
+                456,
+                'yeah'
+            ]);
+        });
+
+        it('should extract literal switch cases', function () {
+            expect(function () {
+                switch (foo()) {
+                case 'bar':
+                    break;
+                }
+            }, 'to yield magic values', [
+                'bar'
+            ]);
         });
     });
 });
