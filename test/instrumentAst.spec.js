@@ -6,7 +6,7 @@ const escodegen = require('escodegen');
 
 function toAst(stringOrAssetOrFunctionOrAst) {
     if (typeof stringOrAssetOrFunctionOrAst === 'string') {
-        return esprima.parse(stringOrAssetOrFunctionOrAst);
+        return esprima.parseModule(stringOrAssetOrFunctionOrAst);
     } else if (stringOrAssetOrFunctionOrAst.isAsset) {
         return stringOrAssetOrFunctionOrAst.parseTree;
     } else if (typeof stringOrAssetOrFunctionOrAst === 'function') {
@@ -28,7 +28,7 @@ expect.addAssertion('<function> to come out as <function>', (expect, subject, va
     );
 });
 
-expect.addAssertion('<function> to yield magic values <array>', (expect, subject, expectedMagicValues) => {
+expect.addAssertion('<function|string|object> to yield magic values <array>', (expect, subject, expectedMagicValues) => {
     expect.errorMode = 'nested';
     expect(
         [...instrumentAst(toAst(subject), () => 1).magicValues],
@@ -526,6 +526,39 @@ describe('instrumentAst', function () {
             }, 'to yield magic values', [
                 'bar'
             ]);
+        });
+
+        it('should not extract magic values from static require(<string>) expressions', function () {
+            expect(function () {
+                require('./bar')(123);
+            }, 'to yield magic values', [
+                123
+            ]);
+        });
+
+        // Not sure how useful this actually is, but at least it serves to document
+        // the current behavior:
+        it('should extract magic values from dynamic require(...) expressions', function () {
+            expect(function () {
+                require('./bar' + 456)(123);
+            }, 'to yield magic values', [
+                './bar',
+                456,
+                123
+            ]);
+        });
+
+        it('should not extract magic values from `import ... from <string>` expressions', function () {
+            expect('import foo from \'bar\'; foo(123);', 'to yield magic values', [ 123 ]);
+        });
+
+        it('should not extract magic values from `export ... from <string>` expressions', function () {
+            expect('export { foo } from \'bar\'; alert(123);', 'to yield magic values', [ 123 ]);
+        });
+
+        // For some reason this isn't supported by esprima 4 or estraverse yet:
+        it.skip('should not extract magic values from dynamic `import(<string>)` expressions', function () {
+            expect('import(\'foo\').then(bar => 123);', 'to yield magic values', [ 123 ]);
         });
     });
 });
