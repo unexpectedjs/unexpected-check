@@ -127,6 +127,16 @@ describe('instrumentAst', function () {
         });
     });
 
+    it('should instrument an arrow function with an expression body', function () {
+        expect(function () {
+            var baz = () => bar();
+            baz();
+        }, 'to come out as', function () {
+            var baz = () => (recordLocation(1), bar());
+            baz();
+        });
+    });
+
     it('should instrument a getter', function () {
         expect(function () {
             var baz = {
