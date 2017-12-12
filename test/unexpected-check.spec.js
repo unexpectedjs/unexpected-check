@@ -45,7 +45,7 @@ describe('unexpected-check', function () {
                 maxErrors: 15
             });
         }, 'to throw',
-               'Ran 130 iterations and found 12 errors\n' +
+               'Ran 131 iterations and found 12 errors\n' +
                'counterexample:\n' +
                '\n' +
                '  Generated input: [ -1, -2 ]\n' +
