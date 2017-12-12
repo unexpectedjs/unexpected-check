@@ -60,7 +60,7 @@ describe('unexpected-check', function () {
                 expect(arr, 'not to contain', 2);
             }, 'to be valid for all', arrays);
         }, 'to throw',
-               'Ran 154 iterations and found 50 errors\n' +
+               'Ran 174 iterations and found 50 errors\n' +
                'counterexample:\n' +
                '\n' +
                '  Generated input: [ 2 ]\n' +
@@ -88,7 +88,7 @@ describe('unexpected-check', function () {
                 expect(items, 'not to contain', i);
             }, 'to be valid for all', arrays, g.integer({ min: -20, max: 20 }));
         }, 'to throw',
-               'Ran 10 iterations and found 8 errors\n' +
+               'Ran 8 iterations and found 7 errors\n' +
                'counterexample:\n' +
                '\n' +
                '  Generated input: [ 0 ], 0\n' +
@@ -109,7 +109,7 @@ describe('unexpected-check', function () {
                 });
             }, 'to be valid for all', arrays);
         }, 'to throw',
-               'Ran 19 iterations and found 9 errors\n' +
+               'Ran 20 iterations and found 7 errors\n' +
                'counterexample:\n' +
                '\n' +
                '  Generated input: [ 0 ]\n' +
@@ -133,21 +133,21 @@ describe('unexpected-check', function () {
                 });
             }, 'to be valid for all', arrays);
         }, 'to throw',
-               'Ran 119 iterations and found 50 errors\n' +
+               'Ran 60 iterations and found 50 errors\n' +
                'counterexample:\n' +
                '\n' +
-               '  Generated input: [ \')\' ]\n' +
+               '  Generated input: [ \'!\' ]\n' +
                '  with: n(string, integer({ min: 1, max: 20 }))\n' +
                '\n' +
-               '  expected [ \')\' ] to have items satisfying\n' +
+               '  expected [ \'!\' ] to have items satisfying\n' +
                '  function (item) {\n' +
                '    expect(item, \'not to match\', /[!@#$%^&*()_+]/);\n' +
                '  }\n' +
                '\n' +
                '  [\n' +
-               '    \')\' // should not match /[!@#$%^&*()_+]/\n' +
+               '    \'!\' // should not match /[!@#$%^&*()_+]/\n' +
                '        //\n' +
-               '        // )\n' +
+               '        // !\n' +
                '        // ^\n' +
                '  ]');
     });
@@ -160,7 +160,7 @@ describe('unexpected-check', function () {
                 }).delay(1);
             }, 'to be valid for all', arrays, g.integer({ min: -20, max: 20 }))
         , 'to be rejected with',
-            'Ran 10 iterations and found 8 errors\n' +
+            'Ran 8 iterations and found 7 errors\n' +
             'counterexample:\n' +
             '\n' +
             '  Generated input: [ 0 ], 0\n' +
@@ -185,7 +185,7 @@ describe('unexpected-check', function () {
                 }
             }, 'to be valid for all', arrays, g.integer({ min: -20, max: 20 }));
         }, 'to error',
-            'Ran 10 iterations and found 8 errors\n' +
+            'Ran 8 iterations and found 7 errors\n' +
             'counterexample:\n' +
             '\n' +
             '  Generated input: [ 0 ], 0\n' +
