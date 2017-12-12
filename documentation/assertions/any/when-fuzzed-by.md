@@ -37,10 +37,7 @@ counterexample:
 
   Generated input: ''
   with: fuzz('abc', function makePrefixGenerator(str) {
-    return g.integer({
-      min: 0,
-      max: str.length - 1
-    }).map(function (prefixLength) {
+    return g.integer({min: 0, max: str.length - 1}).map(function (prefixLength) {
       return str.substr(0, prefixLength);
     });
   })
