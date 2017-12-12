@@ -21,6 +21,12 @@ describe('unexpected-check', () => {
         }, 'to be valid for all', string({ length: natural({ max: 50 }) }));
     });
 
+    it('does not find exactly secret', () => {
+        expect((text) => {
+            demo.findExactlySecret(text);
+        }, 'to be valid for all', string({ length: natural({ max: 50 }) }));
+    });
+
     it('does not find magic numbers', () => {
         const numbers = natural({ max: 200 });
 

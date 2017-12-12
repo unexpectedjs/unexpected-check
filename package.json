@@ -5,6 +5,7 @@
   "repository": "git://github.com/unexpectedjs/unexpected-check.git",
   "main": "lib/unexpected-check.js",
   "scripts": {
+    "demo": "UNEXPECTED_CHECK_MAX_ITERATIONS=100000 mocha --require lib/addRequireHook test/experiment.spec.js",
     "lint": "eslint .",
     "test": "npm run lint && mocha test/**/*.spec.js documentation/**/*.md",
     "generate-site": "generate-site --require ./bootstrap-unexpected-markdown.js",
