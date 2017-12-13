@@ -1,0 +1,574 @@
+/*global recordLocation, foo, bar, quux*/
+const instrumentAst = require('../lib/instrumentAst');
+const expect = require('unexpected').clone();
+const esprima = require('esprima');
+const escodegen = require('escodegen');
+
+function toAst(stringOrAssetOrFunctionOrAst) {
+    if (typeof stringOrAssetOrFunctionOrAst === 'string') {
+        return esprima.parseModule(stringOrAssetOrFunctionOrAst);
+    } else if (stringOrAssetOrFunctionOrAst.isAsset) {
+        return stringOrAssetOrFunctionOrAst.parseTree;
+    } else if (typeof stringOrAssetOrFunctionOrAst === 'function') {
+        return { type: 'Program', body: esprima.parse('!' + stringOrAssetOrFunctionOrAst.toString()).body[0].expression.argument.body.body };
+    } else {
+        return stringOrAssetOrFunctionOrAst;
+    }
+}
+
+expect.addAssertion('<function> to come out as <function>', (expect, subject, value) => {
+    var nextLocationNumber = 1;
+    function getNextLocationNumber() {
+        return nextLocationNumber++;
+    }
+    expect(
+        escodegen.generate(instrumentAst(toAst(subject), getNextLocationNumber).instrumentedAst),
+        'to equal',
+        escodegen.generate(toAst(value))
+    );
+});
+
+expect.addAssertion('<function|string|object> to yield magic values <array>', (expect, subject, expectedMagicValues) => {
+    expect.errorMode = 'nested';
+    expect(
+        [...instrumentAst(toAst(subject), () => 1).magicValues],
+        'to equal',
+        expectedMagicValues
+    );
+});
+
+describe('instrumentAst', function () {
+    it('should work with a basic example', function () {
+        expect(function () {
+            const program = (input) => {
+                const se = input.indexOf('se');
+                const cr = input.indexOf('cr');
+                const et = input.indexOf('et');
+
+                if (-1 < se) {
+                    if (se < cr) {
+                        if (cr < et) {
+                            throw new Error('BOOM!!!');
+                        }
+                    }
+                }
+            };
+            program();
+        }, 'to come out as', function () {
+            const program = (input) => {
+                recordLocation(1);
+                const se = input.indexOf('se');
+                const cr = input.indexOf('cr');
+                const et = input.indexOf('et');
+
+                if (-1 < se) {
+                    recordLocation(2);
+                    if (se < cr) {
+                        recordLocation(4);
+                        if (cr < et) {
+                            recordLocation(6);
+                            throw new Error('BOOM!!!');
+                        } else {
+                            recordLocation(7);
+                        }
+                    } else {
+                        recordLocation(5);
+                    }
+                } else {
+                    recordLocation(3);
+                }
+            };
+            program();
+        });
+    });
+
+    it('should instrument a function declaration', function () {
+        expect(function () {
+            function baz() {
+                bar();
+            }
+            baz();
+        }, 'to come out as', function () {
+            function baz() {
+                recordLocation(1);
+                bar();
+            }
+            baz();
+        });
+    });
+
+    it('should instrument a function expression', function () {
+        expect(function () {
+            var baz = function () {
+                bar();
+            };
+            baz();
+        }, 'to come out as', function () {
+            var baz = function () {
+                recordLocation(1);
+                bar();
+            };
+            baz();
+        });
+    });
+
+    it('should instrument an arrow function', function () {
+        expect(function () {
+            var baz = () => {
+                bar();
+            };
+            baz();
+        }, 'to come out as', function () {
+            var baz = () => {
+                recordLocation(1);
+                bar();
+            };
+            baz();
+        });
+    });
+
+    it('should instrument an arrow function with an expression body', function () {
+        expect(function () {
+            var baz = () => bar();
+            baz();
+        }, 'to come out as', function () {
+            var baz = () => (recordLocation(1), bar());
+            baz();
+        });
+    });
+
+    it('should instrument a getter', function () {
+        expect(function () {
+            var baz = {
+                get foo() {
+                    return bar();
+                }
+            };
+            baz();
+        }, 'to come out as', function () {
+            var baz = {
+                get foo() {
+                    recordLocation(1);
+                    return bar();
+                }
+            };
+            baz();
+        });
+    });
+
+    it('should instrument an if statement', function () {
+        expect(function () {
+            if (true) {
+                foo();
+            } else {
+                bar();
+            }
+        }, 'to come out as', function () {
+            if (true) {
+                recordLocation(1);
+                foo();
+            } else {
+                recordLocation(2);
+                bar();
+            }
+        });
+    });
+
+    it('should add and instrument the else branch if not already present', function () {
+        expect(function () {
+            if (true) {
+                foo();
+            }
+        }, 'to come out as', function () {
+            if (true) {
+                recordLocation(1);
+                foo();
+            } else {
+                recordLocation(2);
+            }
+        });
+    });
+
+    it('should rewrite a non-block consequent to a block and add the instrumentation', function () {
+        expect(function () {
+            /* eslint-disable curly */
+            if (true) bar();
+            /* eslint-enable curly */
+        }, 'to come out as', function () {
+            if (true) {
+                recordLocation(1);
+                bar();
+            } else {
+                recordLocation(2);
+            }
+        });
+    });
+
+    it('should rewrite a non-block else to a block and add the instrumentation', function () {
+        expect(function () {
+            /* eslint-disable curly */
+            if (true) {
+                bar();
+            } else quux();
+            /* eslint-enable curly */
+        }, 'to come out as', function () {
+            if (true) {
+                recordLocation(1);
+                bar();
+            } else {
+                recordLocation(2);
+                quux();
+            }
+        });
+    });
+
+    describe('with a while loop', function () {
+        it('should instrument the body', function () {
+            expect(function () {
+                while (foo()) {
+                    bar();
+                }
+            }, 'to come out as', function () {
+                while (foo()) {
+                    recordLocation(1);
+                    bar();
+                }
+            });
+        });
+
+        it('should convert a non-block body to a block', function () {
+            expect(function () {
+                /* eslint-disable curly */
+                while (foo()) bar();
+                /* eslint-enable curly */
+            }, 'to come out as', function () {
+                while (foo()) {
+                    recordLocation(1);
+                    bar();
+                }
+            });
+        });
+
+        it('should convert an empty body to a block', function () {
+            expect(function () {
+                /* eslint-disable curly */
+                while (foo());
+                /* eslint-enable curly */
+            }, 'to come out as', function () {
+                while (foo()) {
+                    recordLocation(1);
+                }
+            });
+        });
+    });
+
+    describe('with a do..while loop', function () {
+        it('should instrument the body', function () {
+            expect(function () {
+                do {
+                    bar();
+                } while (foo());
+            }, 'to come out as', function () {
+                do {
+                    recordLocation(1);
+                    bar();
+                } while (foo());
+            });
+        });
+
+        it('should convert a non-block body to a block', function () {
+            expect(function () {
+                /* eslint-disable curly */
+                do bar(); while (foo());
+                /* eslint-enable curly */
+            }, 'to come out as', function () {
+                do {
+                    recordLocation(1);
+                    bar();
+                } while (foo());
+            });
+        });
+    });
+
+    describe('with a for loop', function () {
+        it('should instrument the body', function () {
+            expect(function () {
+                for (var i = 0 ; i < 10 ; i += 1) {
+                    bar();
+                }
+            }, 'to come out as', function () {
+                for (var i = 0 ; i < 10 ; i += 1) {
+                    recordLocation(1);
+                    bar();
+                }
+            });
+        });
+
+        it('should convert a non-block body to a block', function () {
+            expect(function () {
+                /* eslint-disable curly */
+                for (var i = 0 ; i < 10 ; i += 1) bar();
+                /* eslint-enable curly */
+            }, 'to come out as', function () {
+                for (var i = 0 ; i < 10 ; i += 1) {
+                    recordLocation(1);
+                    bar();
+                }
+            });
+        });
+
+        it('should convert an empty body to a block', function () {
+            expect(function () {
+                /* eslint-disable curly */
+                for (var i = 0 ; i < 10 ; i += 1);
+                /* eslint-enable curly */
+            }, 'to come out as', function () {
+                for (var i = 0 ; i < 10 ; i += 1) {
+                    recordLocation(1);
+                }
+            });
+        });
+    });
+
+    describe('with a for...in loop', function () {
+        it('should instrument the body', function () {
+            expect(function () {
+                for (var a in bar()) {
+                    a();
+                }
+            }, 'to come out as', function () {
+                for (var a in bar()) {
+                    recordLocation(1);
+                    a();
+                }
+            });
+        });
+
+        it('should convert a non-block body to a block', function () {
+            expect(function () {
+                /* eslint-disable curly */
+                for (var a in bar()) a();
+                /* eslint-enable curly */
+            }, 'to come out as', function () {
+                for (var a in bar()) {
+                    recordLocation(1);
+                    a();
+                }
+            });
+        });
+
+        it('should convert an empty body to a block', function () {
+            expect(function () {
+                /* eslint-disable curly, no-unused-vars */
+                for (var a in bar());
+                /* eslint-enable curly, no-unused-vars */
+            }, 'to come out as', function () {
+                /* eslint-disable no-unused-vars */
+                for (var a in bar()) {
+                    recordLocation(1);
+                }
+                /* eslint-enable no-unused-vars */
+            });
+        });
+    });
+
+    describe('with a for...of loop', function () {
+        it('should instrument the body', function () {
+            expect(function () {
+                for (var a of bar()) {
+                    a();
+                }
+            }, 'to come out as', function () {
+                for (var a of bar()) {
+                    recordLocation(1);
+                    a();
+                }
+            });
+        });
+
+        it('should convert a non-block body to a block', function () {
+            expect(function () {
+                /* eslint-disable curly */
+                for (var a of bar()) a();
+                /* eslint-enable curly */
+            }, 'to come out as', function () {
+                for (var a of bar()) {
+                    recordLocation(1);
+                    a();
+                }
+            });
+        });
+
+        it('should convert an empty body to a block', function () {
+            expect(function () {
+                /* eslint-disable curly, no-unused-vars */
+                for (var a of bar());
+                /* eslint-enable curly, no-unused-vars */
+            }, 'to come out as', function () {
+                /* eslint-disable no-unused-vars */
+                for (var a of bar()) {
+                    recordLocation(1);
+                }
+                /* eslint-enable no-unused-vars */
+            });
+        });
+    });
+
+    it('should instrument a switch statement', function () {
+        expect(function () {
+            switch (foo) {
+            case 'bar':
+                bar();
+                bar();
+            case 'quux':
+                quux();
+            default:
+                quux();
+            }
+        }, 'to come out as', function () {
+            switch (foo) {
+            case 'bar':
+                recordLocation(1);
+                bar();
+                bar();
+            case 'quux':
+                recordLocation(2);
+                quux();
+            default:
+                recordLocation(3);
+                quux();
+            }
+        });
+    });
+
+    it('should instrument a ternary', function () {
+        expect(function () {
+            foo() ? quux() + 123 : bar();
+        }, 'to come out as', function () {
+            foo() ? (recordLocation(1), quux() + 123) : (recordLocation(2), bar());
+        });
+    });
+
+    it('should instrument the RHS of a logical and', function () {
+        expect(function () {
+            foo() && bar();
+        }, 'to come out as', function () {
+            foo() && (recordLocation(1), bar());
+        });
+    });
+
+    it('should instrument the RHS of a logical or', function () {
+        expect(function () {
+            foo() || bar();
+        }, 'to come out as', function () {
+            foo() || (recordLocation(1), bar());
+        });
+    });
+
+    it('should instrument a default parameter', function () {
+        expect(function () {
+            function baz({ theThing } = {}) {}
+            baz();
+        }, 'to come out as', function () {
+            function baz({ theThing } = (recordLocation(2), {})) {
+                recordLocation(1);
+            }
+            baz();
+        });
+    });
+
+    describe('with a try...catch', function () {
+        it('should instrument the catch block', function () {
+            expect(function () {
+                try {
+                    foo();
+                } catch (err) {
+                    bar();
+                }
+            }, 'to come out as', function () {
+                try {
+                    foo();
+                } catch (err) {
+                    recordLocation(1);
+                    bar();
+                }
+            });
+        });
+    });
+
+    describe('with a try...finally', function () {
+        it('should not make any modifications', function () {
+            expect(function () {
+                try {
+                    foo();
+                } finally {
+                    bar();
+                }
+            }, 'to come out as', function () {
+                try {
+                    foo();
+                } finally {
+                    bar();
+                }
+            });
+        });
+    });
+
+    describe('gathering of magic values', function () {
+        it('should extract string literals', function () {
+            expect(function () {
+                if (foo() === 'bar' && (bar() === 456) === true) {
+                    return 'yeah';
+                }
+            }, 'to yield magic values', [
+                'bar',
+                456,
+                'yeah'
+            ]);
+        });
+
+        it('should extract literal switch cases', function () {
+            expect(function () {
+                switch (foo()) {
+                case 'bar':
+                    break;
+                }
+            }, 'to yield magic values', [
+                'bar'
+            ]);
+        });
+
+        it('should not extract magic values from static require(<string>) expressions', function () {
+            expect(function () {
+                require('./bar')(123);
+            }, 'to yield magic values', [
+                123
+            ]);
+        });
+
+        // Not sure how useful this actually is, but at least it serves to document
+        // the current behavior:
+        it('should extract magic values from dynamic require(...) expressions', function () {
+            expect(function () {
+                require('./bar' + 456)(123);
+            }, 'to yield magic values', [
+                './bar',
+                456,
+                123
+            ]);
+        });
+
+        it('should not extract magic values from `import ... from <string>` expressions', function () {
+            expect('import foo from \'bar\'; foo(123);', 'to yield magic values', [ 123 ]);
+        });
+
+        it('should not extract magic values from `export ... from <string>` expressions', function () {
+            expect('export { foo } from \'bar\'; alert(123);', 'to yield magic values', [ 123 ]);
+        });
+
+        // For some reason this isn't supported by esprima 4 or estraverse yet:
+        it.skip('should not extract magic values from dynamic `import(<string>)` expressions', function () {
+            expect('import(\'foo\').then(bar => 123);', 'to yield magic values', [ 123 ]);
+        });
+    });
+});

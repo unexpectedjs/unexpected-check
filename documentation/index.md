@@ -80,13 +80,13 @@ But that assumption as actually not true as the build-in sort functions is based
 on converting items to strings and comparing them. So you will get the following error:
 
 ```output
-Ran 1000 iterations and found 14 errors
+Ran 497 iterations and found 50 errors
 counterexample:
 
-  Generated input: [ 2, 10 ]
+  Generated input: [ -1, -2 ]
   with: n(integer({ min: -20, max: 20 }), integer({ min: 1, max: 20 }))
 
-  expected [ 10, 2 ] to be sorted
+  expected [ -1, -2 ] to be sorted
 ```
 
 If we wanted to fix the problem, we would need to use a comparison function:
@@ -202,13 +202,13 @@ expect(function (arr) {
 ```
 
 ```output
-Ran 100 iterations and found 4 errors
+Ran 62 iterations and found 15 errors
 counterexample:
 
-  Generated input: [ 0, -1, 4, 10 ]
+  Generated input: [ -1, -2 ]
   with: n(integer({ min: -20, max: 20 }), integer({ min: 1, max: 20 }))
 
-  expected [ -1, 0, 10, 4 ] to be sorted
+  expected [ -1, -2 ] to be sorted
 ```
 
 As you can see the input shrinking is worse with less iterations, but it will be

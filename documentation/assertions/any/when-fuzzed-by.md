@@ -23,7 +23,10 @@ prefix length to 0, we will see it generate the empty string fail:
 var g = require('chance-generators')(666);
 
 function makePrefixGenerator(str) {
-    return g.integer({min: 0, max: str.length - 1}).map(function (prefixLength) {
+    return g.integer({
+      min: 0,
+      max: str.length - 1
+    }).map(function (prefixLength) {
         return str.substr(0, prefixLength);
     });
 }
