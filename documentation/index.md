@@ -80,7 +80,7 @@ But that assumption as actually not true as the build-in sort functions is based
 on converting items to strings and comparing them. So you will get the following error:
 
 ```output
-Ran 497 iterations and found 50 errors
+Ran 1001 iterations and found 110 errors
 counterexample:
 
   Generated input: [ -1, -2 ]
@@ -185,7 +185,7 @@ return expect(function (text) {
   or setting the query parameter `maxiterations` in the browser.
 * `maxErrorIterations` (default 1000): the number of iterations unexpected-check
   can use to find a better error when an error occurs.
-* `maxErrors` (default 50): the number of found errors before stopping the input
+* `maxErrors` (default 200): the number of found errors before stopping the input
   shrinking process.
 
 ```js
@@ -202,13 +202,13 @@ expect(function (arr) {
 ```
 
 ```output
-Ran 62 iterations and found 15 errors
+Ran 101 iterations and found 9 errors
 counterexample:
 
-  Generated input: [ -1, -2 ]
+  Generated input: [ 10, 0, 0, 2 ]
   with: n(integer({ min: -20, max: 20 }), integer({ min: 1, max: 20 }))
 
-  expected [ -1, -2 ] to be sorted
+  expected [ 0, 0, 10, 2 ] to be sorted
 ```
 
 As you can see the input shrinking is worse with less iterations, but it will be
