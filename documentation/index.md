@@ -185,7 +185,7 @@ return expect(function (text) {
   or setting the query parameter `maxiterations` in the browser.
 * `maxErrorIterations` (default 1000): the number of iterations unexpected-check
   can use to find a better error when an error occurs.
-* `maxErrors` (default 200): the number of found errors before stopping the input
+* `maxErrors` (default 201): the number of found errors before stopping the input
   shrinking process.
 
 ```js
