@@ -35,7 +35,7 @@ expect('abc', 'when fuzzed by', makePrefixGenerator, 'to match', /^a/);
 ```
 
 ```output
-Ran 2 iterations and found 1 errors
+Found an error after 2 iterations
 counterexample:
 
   Generated input: ''
