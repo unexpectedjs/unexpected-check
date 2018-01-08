@@ -45,7 +45,7 @@ describe('unexpected-check', function () {
                 maxErrors: 15
             });
         }, 'to throw',
-               'Ran 131 iterations and found 12 errors\n' +
+               'Found an error after 1 iteration, 11 additional errors found.\n' +
                'counterexample:\n' +
                '\n' +
                '  Generated input: [ -1, -2 ]\n' +
@@ -60,7 +60,7 @@ describe('unexpected-check', function () {
                 expect(arr, 'not to contain', 2);
             }, 'to be valid for all', arrays);
         }, 'to throw',
-               'Ran 653 iterations and found 200 errors\n' +
+               'Found an error after 9 iterations, 200 additional errors found.\n' +
                'counterexample:\n' +
                '\n' +
                '  Generated input: [ 2 ]\n' +
@@ -88,7 +88,7 @@ describe('unexpected-check', function () {
                 expect(items, 'not to contain', i);
             }, 'to be valid for all', arrays, g.integer({ min: -20, max: 20 }));
         }, 'to throw',
-               'Ran 8 iterations and found 7 errors\n' +
+               'Found an error after 1 iteration, 6 additional errors found.\n' +
                'counterexample:\n' +
                '\n' +
                '  Generated input: [ 0 ], 0\n' +
@@ -109,7 +109,7 @@ describe('unexpected-check', function () {
                 });
             }, 'to be valid for all', arrays);
         }, 'to throw',
-               'Ran 20 iterations and found 7 errors\n' +
+               'Found an error after 8 iterations, 6 additional errors found.\n' +
                'counterexample:\n' +
                '\n' +
                '  Generated input: [ 0 ]\n' +
@@ -133,7 +133,7 @@ describe('unexpected-check', function () {
                 });
             }, 'to be valid for all', arrays);
         }, 'to throw',
-               'Ran 253 iterations and found 200 errors\n' +
+               'Found an error after 1 iteration, 200 additional errors found.\n' +
                'counterexample:\n' +
                '\n' +
                '  Generated input: [ \'!\' ]\n' +
@@ -160,7 +160,7 @@ describe('unexpected-check', function () {
                 }).delay(1);
             }, 'to be valid for all', arrays, g.integer({ min: -20, max: 20 }))
         , 'to be rejected with',
-            'Ran 8 iterations and found 7 errors\n' +
+            'Found an error after 1 iteration, 6 additional errors found.\n' +
             'counterexample:\n' +
             '\n' +
             '  Generated input: [ 0 ], 0\n' +
@@ -185,7 +185,7 @@ describe('unexpected-check', function () {
                 }
             }, 'to be valid for all', arrays, g.integer({ min: -20, max: 20 }));
         }, 'to error',
-            'Ran 8 iterations and found 7 errors\n' +
+            'Found an error after 1 iteration, 6 additional errors found.\n' +
             'counterexample:\n' +
             '\n' +
             '  Generated input: [ 0 ], 0\n' +
@@ -233,7 +233,7 @@ describe('unexpected-check', function () {
                     });
                 }, 'to have length', 5);
             }, 'to error with',
-                "Ran 2 iterations and found 2 errors\n" +
+                "Found an error after 1 iteration, 1 additional error found.\n" +
                 "counterexample:\n" +
                 "\n" +
                 "  Generated input: 'a'\n" +
