@@ -80,7 +80,7 @@ But that assumption as actually not true as the build-in sort functions is based
 on converting items to strings and comparing them. So you will get the following error:
 
 ```output
-Ran 1001 iterations and found 110 errors
+Found an error after 1 iteration, 109 additional errors found.
 counterexample:
 
   Generated input: [ -1, -2 ]
@@ -185,7 +185,7 @@ return expect(function (text) {
   or setting the query parameter `maxiterations` in the browser.
 * `maxErrorIterations` (default 1000): the number of iterations unexpected-check
   can use to find a better error when an error occurs.
-* `maxErrors` (default 200): the number of found errors before stopping the input
+* `maxErrors` (default 201): the number of found errors before stopping the input
   shrinking process.
 
 ```js
@@ -202,7 +202,7 @@ expect(function (arr) {
 ```
 
 ```output
-Ran 101 iterations and found 9 errors
+Found an error after 1 iteration, 8 additional errors found.
 counterexample:
 
   Generated input: [ 10, 0, 0, 2 ]
