@@ -297,7 +297,7 @@ describe('instrumentAst', function () {
                     bar();
                 }
             }, 'to come out as', function () {
-                for (var i = 0 ; i < 10 ; i += 1) {
+                for (var i = 0 ; recordProximity(i, '<', 10) ; i += 1) {
                     recordLocation(1);
                     bar();
                 }
@@ -310,7 +310,7 @@ describe('instrumentAst', function () {
                 for (var i = 0 ; i < 10 ; i += 1) bar();
                 /* eslint-enable curly */
             }, 'to come out as', function () {
-                for (var i = 0 ; i < 10 ; i += 1) {
+                for (var i = 0 ; recordProximity(i, '<', 10) ; i += 1) {
                     recordLocation(1);
                     bar();
                 }
@@ -323,7 +323,7 @@ describe('instrumentAst', function () {
                 for (var i = 0 ; i < 10 ; i += 1);
                 /* eslint-enable curly */
             }, 'to come out as', function () {
-                for (var i = 0 ; i < 10 ; i += 1) {
+                for (var i = 0 ; recordProximity(i, '<', 10) ; i += 1) {
                     recordLocation(1);
                 }
             });
@@ -610,6 +610,30 @@ describe('instrumentAst', function () {
             }, 'to come out as', function () {
                 recordProximity(foo(), '>', bar()) || (recordLocation(1), quux());
             });
+        })
+    });
+
+    it('instruments complex expressions', () => {
+        const a = 15;
+        const b = 15;
+        const c = 225;
+
+        expect(function () {
+            if (10 < a && b < 20 && a === b && a * b === c) {
+                console.log('success');
+            }
+        }, 'to come out as', function () {
+            if (
+                recordProximity(10, '<', a) &&
+                (recordLocation(1), recordProximity(b, '<', 20)) &&
+                (recordLocation(2), recordProximity(a, '===', b)) &&
+                (recordLocation(3), recordProximity(a * b, '===', c))
+            ) {
+                recordLocation(4);
+                console.log('success');
+            } else {
+                recordLocation(5);
+            }
         });
     });
 });
