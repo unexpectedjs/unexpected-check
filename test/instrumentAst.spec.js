@@ -610,7 +610,7 @@ describe('instrumentAst', function () {
             }, 'to come out as', function () {
                 recordProximity(foo(), '>', bar()) || (recordLocation(1), quux());
             });
-        })
+        });
     });
 
     it('instruments complex expressions', () => {
