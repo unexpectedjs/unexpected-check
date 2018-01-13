@@ -1,4 +1,4 @@
-/*global recordLocation, foo, bar, quux*/
+/*global recordLocation, recordProximity, foo, bar, quux*/
 const instrumentAst = require('../lib/instrumentAst');
 const expect = require('unexpected').clone();
 const esprima = require('esprima');
@@ -56,26 +56,26 @@ describe('instrumentAst', function () {
             program();
         }, 'to come out as', function () {
             const program = (input) => {
-                recordLocation(1);
+                recordLocation(7);
                 const se = input.indexOf('se');
                 const cr = input.indexOf('cr');
                 const et = input.indexOf('et');
 
-                if (-1 < se) {
-                    recordLocation(2);
-                    if (se < cr) {
-                        recordLocation(4);
-                        if (cr < et) {
-                            recordLocation(6);
+                if (recordProximity(-1, '<', se)) {
+                    recordLocation(5);
+                    if (recordProximity(se, '<', cr)) {
+                        recordLocation(3);
+                        if (recordProximity(cr, '<', et)) {
+                            recordLocation(1);
                             throw new Error('BOOM!!!');
                         } else {
-                            recordLocation(7);
+                            recordLocation(2);
                         }
                     } else {
-                        recordLocation(5);
+                        recordLocation(4);
                     }
                 } else {
-                    recordLocation(3);
+                    recordLocation(6);
                 }
             };
             program();
@@ -297,7 +297,7 @@ describe('instrumentAst', function () {
                     bar();
                 }
             }, 'to come out as', function () {
-                for (var i = 0 ; i < 10 ; i += 1) {
+                for (var i = 0 ; recordProximity(i, '<', 10) ; i += 1) {
                     recordLocation(1);
                     bar();
                 }
@@ -310,7 +310,7 @@ describe('instrumentAst', function () {
                 for (var i = 0 ; i < 10 ; i += 1) bar();
                 /* eslint-enable curly */
             }, 'to come out as', function () {
-                for (var i = 0 ; i < 10 ; i += 1) {
+                for (var i = 0 ; recordProximity(i, '<', 10) ; i += 1) {
                     recordLocation(1);
                     bar();
                 }
@@ -323,7 +323,7 @@ describe('instrumentAst', function () {
                 for (var i = 0 ; i < 10 ; i += 1);
                 /* eslint-enable curly */
             }, 'to come out as', function () {
-                for (var i = 0 ; i < 10 ; i += 1) {
+                for (var i = 0 ; recordProximity(i, '<', 10) ; i += 1) {
                     recordLocation(1);
                 }
             });
@@ -470,8 +470,8 @@ describe('instrumentAst', function () {
             function baz({ theThing } = {}) {}
             baz();
         }, 'to come out as', function () {
-            function baz({ theThing } = (recordLocation(2), {})) {
-                recordLocation(1);
+            function baz({ theThing } = (recordLocation(1), {})) {
+                recordLocation(2);
             }
             baz();
         });
@@ -569,6 +569,71 @@ describe('instrumentAst', function () {
         // For some reason this isn't supported by esprima 4 or estraverse yet:
         it.skip('should not extract magic values from dynamic `import(<string>)` expressions', function () {
             expect('import(\'foo\').then(bar => 123);', 'to yield magic values', [ 123 ]);
+        });
+    });
+
+    describe('with conditions that consist of a BinaryExpression', function () {
+        it('should instrument the test of an if statement', function () {
+            expect(function () {
+                if (foo() < bar() + 1) {
+                    quux();
+                }
+            }, 'to come out as', function () {
+                if (recordProximity(foo(), '<', bar() + 1)) {
+                    recordLocation(1);
+                    quux();
+                } else {
+                    recordLocation(2);
+                }
+            });
+        });
+
+        it('should instrument the test of a ternary', function () {
+            expect(function () {
+                foo() > bar() ? 123 : 456;
+            }, 'to come out as', function () {
+                recordProximity(foo(), '>', bar()) ? (recordLocation(1), 123) : (recordLocation(2), 456);
+            });
+        });
+
+        it('should instrument the LHS of a logical and', function () {
+            expect(function () {
+                foo() > bar() && quux();
+            }, 'to come out as', function () {
+                recordProximity(foo(), '>', bar()) && (recordLocation(1), quux());
+            });
+        });
+
+        it('should instrument the LHS of a logical and', function () {
+            expect(function () {
+                foo() > bar() || quux();
+            }, 'to come out as', function () {
+                recordProximity(foo(), '>', bar()) || (recordLocation(1), quux());
+            });
+        });
+    });
+
+    it('instruments complex expressions', () => {
+        const a = 15;
+        const b = 15;
+        const c = 225;
+
+        expect(function () {
+            if (10 < a && b < 20 && a === b && a * b === c) {
+                console.log('success');
+            }
+        }, 'to come out as', function () {
+            if (
+                recordProximity(10, '<', a) &&
+                (recordLocation(1), recordProximity(b, '<', 20)) &&
+                (recordLocation(2), recordProximity(a, '===', b)) &&
+                (recordLocation(3), recordProximity(a * b, '===', c))
+            ) {
+                recordLocation(4);
+                console.log('success');
+            } else {
+                recordLocation(5);
+            }
         });
     });
 });
