@@ -4,12 +4,12 @@ simple cases where you have a test subject and a function that returns a
 generator that "fuzzes", or somehow creates test cases, based on the subject.
 
 ```js
-var g = require('chance-generators')(666);
+const { integer } = require('chance-generators');
 
-function makePrefixGenerator(str) {
-    return g.integer({min: 1, max: str.length - 1}).map(function (prefixLength) {
-        return str.substr(0, prefixLength);
-    });
+function makePrefixGenerator (str) {
+  return integer({min: 1, max: str.length - 1}).map(prefixLength => (
+    str.substr(0, prefixLength)
+  ))
 }
 
 expect('abc', 'when fuzzed by', makePrefixGenerator, 'to match', /^a/);
@@ -20,32 +20,25 @@ long, so every generated string will start with 'a'. If we change the minimum
 prefix length to 0, we will see it generate the empty string fail:
 
 ```js
-var g = require('chance-generators')(666);
-
 function makePrefixGenerator(str) {
-    return g.integer({
-      min: 0,
-      max: str.length - 1
-    }).map(function (prefixLength) {
-        return str.substr(0, prefixLength);
-    });
+    return integer({ min: 0, max: str.length - 1 }).map(prefixLength => (
+      str.substr(0, prefixLength)
+    ))
 }
 
 expect('abc', 'when fuzzed by', makePrefixGenerator, 'to match', /^a/);
 ```
 
 ```output
-Found an error after 2 iterations
+Found an error after 1 iteration
 counterexample:
 
   Generated input: ''
-  with: fuzz('abc', function makePrefixGenerator(str) {
-    return g.integer({
-      min: 0,
-      max: str.length - 1
-    }).map(function (prefixLength) {
+  with: fuzz({
+    value: 'abc',
+    mutator: integer({ min: 0, max: 2 }).map(function (prefixLength) {
       return str.substr(0, prefixLength);
-    });
+    })
   })
 
   expected '' to match /^a/

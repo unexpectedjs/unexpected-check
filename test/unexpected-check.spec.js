@@ -1,10 +1,9 @@
 /*global describe, it, beforeEach*/
-var Generators = require('chance-generators');
+var { array, integer, string } = require('chance-generators');
 var expect = require('unexpected');
 expect.output.preferredWidth = 80;
 
-var sinon = require('sinon');
-expect.use(require('../lib/unexpected-check')).use(require('unexpected-sinon'));
+expect.use(require('../lib/unexpected-check'));
 
 expect.addAssertion('<array> to be sorted', function (expect, subject) {
     var isSorted = subject.every(function (x, i) {
@@ -24,11 +23,10 @@ function sort(arr, cmp) {
 }
 
 describe('unexpected-check', function () {
-    var g;
-    var arrays;
+    var numbers;
+
     beforeEach(function () {
-        g = new Generators(666);
-        arrays = g.n(g.integer({ min: -20, max: 20 }), g.integer({ min: 1, max: 20 }));
+        numbers = array(integer({ min: -20, max: 20 }), { min: 1, max: 20 });
     });
 
     it('fails with an informative error message', function () {
@@ -39,17 +37,17 @@ describe('unexpected-check', function () {
                 expect(sorted, 'to have length', arr.length)
                   .and('to be sorted');
             }, 'to be valid for all', {
-                generators: [arrays],
+                generators: [numbers],
                 maxIterations: 50,
-                maxErrorIterations: 130,
-                maxErrors: 15
+                maxErrorIterations: 200,
+                maxErrors: 30
             });
         }, 'to throw',
-               'Found an error after 1 iteration, 11 additional errors found.\n' +
+               'Found an error after 1 iteration, 25 additional errors found.\n' +
                'counterexample:\n' +
                '\n' +
                '  Generated input: [ -1, -2 ]\n' +
-               '  with: n(integer({ min: -20, max: 20 }), integer({ min: 1, max: 20 }))\n' +
+               '  with: array({ itemGenerator: integer({ min: -20, max: 20 }), min: 1, max: 20 })\n' +
                '\n' +
                '  expected [ -1, -2 ] to be sorted');
     });
@@ -58,13 +56,13 @@ describe('unexpected-check', function () {
         expect(function () {
             expect(function (arr) {
                 expect(arr, 'not to contain', 2);
-            }, 'to be valid for all', arrays);
+            }, 'to be valid for all', numbers);
         }, 'to throw',
-               'Found an error after 9 iterations, 200 additional errors found.\n' +
+               'Found an error after 3 iterations, 200 additional errors found.\n' +
                'counterexample:\n' +
                '\n' +
                '  Generated input: [ 2 ]\n' +
-               '  with: n(integer({ min: -20, max: 20 }), integer({ min: 1, max: 20 }))\n' +
+               '  with: array({ itemGenerator: integer({ min: -20, max: 20 }), min: 1, max: 20 })\n' +
                '\n' +
                '  expected [ 2 ] not to contain 2\n' +
                '\n' +
@@ -79,20 +77,20 @@ describe('unexpected-check', function () {
 
             expect(sorted, 'to have length', arr.length)
               .and('to be sorted');
-        }, 'to be valid for all', arrays);
+        }, 'to be valid for all', numbers);
     });
 
     it('produces minimal output with dependencies between the generated value', function () {
         expect(function () {
             expect(function (items, i) {
                 expect(items, 'not to contain', i);
-            }, 'to be valid for all', arrays, g.integer({ min: -20, max: 20 }));
+            }, 'to be valid for all', numbers, integer({ min: -20, max: 20 }));
         }, 'to throw',
                'Found an error after 1 iteration, 6 additional errors found.\n' +
                'counterexample:\n' +
                '\n' +
                '  Generated input: [ 0 ], 0\n' +
-               '  with: n(integer({ min: -20, max: 20 }), integer({ min: 1, max: 20 })), integer({ min: -20, max: 20 })\n' +
+               '  with: array({ itemGenerator: integer({ min: -20, max: 20 }), min: 1, max: 20 }), integer({ min: -20, max: 20 })\n' +
                '\n' +
                '  expected [ 0 ] not to contain 0\n' +
                '\n' +
@@ -107,13 +105,13 @@ describe('unexpected-check', function () {
                 expect(items, 'to have items satisfying', function (item, i) {
                     expect(item, 'not to be', i);
                 });
-            }, 'to be valid for all', arrays);
+            }, 'to be valid for all', numbers);
         }, 'to throw',
-               'Found an error after 8 iterations, 6 additional errors found.\n' +
+               'Found an error after 3 iterations, 12 additional errors found.\n' +
                'counterexample:\n' +
                '\n' +
                '  Generated input: [ 0 ]\n' +
-               '  with: n(integer({ min: -20, max: 20 }), integer({ min: 1, max: 20 }))\n' +
+               '  with: array({ itemGenerator: integer({ min: -20, max: 20 }), min: 1, max: 20 })\n' +
                '\n' +
                '  expected [ 0 ]\n' +
                '  to have items satisfying function (item, i) { expect(item, \'not to be\', i); }\n' +
@@ -124,30 +122,30 @@ describe('unexpected-check', function () {
     });
 
     it('finds invalid strings', function () {
-        var arrays = g.n(g.string, g.integer({ min: 1, max: 20 }));
+        var strings = array(string, { min: 1, max: 20 });
 
         expect(function () {
             expect(function (items) {
                 expect(items, 'to have items satisfying', function (item) {
                     expect(item, 'not to match', /[!@#$%^&*()_+]/);
                 });
-            }, 'to be valid for all', arrays);
+            }, 'to be valid for all', strings);
         }, 'to throw',
                'Found an error after 1 iteration, 200 additional errors found.\n' +
                'counterexample:\n' +
                '\n' +
-               '  Generated input: [ \'!\' ]\n' +
-               '  with: n(string, integer({ min: 1, max: 20 }))\n' +
+               '  Generated input: [ \'#\' ]\n' +
+               '  with: array({ itemGenerator: string, min: 1, max: 20 })\n' +
                '\n' +
-               '  expected [ \'!\' ] to have items satisfying\n' +
+               '  expected [ \'#\' ] to have items satisfying\n' +
                '  function (item) {\n' +
                '    expect(item, \'not to match\', /[!@#$%^&*()_+]/);\n' +
                '  }\n' +
                '\n' +
                '  [\n' +
-               '    \'!\' // should not match /[!@#$%^&*()_+]/\n' +
+               '    \'#\' // should not match /[!@#$%^&*()_+]/\n' +
                '        //\n' +
-               '        // !\n' +
+               '        // #\n' +
                '        // ^\n' +
                '  ]');
     });
@@ -158,13 +156,13 @@ describe('unexpected-check', function () {
                 return expect.promise(function () {
                     expect(items, 'not to contain', i);
                 }).delay(1);
-            }, 'to be valid for all', arrays, g.integer({ min: -20, max: 20 }))
+            }, 'to be valid for all', numbers, integer({ min: -20, max: 20 }))
         , 'to be rejected with',
-            'Found an error after 1 iteration, 6 additional errors found.\n' +
+            'Found an error after 6 iterations, 14 additional errors found.\n' +
             'counterexample:\n' +
             '\n' +
             '  Generated input: [ 0 ], 0\n' +
-            '  with: n(integer({ min: -20, max: 20 }), integer({ min: 1, max: 20 })), integer({ min: -20, max: 20 })\n' +
+            '  with: array({ itemGenerator: integer({ min: -20, max: 20 }), min: 1, max: 20 }), integer({ min: -20, max: 20 })\n' +
             '\n' +
             '  expected [ 0 ] not to contain 0\n' +
             '\n' +
@@ -183,13 +181,13 @@ describe('unexpected-check', function () {
                         expect(items, 'not to contain', i);
                     }).delay(1);
                 }
-            }, 'to be valid for all', arrays, g.integer({ min: -20, max: 20 }));
+            }, 'to be valid for all', numbers, integer({ min: -20, max: 20 }));
         }, 'to error',
-            'Found an error after 1 iteration, 6 additional errors found.\n' +
+            'Found an error after 2 iterations, 12 additional errors found.\n' +
             'counterexample:\n' +
             '\n' +
             '  Generated input: [ 0 ], 0\n' +
-            '  with: n(integer({ min: -20, max: 20 }), integer({ min: 1, max: 20 })), integer({ min: -20, max: 20 })\n' +
+            '  with: array({ itemGenerator: integer({ min: -20, max: 20 }), min: 1, max: 20 }), integer({ min: -20, max: 20 })\n' +
             '\n' +
             '  expected [ 0 ] not to contain 0\n' +
             '\n' +
@@ -198,54 +196,60 @@ describe('unexpected-check', function () {
             '  ]');
     });
 
+    it('does not accept legacy generators', () => {
+        var legacyGenerator = function () {
+            return Math.random();
+        };
+
+        legacyGenerator.isGenerator = true;
+
+        return expect(function () {
+            return expect(function (items, i) {
+                if (i % 2 === 0) {
+                    expect(items, 'not to contain', i);
+                } else {
+                    return expect.promise(function () {
+                        expect(items, 'not to contain', i);
+                    }).delay(1);
+                }
+            }, 'to be valid for all', legacyGenerator);
+        }, 'to throw',
+            'Generators needs to have a values method that returns an iterator\n' +
+            'See: https://sunesimonsen.github.io/chance-generators/api/generator/');
+    });
+
     it('inspects mapped generators correctly', function () {
         expect(
-            arrays.map(function (value) {
+            numbers.map(function (value) {
                 return 'number: ' + value;
             }),
             'to inspect as',
-            'n(integer({ min: -20, max: 20 }), integer({ min: 1, max: 20 })).map(function (value) { return \'number: \' + value; })'
+            'array({ itemGenerator: integer({ min: -20, max: 20 }), min: 1, max: 20 }).map(function (value) { return \'number: \' + value; })'
         );
     });
 
     describe('when fuzzed by assertion', function () {
-        it('should use the supplied function to make a generator from the subject and use the generator to make test cases', function () {
-            var fuzzer;
-
-            var prefixGenerator = sinon.spy(function prefixGenerator(str) {
-                fuzzer = sinon.spy(g.integer({min: 1, max: str.length - 1}).map(function (prefixLength) {
-                    return str.substr(0, prefixLength);
-                }));
-                return fuzzer;
-            });
-
-            return expect('abcdef', 'when fuzzed by', prefixGenerator, 'to be a string').then(function () {
-                expect(prefixGenerator, 'was called once');
-                expect(fuzzer, 'was called times', 300);
-            });
-        });
-
         it('should error out with a counterexample', function () {
             return expect(function () {
                 return expect('abcdef', 'when fuzzed by', function prefixGenerator(str) {
-                    return g.integer({min: 1, max: str.length - 1}).map(function (prefixLength) {
+                    return integer({min: 1, max: str.length - 1}).map(function (prefixLength) {
                         return str.substr(0, prefixLength);
                     });
                 }, 'to have length', 5);
             }, 'to error with',
-                "Found an error after 1 iteration, 1 additional error found.\n" +
-                "counterexample:\n" +
-                "\n" +
-                "  Generated input: 'a'\n" +
-                "  with: fuzz('abcdef', function prefixGenerator(str) {\n" +
-                "    return g.integer({min: 1, max: str.length - 1}).map(function (prefixLength) {\n" +
-                "      return str.substr(0, prefixLength);\n" +
-                "    });\n" +
-                "  })\n" +
-                "\n" +
-                "  expected 'a' to have length 5\n" +
-                "    expected 1 to be 5"
-            );
+                'Found an error after 4 iterations, 1 additional error found.\n' +
+                'counterexample:\n' +
+                '\n' +
+                '  Generated input: \'a\'\n' +
+                '  with: fuzz({\n' +
+                '    value: \'abcdef\',\n' +
+                '    mutator: integer({ min: 1, max: 5 }).map(function (prefixLength) {\n' +
+                '      return str.substr(0, prefixLength);\n' +
+                '    })\n' +
+                '  })\n' +
+                '\n' +
+                '  expected \'a\' to have length 5\n' +
+                '    expected 1 to be 5');
         });
     });
 });

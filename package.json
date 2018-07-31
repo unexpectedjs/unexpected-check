@@ -1,36 +1,17 @@
 {
   "name": "unexpected-check",
-  "version": "1.19.0",
   "description": "Property based testing plugin for unexpected",
-  "repository": "git://github.com/unexpectedjs/unexpected-check.git",
-  "main": "lib/unexpected-check.js",
-  "scripts": {
-    "lint": "eslint .",
-    "test": "npm run lint && mocha test/**/*.spec.js documentation/**/*.md",
-    "generate-site": "generate-site --require ./bootstrap-unexpected-markdown.js",
-    "update-examples": "generate-site --require ./bootstrap-unexpected-markdown.js --update-examples"
-  },
-  "keywords": [
-    "testing",
-    "property",
-    "testing",
-    "unexpected"
-  ],
   "author": "Sune Simonsen",
   "license": "MIT",
-  "devDependencies": {
-    "chance-generators": "2.11.0",
-    "eslint": "2.13.1",
-    "eslint-config-onelint": "1.2.0",
-    "lodash.escape": "3.1.0",
-    "lodash.unescape": "3.1.0",
-    "mocha": "2.3.4",
-    "sinon": "^1.17.4",
-    "unexpected": "10.36.2",
-    "unexpected-documentation-site-generator": "^4.0.0",
-    "unexpected-markdown": "^1.4.0",
-    "unexpected-sinon": "^10.2.1",
-    "unexpected-stream": "2.0.3"
+  "repository": "git://github.com/unexpectedjs/unexpected-check.git",
+  "version": "1.19.0",
+  "main": "lib/unexpected-check.js",
+  "scripts": {
+    "generate-site": "generate-site --require ./bootstrap-unexpected-markdown.js",
+    "lint": "eslint .",
+    "lint-staged": "lint-staged",
+    "test": "npm run lint && mocha test/**/*.spec.js documentation/**/*.md",
+    "update-examples": "generate-site --require ./bootstrap-unexpected-markdown.js --update-examples"
   },
   "dependencies": {
     "escodegen": "^1.9.0",
@@ -38,5 +19,49 @@
     "estraverse": "^4.2.0",
     "ignore": "^3.3.7",
     "pkg-up": "^2.0.0"
-  }
+  },
+  "peerDependencies": {
+    "chance-generators": "^3.0.0"
+  },
+  "devDependencies": {
+    "babel-cli": "6.26.0",
+    "babel-core": "6.26.0",
+    "babel-eslint": "8.2.1",
+    "babel-preset-env": "1.7.0",
+    "chance-generators": "3.0.0",
+    "eslint": "2.13.1",
+    "eslint-config-onelint": "1.2.0",
+    "lint-staged": "4.0.3",
+    "lodash.escape": "3.1.0",
+    "lodash.unescape": "3.1.0",
+    "mocha": "2.3.4",
+    "pre-commit": "1.2.2",
+    "prettier": "1.10.1",
+    "prettier-package-json": "1.4.0",
+    "serve": "9.4.2",
+    "unexpected": "10.38.0",
+    "unexpected-documentation-site-generator": "4.7.1",
+    "unexpected-markdown": "1.7.4",
+    "unexpected-stream": "2.0.3"
+  },
+  "keywords": [
+    "property",
+    "testing",
+    "testing",
+    "unexpected"
+  ],
+  "lint-staged": {
+    "linters": {
+      "*.js": [
+        "eslint",
+        "prettier --write",
+        "git add"
+      ],
+      "package.json": [
+        "prettier-package-json --write",
+        "git add"
+      ]
+    }
+  },
+  "pre-commit": "lint-staged"
 }

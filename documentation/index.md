@@ -19,16 +19,31 @@ This plugin tries to bring generative testing (aka property testing) to the
 should be possible to mix property based testing and normal unit-tests using the
 same tool chain.
 
-If the generators you supply supports shrinking by providing a `shrink` function
-on the generator function, unexpected-check will try to shrink the error space
-as much as possible and therefore provide much more precise error cases.
+This plugin is build to work together with
+[chance-generators](https://sunesimonsen.github.io/chance-generators/) which
+provides a huge range of composable generators that supports
+[shrinking](https://sunesimonsen.github.io/chance-generators/api/iterator/#shrink-value-).
 
-I recommend using the plugin together with
-[chance-generators](https://sunesimonsen.github.io/chance-generators/) as it
-provides a huge range of generators and supports shrinking, but it is not a
-requirement. You can use any function that produces a random output when called.
+If the generators you supply supports
+[shrinking](https://sunesimonsen.github.io/chance-generators/api/iterator/#shrink-value-),
+then unexpected-check will try to shrink the error space as much as possible and
+therefore provide much more precise error cases.
 
 ## Usage
+
+
+Install it with NPM or add it to your `package.json`:
+
+```
+$ npm install --save-dev unexpected unexpected-check
+```
+
+Then register the plugin:
+
+```js#evaluate:false
+const expect = require('unexpected');
+expect.use(require('unexpected-check');
+```
 
 Let's imagine we wanted to sort arrays of numbers using this function:
 
@@ -46,12 +61,11 @@ Then we could write a test to ensure the following:
 First we will create an assertion for checking that an array is sorted:
 
 ```js
-expect.addAssertion('<array> to be sorted', function (expect, subject) {
-  var isSorted = subject.every(function (x, i) {
-    return subject.slice(i).every(function (y) {
-      return x <= y;
-    });
-  });
+expect.addAssertion('<array> to be sorted', (expect, subject) => {
+  const isSorted = subject.every((x, i) => (
+    subject.slice(i).every(y => x <= y)
+  ));
+
   expect(isSorted, 'to be true');
 });
 ```
@@ -59,32 +73,31 @@ expect.addAssertion('<array> to be sorted', function (expect, subject) {
 Then we generate the input arrays:
 
 ```js
-var g = require('chance-generators')(42);
+const { array, integer } = require('chance-generators');
+
 // generate arrays of numbers from -20 to 20 with length varying from 1 to 20
-var numbers = g.integer({ min: -20, max: 20 });
-var lengths = g.integer({ min: 1, max: 20 });
-var arrays = g.n(numbers, lengths);
+const numbers = array(integer({ min: -20, max: 20 }), { min: 1, max: 20 });
 ```
 
 Finally we make the assertion:
 
 ```js
-expect(function (arr) {
+expect((arr) => {
   var sorted = sort(arr);
   expect(sorted, 'to have length', arr.length);
   expect(sorted, 'to be sorted');
-}, 'to be valid for all', arrays);
+}, 'to be valid for all', numbers);
 ```
 
 But that assumption as actually not true as the build-in sort functions is based
 on converting items to strings and comparing them. So you will get the following error:
 
 ```output
-Found an error after 1 iteration, 109 additional errors found.
+Found an error after 1 iteration, 117 additional errors found.
 counterexample:
 
   Generated input: [ -1, -2 ]
-  with: n(integer({ min: -20, max: 20 }), integer({ min: 1, max: 20 }))
+  with: array({ itemGenerator: integer({ min: -20, max: 20 }), min: 1, max: 20 })
 
   expected [ -1, -2 ] to be sorted
 ```
@@ -93,26 +106,26 @@ If we wanted to fix the problem, we would need to use a comparison function:
 
 ```js
 function sortNumbers(arr) {
-  return [].concat(arr).sort(function (a, b) {
-    return a - b;
-  });
+  return [].concat(arr).sort((a, b) => a - b);
 }
 ```
 
 ```js
-expect(function (arr) {
+expect((arr) => {
   var sorted = sortNumbers(arr);
   expect(sorted, 'to have length', arr.length);
   expect(sorted, 'to be sorted');
-}, 'to be valid for all', arrays);
+}, 'to be valid for all', numbers);
 ```
+
+## Install
 
 ### Node
 
 Install it with NPM or add it to your `package.json`:
 
 ```
-$ npm install --save-dev unexpected unexpected-check
+$ npm install --save-dev unexpected unexpected-check chance-generators
 ```
 
 Then:
@@ -157,9 +170,10 @@ Support for asynchronous testing by returning a promise from the subject
 function:
 
 ```js#async:true
+const { string } = require('chance-generators');
 expect.use(require('unexpected-stream'));
 
-return expect(function (text) {
+return expect(text => {
   return expect(
     text,
     'when piped through',
@@ -172,7 +186,7 @@ return expect(function (text) {
     'to equal',
     text
   );
-}, 'to be valid for all', g.string);
+}, 'to be valid for all', string);
 ```
 
 ## Options
@@ -189,26 +203,26 @@ return expect(function (text) {
   shrinking process.
 
 ```js
-expect(function (arr) {
+expect((arr) => {
   var sorted = sort(arr);
   expect(sorted, 'to have length', arr.length);
   expect(sorted, 'to be sorted');
 }, 'to be valid for all', {
-    generators: [arrays],
+    generators: [numbers],
     maxIterations: 100,
     maxErrorIterations: 100,
-    maxErrors: 15
+    maxErrors: 5
 });
 ```
 
 ```output
-Found an error after 1 iteration, 8 additional errors found.
+Found an error after 1 iteration, 4 additional errors found.
 counterexample:
 
-  Generated input: [ 10, 0, 0, 2 ]
-  with: n(integer({ min: -20, max: 20 }), integer({ min: 1, max: 20 }))
+  Generated input: [ -1, -1, -2, 0, 0, -8 ]
+  with: array({ itemGenerator: integer({ min: -20, max: 20 }), min: 1, max: 20 })
 
-  expected [ 0, 0, 10, 2 ] to be sorted
+  expected [ -1, -1, -2, -8, 0, 0 ] to be sorted
 ```
 
 As you can see the input shrinking is worse with less iterations, but it will be

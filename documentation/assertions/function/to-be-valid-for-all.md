@@ -7,14 +7,13 @@ Let's tests that
 following way:
 
 ```js
-var escape = require('lodash.escape');
-var unescape = require('lodash.unescape');
-var g = require('chance-generators')(666);
+const escape = require('lodash.escape');
+const unescape = require('lodash.unescape');
+const { string } = require('chance-generators');
 
-var strings = g.string({ length: g.natural({ max: 200 }) });
-expect(function (text) {
+expect(text => {
   expect(unescape(escape(text)), 'to equal', text);
-}, 'to be valid for all', strings);
+}, 'to be valid for all', string({ max: 200 }));
 ```
 
 This will run 300 tests with random strings of length 0-200 and succeed.
@@ -26,10 +25,10 @@ The algorithm searches for the smallest error output, so the more errors you
 allow it to collect the better the output will be. 
 
 ```js
-expect(function (text) {
+expect(text => {
   expect(unescape(escape(text)), 'to equal', text);
 }, 'to be valid for all', {
-  generators: [strings],
+  generators: [string({ max: 200 })],
   maxIterations: 1000,
   maxErrors: 30
 });
@@ -43,7 +42,7 @@ if that code also fulfill our round trip test:
 ```js
 function rleEncode(input) {
   var encoding = [];
-  input.match(/(.)\1*/g).forEach(function(substr){
+  input.match(/(.)\1*/g).forEach(substr => {
     encoding.push([substr.length, substr[0]]);
   });
   return encoding;
@@ -51,25 +50,23 @@ function rleEncode(input) {
 
 function rleDecode(encoded) {
   var output = "";
-  encoded.forEach(function(pair){
+  encoded.forEach(pair => {
     output += new Array(1+pair[0]).join(pair[1]);
   });
   return output;
 }
 
-var g = require('chance-generators')(13);
-var strings = g.string({ length: g.natural({ max: 200 }) });
-expect(function (text) {
+expect(text => {
   expect(rleDecode(rleEncode(text)), 'to equal', text);
-}, 'to be valid for all', strings);
+}, 'to be valid for all', string({ max: 200 }));
 ```
 
 ```output
-Found an error after 67 iterations
+Found an error after 78 iterations
 counterexample:
 
   Generated input: ''
-  with: string({ length: natural({ max: 200 }) })
+  with: string({ min: 0, max: 200 })
 
   TypeError('Cannot read property \'forEach\' of null')
 ```
@@ -88,9 +85,11 @@ can using any function that produces a random output when called.
 Here is a test that uses more than one generator:
 
 ```js
-expect(function (a, b) {
+const { word } = require('chance-generators');
+
+expect((a, b) => {
   return (a + b).length === a.length + b.length;
-}, 'to be valid for all', g.word, g.word);
+}, 'to be valid for all', word, word);
 ```
 
 Another example could be to generate actions. 
@@ -120,12 +119,14 @@ Queue.prototype.drainTo = function (array) {
 Now let's test that items enqueued always comes out in the right order:
 
 ```js
-var action = g.pickone([
-  { name: 'enqueue', value: g.string }, 
+const { array, pickone } = require('chance-generators');
+
+var action = pickone([
+  { name: 'enqueue', value: string }, 
   { name: 'dequeue' }
 ]);
 
-var actions = g.n(action, 200);
+var actions = array(action, 200);
 
 expect(function (actions) {
   var queue = new Queue();
@@ -165,5 +166,5 @@ return expect(function (text) {
     'to equal',
     text
   );
-}, 'to be valid for all', g.string);
+}, 'to be valid for all', string);
 ```
