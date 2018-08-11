@@ -83,7 +83,7 @@ Finally we make the assertion:
 
 ```js
 expect((arr) => {
-  var sorted = sort(arr);
+  const sorted = sort(arr);
   expect(sorted, 'to have length', arr.length);
   expect(sorted, 'to be sorted');
 }, 'to be valid for all', numbers);
@@ -112,7 +112,7 @@ function sortNumbers(arr) {
 
 ```js
 expect((arr) => {
-  var sorted = sortNumbers(arr);
+  const sorted = sortNumbers(arr);
   expect(sorted, 'to have length', arr.length);
   expect(sorted, 'to be sorted');
 }, 'to be valid for all', numbers);
@@ -131,7 +131,7 @@ $ npm install --save-dev unexpected unexpected-check chance-generators
 Then:
 
 ```js#evaluate:false
-var expect = require('unexpected');
+const expect = require('unexpected');
 expect.use(require('unexpected-check');
 ```
 
@@ -148,7 +148,7 @@ repository.
 this will expose the expect function under the following namespace:
 
 ```js#evaluate:false
-var expect = weknowhow.expect.clone();
+const expect = weknowhow.expect.clone();
 expect.use(weknowhow.unexpectedCheck);
 ```
 
@@ -158,7 +158,7 @@ Include the library with RequireJS the following way:
 
 ```js#evaluate:false
 define(['unexpected', 'unexpected-check'], function (unexpected, unexpectedCheck) {
-  var expect = unexpected.clone();
+  const expect = unexpected.clone();
   expect.use(unexpectedCheck);
   // Your code
 });
@@ -204,7 +204,7 @@ return expect(text => {
 
 ```js
 expect((arr) => {
-  var sorted = sort(arr);
+  const sorted = sort(arr);
   expect(sorted, 'to have length', arr.length);
   expect(sorted, 'to be sorted');
 }, 'to be valid for all', {
