@@ -56,7 +56,7 @@ then unexpected-check will try to shrink the error space as much as possible and
 therefore provide much more precise error cases.</p>
 <h2 id="usage">Usage</h2>
 <p>Install it with NPM or add it to your <code>package.json</code>:</p>
-<div class="code lang-"><div>$&nbsp;npm&nbsp;install&nbsp;--save-dev&nbsp;unexpected&nbsp;unexpected-check</div></div><p>Then register the plugin:</p>
+<div class="code lang-"><div>$&nbsp;npm&nbsp;install&nbsp;--save-dev&nbsp;unexpected&nbsp;unexpected-check&nbsp;chance-generators</div></div><p>Then register the plugin:</p>
 <div class="code lang-javascript"><div><span style="color: #F92672">const</span>&nbsp;expect&nbsp;<span style="color: #F92672">=</span>&nbsp;require<span style="color: #999">(</span><span style="color: #E6DB74">'unexpected'</span><span style="color: #999">);</span></div><div>expect<span style="color: #999">.</span>use<span style="color: #999">(</span>require<span style="color: #999">(</span><span style="color: #E6DB74">'unexpected-check'</span><span style="color: #999">);</span></div></div><p>Let&#39;s imagine we wanted to sort arrays of numbers using this function:</p>
 <div class="code lang-javascript"><div><span style="color: #F92672">function</span>&nbsp;sort<span style="color: #999">(</span>arr<span style="color: #999">)</span>&nbsp;<span style="color: #999">{</span></div><div>&nbsp;&nbsp;<span style="color: #F92672">return</span>&nbsp;<span style="color: #999">[].</span>concat<span style="color: #999">(</span>arr<span style="color: #999">).</span>sort<span style="color: #999">();</span></div><div><span style="color: #999">}</span></div></div><p>Then we could write a test to ensure the following:</p>
 <ul>
@@ -101,7 +101,7 @@ a bit faster.</p>
 <p>The source for this plugin can be found on
 <a href="https://github.com/unexpectedjs/unexpected-check">Github</a>.</p>
 <h2 id="mit-license">MIT License</h2>
-<p>Copyright (c) 2016 Sune Simonsen <a href="&#x6d;&#97;&#105;&#x6c;&#116;&#x6f;&#x3a;&#115;&#x75;&#x6e;&#101;&#64;&#119;&#x65;&#x2d;&#107;&#x6e;&#111;&#119;&#x68;&#111;&#x77;&#46;&#x64;&#x6b;">&#115;&#x75;&#x6e;&#101;&#64;&#119;&#x65;&#x2d;&#107;&#x6e;&#111;&#119;&#x68;&#111;&#x77;&#46;&#x64;&#x6b;</a></p>
+<p>Copyright (c) 2016 Sune Simonsen <a href="&#109;&#97;&#x69;&#108;&#x74;&#x6f;&#x3a;&#x73;&#117;&#x6e;&#x65;&#x40;&#119;&#101;&#45;&#107;&#x6e;&#111;&#119;&#104;&#x6f;&#x77;&#x2e;&#x64;&#x6b;">&#x73;&#117;&#x6e;&#x65;&#x40;&#119;&#101;&#45;&#107;&#x6e;&#111;&#119;&#104;&#x6f;&#x77;&#x2e;&#x64;&#x6b;</a></p>
 <p>Permission is hereby granted, free of charge, to any person obtaining
 a copy of this software and associated documentation files (the
 &#39;Software&#39;), to deal in the Software without restriction, including
