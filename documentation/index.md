@@ -35,7 +35,7 @@ therefore provide much more precise error cases.
 Install it with NPM or add it to your `package.json`:
 
 ```
-$ npm install --save-dev unexpected unexpected-check
+$ npm install --save-dev unexpected unexpected-check chance-generators
 ```
 
 Then register the plugin:
