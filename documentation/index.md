@@ -89,7 +89,7 @@ expect((arr) => {
 }, 'to be valid for all', numbers);
 ```
 
-But that assumption as actually not true as the build-in sort functions is based
+But that assumption is actually not true as the build-in sort functions is based
 on converting items to strings and comparing them. So you will get the following error:
 
 ```output
