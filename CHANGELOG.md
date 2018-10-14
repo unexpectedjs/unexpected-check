@@ -1,3 +1,7 @@
+### v2.1.0 (2018-10-14)
+
+- [#16](https://github.com/unexpectedjs/unexpected-check/pull/16) Lint, build, changelog, publish site when releasing ([Sune Simonsen](mailto:sune@we-knowhow.dk))
+
 ### v2.0.0 (2018-08-11)
 
 - [#15](https://github.com/unexpectedjs/unexpected-check/pull/15) Updated for compatibility with the new major version of chance-generators (Major) ([Sune Simonsen](mailto:sune@we-knowhow.dk))
