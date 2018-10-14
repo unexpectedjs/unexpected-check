@@ -7,11 +7,15 @@
   "version": "2.0.0",
   "main": "lib/unexpected-check.js",
   "scripts": {
+    "changelog": "offline-github-changelog > CHANGELOG.md",
     "generate-site": "generate-site --require ./bootstrap-unexpected-markdown.js",
     "lint": "eslint .",
     "lint-staged": "lint-staged",
     "test": "npm run lint && mocha test/**/*.spec.js documentation/**/*.md",
-    "update-examples": "generate-site --require ./bootstrap-unexpected-markdown.js --update-examples"
+    "travis": "npm run lint && npm run build",
+    "update-examples": "generate-site --require ./bootstrap-unexpected-markdown.js --update-examples",
+    "preversion": "npm run lint && npm run test && npm run build && git add unexpected-dom.*",
+    "postversion": "npm run changelog && git add CHANGELOG.md && git commit --allow-empty -m 'Update changelog' && deploy-site.sh"
   },
   "dependencies": {
     "escodegen": "^1.9.0",
@@ -35,6 +39,7 @@
     "lodash.escape": "3.1.0",
     "lodash.unescape": "3.1.0",
     "mocha": "2.3.4",
+    "offline-github-changelog": "1.2.0",
     "pre-commit": "1.2.2",
     "prettier": "1.10.1",
     "prettier-package-json": "1.4.0",
