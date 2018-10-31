@@ -33,7 +33,7 @@
     "babel-eslint": "10.0.1",
     "babel-preset-env": "1.7.0",
     "chance-generators": "3.0.0",
-    "eslint": "2.13.1",
+    "eslint": "5.8.0",
     "eslint-config-onelint": "4.0.0",
     "lint-staged": "4.0.3",
     "lodash.escape": "3.1.0",
