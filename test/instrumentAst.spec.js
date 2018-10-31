@@ -52,6 +52,7 @@ expect.addAssertion(
 describe('instrumentAst', function() {
   it('should work with a basic example', function() {
     expect(
+      /*eslint-disable*/
       function() {
         const program = input => {
           const se = input.indexOf('se');
@@ -95,6 +96,7 @@ describe('instrumentAst', function() {
         };
         program();
       }
+      /*eslint-enable*/
     );
   });
 
@@ -156,6 +158,7 @@ describe('instrumentAst', function() {
   });
 
   it('should instrument an arrow function with an expression body', function() {
+    /*eslint-disable*/
     expect(
       function() {
         var baz = () => bar();
@@ -167,6 +170,7 @@ describe('instrumentAst', function() {
         baz();
       }
     );
+    /*eslint-enable*/
   });
 
   it('should instrument a getter', function() {
@@ -194,6 +198,7 @@ describe('instrumentAst', function() {
 
   it('should instrument an if statement', function() {
     expect(
+      /*eslint-disable*/
       function() {
         if (true) {
           foo();
@@ -211,11 +216,13 @@ describe('instrumentAst', function() {
           bar();
         }
       }
+      /*eslint-enable*/
     );
   });
 
   it('should add and instrument the else branch if not already present', function() {
     expect(
+      /*eslint-disable*/
       function() {
         if (true) {
           foo();
@@ -230,15 +237,15 @@ describe('instrumentAst', function() {
           recordLocation(2);
         }
       }
+      /*eslint-enable*/
     );
   });
 
   it('should rewrite a non-block consequent to a block and add the instrumentation', function() {
     expect(
+      /*eslint-disable*/
       function() {
-        /* eslint-disable curly */
         if (true) bar();
-        /* eslint-enable curly */
       },
       'to come out as',
       function() {
@@ -249,17 +256,17 @@ describe('instrumentAst', function() {
           recordLocation(2);
         }
       }
+      /*eslint-enable*/
     );
   });
 
   it('should rewrite a non-block else to a block and add the instrumentation', function() {
     expect(
+      /*eslint-disable*/
       function() {
-        /* eslint-disable curly */
         if (true) {
           bar();
         } else quux();
-        /* eslint-enable curly */
       },
       'to come out as',
       function() {
@@ -271,6 +278,7 @@ describe('instrumentAst', function() {
           quux();
         }
       }
+      /*eslint-enable*/
     );
   });
 
@@ -294,10 +302,9 @@ describe('instrumentAst', function() {
 
     it('should convert a non-block body to a block', function() {
       expect(
+        /*eslint-disable*/
         function() {
-          /* eslint-disable curly */
           while (foo()) bar();
-          /* eslint-enable curly */
         },
         'to come out as',
         function() {
@@ -306,15 +313,15 @@ describe('instrumentAst', function() {
             bar();
           }
         }
+        /*eslint-enable*/
       );
     });
 
     it('should convert an empty body to a block', function() {
       expect(
+        /*eslint-disable*/
         function() {
-          /* eslint-disable curly */
           while (foo());
-          /* eslint-enable curly */
         },
         'to come out as',
         function() {
@@ -322,6 +329,7 @@ describe('instrumentAst', function() {
             recordLocation(1);
           }
         }
+        /*eslint-enable*/
       );
     });
   });
@@ -346,11 +354,10 @@ describe('instrumentAst', function() {
 
     it('should convert a non-block body to a block', function() {
       expect(
+        /*eslint-disable*/
         function() {
-          /* eslint-disable curly */
           do bar();
           while (foo());
-          /* eslint-enable curly */
         },
         'to come out as',
         function() {
@@ -359,6 +366,7 @@ describe('instrumentAst', function() {
             bar();
           } while (foo());
         }
+        /*eslint-enable*/
       );
     });
   });
@@ -383,10 +391,9 @@ describe('instrumentAst', function() {
 
     it('should convert a non-block body to a block', function() {
       expect(
+        /*eslint-disable*/
         function() {
-          /* eslint-disable curly */
           for (var i = 0; i < 10; i += 1) bar();
-          /* eslint-enable curly */
         },
         'to come out as',
         function() {
@@ -395,15 +402,15 @@ describe('instrumentAst', function() {
             bar();
           }
         }
+        /*eslint-enable*/
       );
     });
 
     it('should convert an empty body to a block', function() {
       expect(
+        /*eslint-disable*/
         function() {
-          /* eslint-disable curly */
           for (var i = 0; i < 10; i += 1);
-          /* eslint-enable curly */
         },
         'to come out as',
         function() {
@@ -411,6 +418,7 @@ describe('instrumentAst', function() {
             recordLocation(1);
           }
         }
+        /*eslint-enable*/
       );
     });
   });
@@ -435,10 +443,9 @@ describe('instrumentAst', function() {
 
     it('should convert a non-block body to a block', function() {
       expect(
+        /*eslint-disable*/
         function() {
-          /* eslint-disable curly */
           for (var a in bar()) a();
-          /* eslint-enable curly */
         },
         'to come out as',
         function() {
@@ -447,24 +454,23 @@ describe('instrumentAst', function() {
             a();
           }
         }
+        /*eslint-enable*/
       );
     });
 
     it('should convert an empty body to a block', function() {
       expect(
+        /*eslint-disable*/
         function() {
-          /* eslint-disable curly, no-unused-vars */
           for (var a in bar());
-          /* eslint-enable curly, no-unused-vars */
         },
         'to come out as',
         function() {
-          /* eslint-disable no-unused-vars */
           for (var a in bar()) {
             recordLocation(1);
           }
-          /* eslint-enable no-unused-vars */
         }
+        /*eslint-enable*/
       );
     });
   });
@@ -489,10 +495,9 @@ describe('instrumentAst', function() {
 
     it('should convert a non-block body to a block', function() {
       expect(
+        /*eslint-disable*/
         function() {
-          /* eslint-disable curly */
           for (var a of bar()) a();
-          /* eslint-enable curly */
         },
         'to come out as',
         function() {
@@ -501,30 +506,30 @@ describe('instrumentAst', function() {
             a();
           }
         }
+        /*eslint-enable*/
       );
     });
 
     it('should convert an empty body to a block', function() {
       expect(
+        /*eslint-disable*/
         function() {
-          /* eslint-disable curly, no-unused-vars */
           for (var a of bar());
-          /* eslint-enable curly, no-unused-vars */
         },
         'to come out as',
         function() {
-          /* eslint-disable no-unused-vars */
           for (var a of bar()) {
             recordLocation(1);
           }
-          /* eslint-enable no-unused-vars */
         }
+        /*eslint-enable*/
       );
     });
   });
 
   it('should instrument a switch statement', function() {
     expect(
+      /*eslint-disable*/
       function() {
         switch (foo) {
           case 'bar':
@@ -551,11 +556,13 @@ describe('instrumentAst', function() {
             quux();
         }
       }
+      /*eslint-enable*/
     );
   });
 
   it('should instrument a ternary', function() {
     expect(
+      /*eslint-disable*/
       function() {
         foo() ? quux() + 123 : bar();
       },
@@ -563,11 +570,13 @@ describe('instrumentAst', function() {
       function() {
         foo() ? (recordLocation(1), quux() + 123) : (recordLocation(2), bar());
       }
+      /*eslint-enable*/
     );
   });
 
   it('should instrument the RHS of a logical and', function() {
     expect(
+      /*eslint-disable*/
       function() {
         foo() && bar();
       },
@@ -575,11 +584,13 @@ describe('instrumentAst', function() {
       function() {
         foo() && (recordLocation(1), bar());
       }
+      /*eslint-enable*/
     );
   });
 
   it('should instrument the RHS of a logical or', function() {
     expect(
+      /*eslint-disable*/
       function() {
         foo() || bar();
       },
@@ -587,11 +598,13 @@ describe('instrumentAst', function() {
       function() {
         foo() || (recordLocation(1), bar());
       }
+      /*eslint-enable*/
     );
   });
 
   it('should instrument a default parameter', function() {
     expect(
+      /*eslint-disable*/
       function() {
         function baz({ theThing } = {}) {}
         baz();
@@ -603,6 +616,7 @@ describe('instrumentAst', function() {
         }
         baz();
       }
+      /*eslint-enable*/
     );
   });
 
@@ -741,6 +755,7 @@ describe('instrumentAst', function() {
 
     it('should instrument the test of a ternary', function() {
       expect(
+        /*eslint-disable*/
         function() {
           foo() > bar() ? 123 : 456;
         },
@@ -750,11 +765,13 @@ describe('instrumentAst', function() {
             ? (recordLocation(1), 123)
             : (recordLocation(2), 456);
         }
+        /*eslint-enable*/
       );
     });
 
     it('should instrument the LHS of a logical and', function() {
       expect(
+        /*eslint-disable*/
         function() {
           foo() > bar() && quux();
         },
@@ -762,11 +779,13 @@ describe('instrumentAst', function() {
         function() {
           recordProximity(foo(), '>', bar()) && (recordLocation(1), quux());
         }
+        /*eslint-enable*/
       );
     });
 
     it('should instrument the LHS of a logical and', function() {
       expect(
+        /*eslint-disable*/
         function() {
           foo() > bar() || quux();
         },
@@ -774,6 +793,7 @@ describe('instrumentAst', function() {
         function() {
           recordProximity(foo(), '>', bar()) || (recordLocation(1), quux());
         }
+        /*eslint-enable*/
       );
     });
   });
@@ -784,6 +804,7 @@ describe('instrumentAst', function() {
     const c = 225;
 
     expect(
+      /*eslint-disable*/
       function() {
         if (10 < a && b < 20 && a === b && a * b === c) {
           console.log('success');
@@ -803,6 +824,7 @@ describe('instrumentAst', function() {
           recordLocation(5);
         }
       }
+      /*eslint-enable*/
     );
   });
 });
