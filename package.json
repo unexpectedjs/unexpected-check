@@ -42,7 +42,7 @@
     "eslint-plugin-prettier": "3.0.0",
     "serve": "9.4.2",
     "unexpected": "10.38.0",
-    "unexpected-documentation-site-generator": "4.7.1",
+    "unexpected-documentation-site-generator": "5.0.0",
     "unexpected-markdown": "1.7.4",
     "unexpected-stream": "2.0.3"
   },
