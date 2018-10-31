@@ -41,7 +41,7 @@
     "mocha": "5.2.0",
     "offline-github-changelog": "1.2.0",
     "pre-commit": "1.2.2",
-    "prettier": "1.10.1",
+    "prettier": "1.14.3",
     "prettier-package-json": "1.4.0",
     "serve": "9.4.2",
     "unexpected": "10.38.0",
