@@ -47,7 +47,7 @@
     "unexpected": "10.38.0",
     "unexpected-documentation-site-generator": "4.7.1",
     "unexpected-markdown": "1.7.4",
-    "unexpected-stream": "2.0.3"
+    "unexpected-stream": "3.0.0"
   },
   "keywords": [
     "property",
