@@ -40,7 +40,7 @@
     "prettier": "1.14.3",
     "eslint-config-pretty-standard": "2.0.0",
     "eslint-plugin-prettier": "3.0.0",
-    "serve": "9.4.2",
+    "serve": "10.0.2",
     "unexpected": "10.38.0",
     "unexpected-documentation-site-generator": "4.7.1",
     "unexpected-markdown": "1.7.4",
