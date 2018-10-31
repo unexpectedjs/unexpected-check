@@ -10,7 +10,6 @@
     "changelog": "offline-github-changelog > CHANGELOG.md",
     "generate-site": "generate-site --require ./bootstrap-unexpected-markdown.js",
     "lint": "eslint .",
-    "lint-staged": "lint-staged",
     "test": "mocha test/**/*.spec.js documentation/**/*.md",
     "travis": "npm run lint && npm test",
     "update-examples": "generate-site --require ./bootstrap-unexpected-markdown.js --update-examples",
@@ -33,16 +32,14 @@
     "babel-eslint": "10.0.1",
     "babel-preset-env": "1.7.0",
     "chance-generators": "3.0.0",
-    "eslint": "2.13.1",
-    "eslint-config-onelint": "4.0.0",
-    "lint-staged": "8.0.3",
+    "eslint": "5.8.0",
     "lodash.escape": "4.0.1",
     "lodash.unescape": "4.0.1",
     "mocha": "5.2.0",
     "offline-github-changelog": "1.2.0",
-    "pre-commit": "1.2.2",
     "prettier": "1.14.3",
-    "prettier-package-json": "1.4.0",
+    "eslint-config-pretty-standard": "2.0.0",
+    "eslint-plugin-prettier": "3.0.0",
     "serve": "9.4.2",
     "unexpected": "10.38.0",
     "unexpected-documentation-site-generator": "4.7.1",
@@ -54,19 +51,5 @@
     "testing",
     "testing",
     "unexpected"
-  ],
-  "lint-staged": {
-    "linters": {
-      "*.js": [
-        "eslint",
-        "prettier --write",
-        "git add"
-      ],
-      "package.json": [
-        "prettier-package-json --write",
-        "git add"
-      ]
-    }
-  },
-  "pre-commit": "lint-staged"
+  ]
 }
