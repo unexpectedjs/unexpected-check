@@ -21,7 +21,7 @@
     "escodegen": "^1.9.0",
     "esprima": "^4.0.0",
     "estraverse": "^4.2.0",
-    "ignore": "^3.3.7",
+    "ignore": "^5.0.3",
     "pkg-up": "^2.0.0"
   },
   "peerDependencies": {
@@ -30,11 +30,11 @@
   "devDependencies": {
     "babel-cli": "6.26.0",
     "babel-core": "6.26.0",
-    "babel-eslint": "8.2.1",
+    "babel-eslint": "10.0.1",
     "babel-preset-env": "1.7.0",
     "chance-generators": "3.0.0",
     "eslint": "2.13.1",
-    "eslint-config-onelint": "1.2.0",
+    "eslint-config-onelint": "4.0.0",
     "lint-staged": "8.0.3",
     "lodash.escape": "3.1.0",
     "lodash.unescape": "3.1.0",
