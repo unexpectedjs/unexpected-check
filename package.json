@@ -36,7 +36,7 @@
     "eslint": "2.13.1",
     "eslint-config-onelint": "4.0.0",
     "lint-staged": "8.0.3",
-    "lodash.escape": "3.1.0",
+    "lodash.escape": "4.0.1",
     "lodash.unescape": "4.0.1",
     "mocha": "2.3.4",
     "offline-github-changelog": "1.2.0",
