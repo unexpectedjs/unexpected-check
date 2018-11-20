@@ -41,7 +41,7 @@
     "eslint-config-pretty-standard": "2.0.0",
     "eslint-plugin-prettier": "3.0.0",
     "serve": "10.1.1",
-    "unexpected": "10.39.1",
+    "unexpected": "10.39.2",
     "unexpected-documentation-site-generator": "5.0.0",
     "unexpected-markdown": "1.7.4",
     "unexpected-stream": "3.0.0"
