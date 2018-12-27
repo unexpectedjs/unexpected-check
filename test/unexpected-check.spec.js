@@ -1,6 +1,6 @@
 /*global describe, it, beforeEach*/
 var { array, integer, string } = require('chance-generators');
-var expect = require('unexpected');
+var expect = require('unexpected').clone();
 expect.output.preferredWidth = 80;
 
 expect.use(require('../lib/unexpected-check'));
@@ -134,9 +134,11 @@ describe('unexpected-check', function() {
       function() {
         expect(
           function(items) {
-            expect(items, 'to have items satisfying', function(item, i) {
-              expect(item, 'not to be', i);
-            });
+            expect(
+              items.map((value, index) => ({ index, value })),
+              'to have items satisfying',
+              expect.it(({ index, value }) => expect(value, 'not to be', index))
+            );
           },
           'to be valid for all',
           numbers
@@ -149,11 +151,11 @@ describe('unexpected-check', function() {
         '  Generated input: [ 0 ]\n' +
         '  with: array({ itemGenerator: integer({ min: -20, max: 20 }), min: 1, max: 20 })\n' +
         '\n' +
-        '  expected [ 0 ]\n' +
-        "  to have items satisfying function (item, i) { expect(item, 'not to be', i); }\n" +
+        '  expected [ { index: 0, value: 0 } ]\n' +
+        "  to have items satisfying expect.it(({ index, value }) => expect(value, 'not to be', index))\n" +
         '\n' +
         '  [\n' +
-        '    0 // should not be 0\n' +
+        '    { index: 0, value: 0 } // expected 0 not to be 0\n' +
         '  ]'
     );
   });
@@ -165,9 +167,12 @@ describe('unexpected-check', function() {
       function() {
         expect(
           function(items) {
-            expect(items, 'to have items satisfying', function(item) {
-              expect(item, 'not to match', /[!@#$%^&*()_+]/);
-            });
+            expect(
+              items,
+              'to have items satisfying',
+              'not to match',
+              /[!@#$%^&*()_+]/
+            );
           },
           'to be valid for all',
           strings
@@ -180,10 +185,7 @@ describe('unexpected-check', function() {
         "  Generated input: [ '#' ]\n" +
         '  with: array({ itemGenerator: string, min: 1, max: 20 })\n' +
         '\n' +
-        "  expected [ '#' ] to have items satisfying\n" +
-        '  function (item) {\n' +
-        "    expect(item, 'not to match', /[!@#$%^&*()_+]/);\n" +
-        '  }\n' +
+        "  expected [ '#' ] to have items satisfying not to match /[!@#$%^&*()_+]/\n" +
         '\n' +
         '  [\n' +
         "    '#' // should not match /[!@#$%^&*()_+]/\n" +
