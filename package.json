@@ -24,7 +24,8 @@
     "pkg-up": "^2.0.0"
   },
   "peerDependencies": {
-    "chance-generators": "^3.0.0"
+    "chance-generators": "^3.0.0",
+    "unexpected": "^10.40.0 || ^11.0.0-4"
   },
   "devDependencies": {
     "babel-cli": "^6.26.0",
@@ -33,15 +34,15 @@
     "babel-preset-env": "^1.7.0",
     "chance-generators": "^3.5.0",
     "eslint": "^5.10.0",
+    "eslint-config-pretty-standard": "^2.0.0",
+    "eslint-plugin-prettier": "^3.0.0",
     "lodash.escape": "^4.0.1",
     "lodash.unescape": "^4.0.1",
     "mocha": "^5.2.0",
     "offline-github-changelog": "^1.2.0",
     "prettier": "^1.15.3",
-    "eslint-config-pretty-standard": "^2.0.0",
-    "eslint-plugin-prettier": "^3.0.0",
     "serve": "^10.1.1",
-    "unexpected": "^10.39.2",
+    "unexpected": "11.0.0-4",
     "unexpected-documentation-site-generator": "^5.0.0",
     "unexpected-markdown": "^1.7.4",
     "unexpected-stream": "^3.0.0"
