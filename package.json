@@ -14,7 +14,7 @@
     "travis": "npm run lint && npm test",
     "update-examples": "generate-site --require ./bootstrap-unexpected-markdown.js --update-examples",
     "preversion": "npm run lint && npm run test",
-    "postversion": "npm run changelog && git add CHANGELOG.md && git commit --allow-empty -m 'Update changelog' && deploy-site.sh"
+    "postversion": "npm run changelog && git add CHANGELOG.md && git commit --allow-empty -m 'Update changelog' && deploy-site"
   },
   "dependencies": {
     "escodegen": "^1.9.0",
