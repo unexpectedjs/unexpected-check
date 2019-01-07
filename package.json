@@ -42,7 +42,7 @@
     "offline-github-changelog": "^1.2.0",
     "prettier": "^1.15.3",
     "serve": "^10.1.1",
-    "unexpected": "11.0.0-4",
+    "unexpected": "^11.0.0",
     "unexpected-documentation-site-generator": "^5.0.0",
     "unexpected-markdown": "^2.0.0",
     "unexpected-stream": "^3.0.0"
