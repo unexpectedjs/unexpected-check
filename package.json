@@ -43,7 +43,7 @@
     "prettier": "^1.15.3",
     "serve": "^10.1.1",
     "unexpected": "^11.0.0",
-    "unexpected-documentation-site-generator": "^5.0.0",
+    "unexpected-documentation-site-generator": "^6.0.0",
     "unexpected-markdown": "^3.0.0",
     "unexpected-stream": "^3.0.0"
   },
