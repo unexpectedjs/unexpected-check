@@ -21,7 +21,7 @@
     "esprima": "^4.0.0",
     "estraverse": "^4.2.0",
     "ignore": "^5.0.3",
-    "pkg-up": "^2.0.0"
+    "pkg-up": "^3.0.0"
   },
   "peerDependencies": {
     "chance-generators": "^3.0.0",
