@@ -41,7 +41,7 @@
     "mocha": "^5.2.0",
     "offline-github-changelog": "^1.2.0",
     "prettier": "^1.15.3",
-    "serve": "^10.1.1",
+    "serve": "^11.0.0",
     "unexpected": "^11.0.0",
     "unexpected-documentation-site-generator": "^6.0.0",
     "unexpected-markdown": "^3.0.0",
