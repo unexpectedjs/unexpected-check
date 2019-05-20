@@ -3,4 +3,4 @@
 --check-leaks
 --timeout 60000
 --require ./bootstrap-unexpected-markdown.js
---compilers md:unexpected-markdown
+--require unexpected-markdown
