@@ -62,6 +62,47 @@ describe('unexpected-check', function() {
     );
   });
 
+  describe('when a non-Unexpected error is caught', function() {
+    it('should report the full stack trace', function() {
+      expect(
+        function() {
+          expect(
+            function() {
+              (function crash() {
+                try {
+                  this.ohDear();
+                } catch (err) {
+                  // Mangle the stack so that it doesn't contain file names and line numbers,
+                  // as that would make the test very fragile:
+                  err.stack = err.stack
+                    .replace(
+                      /( +at \w+) \([^)]+\)/g,
+                      '$1 (/path/to/file.js:x:y)'
+                    )
+                    .split('\n')
+                    .slice(0, 2)
+                    .join('\n');
+                  throw err;
+                }
+              })();
+            },
+            'to be valid for all',
+            numbers
+          );
+        },
+        'to throw',
+        'Found an error after 1 iteration, 6 additional errors found.\n' +
+          'counterexample:\n' +
+          '\n' +
+          '  Generated input: [ 0 ]\n' +
+          '  with: array({ itemGenerator: integer({ min: -20, max: 20 }), min: 1, max: 20 })\n' +
+          '\n' +
+          '  TypeError: this.ohDear is not a function\n' +
+          '      at crash (/path/to/file.js:x:y)'
+      );
+    });
+  });
+
   it('find errors in the specification', function() {
     expect(
       function() {
