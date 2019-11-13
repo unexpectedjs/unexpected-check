@@ -61,6 +61,8 @@ expect(text => {
 }, 'to be valid for all', string({ max: 200 }));
 ```
 
+<!-- unexpected-markdown cleanStackTrace: true -->
+
 ```output
 Found an error after 220 iterations
 counterexample:
