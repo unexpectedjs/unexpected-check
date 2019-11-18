@@ -52,10 +52,10 @@ describe('unexpected-check', function() {
         );
       },
       'to throw',
-      'Found an error after 1 iteration, 25 additional errors found.\n' +
+      'Found an error after 1 iteration, 20 additional errors found.\n' +
         'counterexample:\n' +
         '\n' +
-        '  Generated input: [ -1, -2 ]\n' +
+        '  Generated input: [ -2, -1 ]\n' +
         '  with: array({ itemGenerator: integer({ min: -20, max: 20 }), min: 1, max: 20 })\n' +
         '\n' +
         '  expected [ -1, -2 ] to be sorted'
@@ -74,7 +74,7 @@ describe('unexpected-check', function() {
         );
       },
       'to throw',
-      'Found an error after 3 iterations, 200 additional errors found.\n' +
+      'Found an error after 8 iterations, 200 additional errors found.\n' +
         'counterexample:\n' +
         '\n' +
         '  Generated input: [ 2 ]\n' +
@@ -115,7 +115,7 @@ describe('unexpected-check', function() {
         );
       },
       'to throw',
-      'Found an error after 1 iteration, 6 additional errors found.\n' +
+      'Found an error after 3 iterations, 10 additional errors found.\n' +
         'counterexample:\n' +
         '\n' +
         '  Generated input: [ 0 ], 0\n' +
@@ -145,7 +145,7 @@ describe('unexpected-check', function() {
         );
       },
       'to throw',
-      'Found an error after 3 iterations, 12 additional errors found.\n' +
+      'Found an error after 4 iterations, 16 additional errors found.\n' +
         'counterexample:\n' +
         '\n' +
         '  Generated input: [ 0 ]\n' +
@@ -182,15 +182,15 @@ describe('unexpected-check', function() {
       'Found an error after 1 iteration, 200 additional errors found.\n' +
         'counterexample:\n' +
         '\n' +
-        "  Generated input: [ '#' ]\n" +
+        "  Generated input: [ ')' ]\n" +
         '  with: array({ itemGenerator: string, min: 1, max: 20 })\n' +
         '\n' +
-        "  expected [ '#' ] to have items satisfying not to match /[!@#$%^&*()_+]/\n" +
+        "  expected [ ')' ] to have items satisfying not to match /[!@#$%^&*()_+]/\n" +
         '\n' +
         '  [\n' +
-        "    '#' // should not match /[!@#$%^&*()_+]/\n" +
+        "    ')' // should not match /[!@#$%^&*()_+]/\n" +
         '        //\n' +
-        '        // #\n' +
+        '        // )\n' +
         '        // ^\n' +
         '  ]'
     );
@@ -211,7 +211,7 @@ describe('unexpected-check', function() {
         integer({ min: -20, max: 20 })
       ),
       'to be rejected with',
-      'Found an error after 6 iterations, 14 additional errors found.\n' +
+      'Found an error after 3 iterations, 10 additional errors found.\n' +
         'counterexample:\n' +
         '\n' +
         '  Generated input: [ 0 ], 0\n' +
@@ -246,7 +246,7 @@ describe('unexpected-check', function() {
         );
       },
       'to error',
-      'Found an error after 2 iterations, 12 additional errors found.\n' +
+      'Found an error after 3 iterations, 10 additional errors found.\n' +
         'counterexample:\n' +
         '\n' +
         '  Generated input: [ 0 ], 0\n' +
@@ -319,7 +319,7 @@ describe('unexpected-check', function() {
           );
         },
         'to error with',
-        'Found an error after 4 iterations, 1 additional error found.\n' +
+        'Found an error after 1 iteration, 1 additional error found.\n' +
           'counterexample:\n' +
           '\n' +
           "  Generated input: 'a'\n" +

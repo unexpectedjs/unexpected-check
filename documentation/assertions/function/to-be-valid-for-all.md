@@ -62,7 +62,7 @@ expect(text => {
 ```
 
 ```output
-Found an error after 78 iterations
+Found an error after 220 iterations
 counterexample:
 
   Generated input: ''
