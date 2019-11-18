@@ -93,7 +93,7 @@ But that assumption is actually not true as the build-in sort functions is based
 on converting items to strings and comparing them. So you will get the following error:
 
 ```output
-Found an error after 1 iteration, 122 additional errors found.
+Found an error after 1 iteration, 107 additional errors found.
 counterexample:
 
   Generated input: [ -2, -1 ]
@@ -216,13 +216,13 @@ expect((arr) => {
 ```
 
 ```output
-Found an error after 2 iterations, 9 additional errors found.
+Found an error after 1 iteration, 9 additional errors found.
 counterexample:
 
-  Generated input: [ 0, 0, -1, 0, -1, 0, 7, -7 ]
+  Generated input: [ 0, 0, -2, -1 ]
   with: array({ itemGenerator: integer({ min: -20, max: 20 }), min: 1, max: 20 })
 
-  expected [ -1, -1, -7, 0, 0, 0, 0, 7 ] to be sorted
+  expected [ -1, -2, 0, 0 ] to be sorted
 ```
 
 As you can see the input shrinking is worse with less iterations, but it will be
