@@ -70,7 +70,9 @@ counterexample:
   Generated input: ''
   with: string({ min: 0, max: 200 })
 
-  TypeError('Cannot read property \'forEach\' of null')
+  TypeError: Cannot read property 'forEach' of null
+      at rleEncode (/path/to/file.js:x:y)
+      at /path/to/file.js:x:y)
 ```
 
 Something is failing for the empty string input. The problem is that the regular
