@@ -1,3 +1,15 @@
+### v2.3.0 (2019-11-18)
+
+- [#73](https://github.com/unexpectedjs/unexpected-check/pull/73) Don't use the seed cache when creating iterators in 'to be valid for all' ([Sune Simonsen](mailto:sune@we-knowhow.dk))
+- [#60](https://github.com/unexpectedjs/unexpected-check/pull/60) Upgrade unexpected-markdown to version 4.0.0 ([depfu[bot]](mailto:23717796+depfu[bot]@users.noreply.github.com))
+- [#58](https://github.com/unexpectedjs/unexpected-check/pull/58) Upgrade unexpected-stream to version 4.0.0 ([depfu[bot]](mailto:depfu[bot]@users.noreply.github.com))
+- [#54](https://github.com/unexpectedjs/unexpected-check/pull/54) Upgrade serve to version 11.0.0 ([depfu[bot]](mailto:depfu[bot]@users.noreply.github.com))
+- [#53](https://github.com/unexpectedjs/unexpected-check/pull/53) Upgrade pkg-up to version 3.0.1 ([depfu[bot]](mailto:depfu[bot]@users.noreply.github.com))
+- [#48](https://github.com/unexpectedjs/unexpected-check/pull/48) Upgrade unexpected-documentation-site-generator to version 6.0.0 ([depfu[bot]](mailto:depfu[bot]@users.noreply.github.com))
+- [#47](https://github.com/unexpectedjs/unexpected-check/pull/47) Upgrade unexpected-markdown to version 3.0.0 ([depfu[bot]](mailto:depfu[bot]@users.noreply.github.com))
+- [#46](https://github.com/unexpectedjs/unexpected-check/pull/46) Upgrade unexpected to version 11.0.0 ([depfu[bot]](mailto:depfu[bot]@users.noreply.github.com))
+- [#44](https://github.com/unexpectedjs/unexpected-check/pull/44) Upgrade unexpected-markdown to version 2.0.0 ([depfu[bot]](mailto:depfu[bot]@users.noreply.github.com))
+
 ### v2.2.0 (2019-01-04)
 
 - [#45](https://github.com/unexpectedjs/unexpected-check/pull/45) Allow the next major version of unexpected ([Sune Simonsen](mailto:sune@we-knowhow.dk))
