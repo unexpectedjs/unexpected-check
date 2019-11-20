@@ -1,1 +1,5 @@
 package.json
+/coverage/
+/site-build/
+/.nyc_output/
+/node_modules/
