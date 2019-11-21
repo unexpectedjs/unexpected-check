@@ -181,7 +181,7 @@ describe('unexpected-check', function() {
         );
       },
       'to throw',
-      'Found an error after 3 iterations, 10 additional errors found.\n' +
+      'Found an error after 6 iterations, 14 additional errors found.\n' +
         'counterexample:\n' +
         '\n' +
         '  Generated input: [ 0 ], 0\n' +
@@ -277,7 +277,7 @@ describe('unexpected-check', function() {
         integer({ min: -20, max: 20 })
       ),
       'to be rejected with',
-      'Found an error after 3 iterations, 10 additional errors found.\n' +
+      'Found an error after 6 iterations, 14 additional errors found.\n' +
         'counterexample:\n' +
         '\n' +
         '  Generated input: [ 0 ], 0\n' +
@@ -312,7 +312,7 @@ describe('unexpected-check', function() {
         );
       },
       'to error',
-      'Found an error after 3 iterations, 10 additional errors found.\n' +
+      'Found an error after 6 iterations, 14 additional errors found.\n' +
         'counterexample:\n' +
         '\n' +
         '  Generated input: [ 0 ], 0\n' +
@@ -323,6 +323,16 @@ describe('unexpected-check', function() {
         '  [\n' +
         '    0 // should be removed\n' +
         '  ]'
+    );
+  });
+
+  it('seeds the given generators differently', () => {
+    expect(
+      (a, b) => {
+        expect(a, 'not to be', b);
+      },
+      'to be valid for all',
+      { generators: [integer, integer], maxIterations: 1 }
     );
   });
 
