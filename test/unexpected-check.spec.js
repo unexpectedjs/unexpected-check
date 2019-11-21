@@ -69,34 +69,20 @@ describe('unexpected-check', function() {
         function() {
           expect(
             function(arr) {
-              var sorted = sort(arr);
-
-              assert.deepEqual(arr, sorted);
+              throw new assert.AssertionError({ message: 'failed' });
             },
             'to be valid for all',
-            numbers
+            integer
           );
         },
         'to throw',
-        'Found an error after 1 iteration, 200 additional errors found.\n' +
+        'Found an error after 1 iteration, 40 additional errors found.\n' +
           'counterexample:\n' +
           '\n' +
-          '  Generated input: [ 0, -1 ]\n' +
-          '  with: array({ itemGenerator: integer({ min: -20, max: 20 }), min: 1, max: 20 })\n' +
+          '  Generated input: 0\n' +
+          '  with: integer\n' +
           '\n' +
-          '  Expected values to be loosely deep-equal:\n' +
-          '\n' +
-          '  [\n' +
-          '    0,\n' +
-          '    -1\n' +
-          '  ]\n' +
-          '\n' +
-          '  should loosely deep-equal\n' +
-          '\n' +
-          '  [\n' +
-          '    -1,\n' +
-          '    0\n' +
-          '  ]'
+          '  failed'
       );
     });
   });
