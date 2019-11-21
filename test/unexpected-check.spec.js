@@ -1,5 +1,6 @@
 /*global describe, it, beforeEach*/
 var { array, integer, string } = require('chance-generators');
+var assert = require('assert');
 var expect = require('unexpected').clone();
 expect.output.preferredWidth = 80;
 
@@ -60,6 +61,30 @@ describe('unexpected-check', function() {
         '\n' +
         '  expected [ -1, -2 ] to be sorted'
     );
+  });
+
+  describe('when an assertion error is caught', () => {
+    it('should not report a full stack trace', () => {
+      expect(
+        function() {
+          expect(
+            function(arr) {
+              throw new assert.AssertionError({ message: 'failed' });
+            },
+            'to be valid for all',
+            integer
+          );
+        },
+        'to throw',
+        'Found an error after 1 iteration, 40 additional errors found.\n' +
+          'counterexample:\n' +
+          '\n' +
+          '  Generated input: 0\n' +
+          '  with: integer\n' +
+          '\n' +
+          '  failed'
+      );
+    });
   });
 
   describe('when a non-Unexpected error is caught', function() {
