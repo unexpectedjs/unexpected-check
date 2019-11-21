@@ -1,3 +1,7 @@
+### v2.4.1 (2019-11-21)
+
+- [#75](https://github.com/unexpectedjs/unexpected-check/pull/75) Seed the generators in valid for all differently ([Sune Simonsen](mailto:sune@we-knowhow.dk))
+
 ### v2.4.0 (2019-11-21)
 
 - [#74](https://github.com/unexpectedjs/unexpected-check/pull/74) Inspect AssertionError's without a full stack trace ([Sune Simonsen](mailto:sune@we-knowhow.dk))
