@@ -17,7 +17,7 @@
     "postversion": "npm run changelog && git add CHANGELOG.md && git commit --allow-empty -m 'Update changelog' && deploy-site"
   },
   "dependencies": {
-    "escodegen": "^1.9.0",
+    "escodegen": "1.14.1",
     "esprima": "^4.0.0",
     "estraverse": "^4.2.0",
     "ignore": "^5.0.3",
