@@ -44,7 +44,7 @@
     "serve": "^11.0.0",
     "unexpected": "^11.0.0",
     "unexpected-documentation-site-generator": "^6.1.0",
-    "unexpected-markdown": "^4.1.1",
+    "unexpected-markdown": "^5.0.1",
     "unexpected-stream": "^4.0.0"
   },
   "keywords": [
