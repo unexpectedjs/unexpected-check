@@ -19,7 +19,7 @@
   "dependencies": {
     "escodegen": "^1.9.0",
     "esprima": "^4.0.0",
-    "estraverse": "^4.2.0",
+    "estraverse": "^5.0.0",
     "ignore": "^5.0.3",
     "pkg-up": "^3.0.1"
   },
