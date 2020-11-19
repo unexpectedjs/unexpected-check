@@ -1,4 +1,4 @@
-/*global recordLocation, recordProximity, foo, bar, quux*/
+/* global recordLocation, recordProximity, foo, bar, quux */
 const instrumentAst = require('../lib/instrumentAst');
 const expect = require('unexpected').clone();
 const esprima = require('esprima');
@@ -23,7 +23,7 @@ function toAst(stringOrAssetOrFunctionOrAst) {
 expect.addAssertion(
   '<function> to come out as <function>',
   (expect, subject, value) => {
-    var nextLocationNumber = 1;
+    let nextLocationNumber = 1;
     function getNextLocationNumber() {
       return nextLocationNumber++;
     }
@@ -96,7 +96,7 @@ describe('instrumentAst', function() {
         };
         program();
       }
-      /*eslint-enable*/
+      /* eslint-enable */
     );
   });
 
@@ -122,14 +122,14 @@ describe('instrumentAst', function() {
   it('should instrument a function expression', function() {
     expect(
       function() {
-        var baz = function() {
+        const baz = function() {
           bar();
         };
         baz();
       },
       'to come out as',
       function() {
-        var baz = function() {
+        const baz = function() {
           recordLocation(1);
           bar();
         };
@@ -141,14 +141,14 @@ describe('instrumentAst', function() {
   it('should instrument an arrow function', function() {
     expect(
       function() {
-        var baz = () => {
+        const baz = () => {
           bar();
         };
         baz();
       },
       'to come out as',
       function() {
-        var baz = () => {
+        const baz = () => {
           recordLocation(1);
           bar();
         };
@@ -170,13 +170,13 @@ describe('instrumentAst', function() {
         baz();
       }
     );
-    /*eslint-enable*/
+    /* eslint-enable */
   });
 
   it('should instrument a getter', function() {
     expect(
       function() {
-        var baz = {
+        const baz = {
           get foo() {
             return bar();
           }
@@ -185,7 +185,7 @@ describe('instrumentAst', function() {
       },
       'to come out as',
       function() {
-        var baz = {
+        const baz = {
           get foo() {
             recordLocation(1);
             return bar();
@@ -216,7 +216,7 @@ describe('instrumentAst', function() {
           bar();
         }
       }
-      /*eslint-enable*/
+      /* eslint-enable */
     );
   });
 
@@ -237,7 +237,7 @@ describe('instrumentAst', function() {
           recordLocation(2);
         }
       }
-      /*eslint-enable*/
+      /* eslint-enable */
     );
   });
 
@@ -256,7 +256,7 @@ describe('instrumentAst', function() {
           recordLocation(2);
         }
       }
-      /*eslint-enable*/
+      /* eslint-enable */
     );
   });
 
@@ -278,7 +278,7 @@ describe('instrumentAst', function() {
           quux();
         }
       }
-      /*eslint-enable*/
+      /* eslint-enable */
     );
   });
 
@@ -313,7 +313,7 @@ describe('instrumentAst', function() {
             bar();
           }
         }
-        /*eslint-enable*/
+        /* eslint-enable */
       );
     });
 
@@ -329,7 +329,7 @@ describe('instrumentAst', function() {
             recordLocation(1);
           }
         }
-        /*eslint-enable*/
+        /* eslint-enable */
       );
     });
   });
@@ -366,7 +366,7 @@ describe('instrumentAst', function() {
             bar();
           } while (foo());
         }
-        /*eslint-enable*/
+        /* eslint-enable */
       );
     });
   });
@@ -375,13 +375,13 @@ describe('instrumentAst', function() {
     it('should instrument the body', function() {
       expect(
         function() {
-          for (var i = 0; i < 10; i += 1) {
+          for (let i = 0; i < 10; i += 1) {
             bar();
           }
         },
         'to come out as',
         function() {
-          for (var i = 0; recordProximity(i, '<', 10); i += 1) {
+          for (let i = 0; recordProximity(i, '<', 10); i += 1) {
             recordLocation(1);
             bar();
           }
@@ -402,7 +402,7 @@ describe('instrumentAst', function() {
             bar();
           }
         }
-        /*eslint-enable*/
+        /* eslint-enable */
       );
     });
 
@@ -418,7 +418,7 @@ describe('instrumentAst', function() {
             recordLocation(1);
           }
         }
-        /*eslint-enable*/
+        /* eslint-enable */
       );
     });
   });
@@ -427,13 +427,13 @@ describe('instrumentAst', function() {
     it('should instrument the body', function() {
       expect(
         function() {
-          for (var a in bar()) {
+          for (const a in bar()) {
             a();
           }
         },
         'to come out as',
         function() {
-          for (var a in bar()) {
+          for (const a in bar()) {
             recordLocation(1);
             a();
           }
@@ -454,7 +454,7 @@ describe('instrumentAst', function() {
             a();
           }
         }
-        /*eslint-enable*/
+        /* eslint-enable */
       );
     });
 
@@ -470,7 +470,7 @@ describe('instrumentAst', function() {
             recordLocation(1);
           }
         }
-        /*eslint-enable*/
+        /* eslint-enable */
       );
     });
   });
@@ -479,13 +479,13 @@ describe('instrumentAst', function() {
     it('should instrument the body', function() {
       expect(
         function() {
-          for (var a of bar()) {
+          for (const a of bar()) {
             a();
           }
         },
         'to come out as',
         function() {
-          for (var a of bar()) {
+          for (const a of bar()) {
             recordLocation(1);
             a();
           }
@@ -506,7 +506,7 @@ describe('instrumentAst', function() {
             a();
           }
         }
-        /*eslint-enable*/
+        /* eslint-enable */
       );
     });
 
@@ -522,7 +522,7 @@ describe('instrumentAst', function() {
             recordLocation(1);
           }
         }
-        /*eslint-enable*/
+        /* eslint-enable */
       );
     });
   });
@@ -556,7 +556,7 @@ describe('instrumentAst', function() {
             quux();
         }
       }
-      /*eslint-enable*/
+      /* eslint-enable */
     );
   });
 
@@ -570,7 +570,7 @@ describe('instrumentAst', function() {
       function() {
         foo() ? (recordLocation(1), quux() + 123) : (recordLocation(2), bar());
       }
-      /*eslint-enable*/
+      /* eslint-enable */
     );
   });
 
@@ -584,7 +584,7 @@ describe('instrumentAst', function() {
       function() {
         foo() && (recordLocation(1), bar());
       }
-      /*eslint-enable*/
+      /* eslint-enable */
     );
   });
 
@@ -598,7 +598,7 @@ describe('instrumentAst', function() {
       function() {
         foo() || (recordLocation(1), bar());
       }
-      /*eslint-enable*/
+      /* eslint-enable */
     );
   });
 
@@ -616,7 +616,7 @@ describe('instrumentAst', function() {
         }
         baz();
       }
-      /*eslint-enable*/
+      /* eslint-enable */
     );
   });
 
@@ -765,7 +765,7 @@ describe('instrumentAst', function() {
             ? (recordLocation(1), 123)
             : (recordLocation(2), 456);
         }
-        /*eslint-enable*/
+        /* eslint-enable */
       );
     });
 
@@ -779,7 +779,7 @@ describe('instrumentAst', function() {
         function() {
           recordProximity(foo(), '>', bar()) && (recordLocation(1), quux());
         }
-        /*eslint-enable*/
+        /* eslint-enable */
       );
     });
 
@@ -793,7 +793,7 @@ describe('instrumentAst', function() {
         function() {
           recordProximity(foo(), '>', bar()) || (recordLocation(1), quux());
         }
-        /*eslint-enable*/
+        /* eslint-enable */
       );
     });
   });
@@ -824,7 +824,7 @@ describe('instrumentAst', function() {
           recordLocation(5);
         }
       }
-      /*eslint-enable*/
+      /* eslint-enable */
     );
   });
 });

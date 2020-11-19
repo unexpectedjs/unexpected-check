@@ -1,13 +1,13 @@
-/*global describe, it, beforeEach*/
-var { array, integer, string } = require('chance-generators');
-var assert = require('assert');
-var expect = require('unexpected').clone();
+/* global describe, it, beforeEach */
+const { array, integer, string } = require('chance-generators');
+const assert = require('assert');
+const expect = require('unexpected').clone();
 expect.output.preferredWidth = 80;
 
 expect.use(require('../lib/unexpected-check'));
 
 expect.addAssertion('<array> to be sorted', function(expect, subject) {
-  var isSorted = subject.every(function(x, i) {
+  const isSorted = subject.every(function(x, i) {
     return subject.slice(i).every(function(y) {
       return x <= y;
     });
@@ -28,7 +28,7 @@ function sort(arr, cmp) {
 }
 
 describe('unexpected-check', function() {
-  var numbers;
+  let numbers;
 
   beforeEach(function() {
     numbers = array(integer({ min: -20, max: 20 }), { min: 1, max: 20 });
@@ -39,7 +39,7 @@ describe('unexpected-check', function() {
       function() {
         expect(
           function(arr) {
-            var sorted = sort(arr);
+            const sorted = sort(arr);
 
             expect(sorted, 'to have length', arr.length).and('to be sorted');
           },
@@ -157,7 +157,7 @@ describe('unexpected-check', function() {
   it('succeeds for a valid requirement', function() {
     expect(
       function(arr) {
-        var sorted = sort(arr, function(a, b) {
+        const sorted = sort(arr, function(a, b) {
           return a - b;
         });
 
@@ -227,7 +227,7 @@ describe('unexpected-check', function() {
   });
 
   it('finds invalid strings', function() {
-    var strings = array(string, { min: 1, max: 20 });
+    const strings = array(string, { min: 1, max: 20 });
 
     expect(
       function() {
@@ -337,7 +337,7 @@ describe('unexpected-check', function() {
   });
 
   it('does not accept legacy generators', () => {
-    var legacyGenerator = function() {
+    const legacyGenerator = function() {
       return Math.random();
     };
 
