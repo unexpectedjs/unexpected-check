@@ -11,7 +11,7 @@
     "generate-site": "generate-site --require ./bootstrap-unexpected-markdown.js",
     "lint": "eslint .",
     "test": "mocha test/**/*.spec.js documentation/**/*.md",
-    "travis": "npm run lint && npm test",
+    "ci": "npm test && npm run lint",
     "update-examples": "generate-site --require ./bootstrap-unexpected-markdown.js --update-examples",
     "preversion": "npm run lint && npm run test",
     "postversion": "npm run changelog && git add CHANGELOG.md && git commit --allow-empty -m 'Update changelog' && deploy-site"

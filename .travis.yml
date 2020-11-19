@@ -5,4 +5,4 @@ node_js:
   - 14
   - latest
 
-script: 'npm run-script travis'
+script: npm run ci
