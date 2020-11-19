@@ -13,7 +13,7 @@ function toAst(stringOrAssetOrFunctionOrAst) {
     return {
       type: 'Program',
       body: esprima.parse('!' + stringOrAssetOrFunctionOrAst.toString()).body[0]
-        .expression.argument.body.body
+        .expression.argument.body.body,
     };
   } else {
     return stringOrAssetOrFunctionOrAst;
@@ -49,12 +49,12 @@ expect.addAssertion(
   }
 );
 
-describe('instrumentAst', function() {
-  it('should work with a basic example', function() {
+describe('instrumentAst', function () {
+  it('should work with a basic example', function () {
     expect(
       /*eslint-disable*/
-      function() {
-        const program = input => {
+      function () {
+        const program = (input) => {
           const se = input.indexOf('se');
           const cr = input.indexOf('cr');
           const et = input.indexOf('et');
@@ -70,8 +70,8 @@ describe('instrumentAst', function() {
         program();
       },
       'to come out as',
-      function() {
-        const program = input => {
+      function () {
+        const program = (input) => {
           recordLocation(7);
           const se = input.indexOf('se');
           const cr = input.indexOf('cr');
@@ -100,16 +100,16 @@ describe('instrumentAst', function() {
     );
   });
 
-  it('should instrument a function declaration', function() {
+  it('should instrument a function declaration', function () {
     expect(
-      function() {
+      function () {
         function baz() {
           bar();
         }
         baz();
       },
       'to come out as',
-      function() {
+      function () {
         function baz() {
           recordLocation(1);
           bar();
@@ -119,17 +119,17 @@ describe('instrumentAst', function() {
     );
   });
 
-  it('should instrument a function expression', function() {
+  it('should instrument a function expression', function () {
     expect(
-      function() {
-        const baz = function() {
+      function () {
+        const baz = function () {
           bar();
         };
         baz();
       },
       'to come out as',
-      function() {
-        const baz = function() {
+      function () {
+        const baz = function () {
           recordLocation(1);
           bar();
         };
@@ -138,16 +138,16 @@ describe('instrumentAst', function() {
     );
   });
 
-  it('should instrument an arrow function', function() {
+  it('should instrument an arrow function', function () {
     expect(
-      function() {
+      function () {
         const baz = () => {
           bar();
         };
         baz();
       },
       'to come out as',
-      function() {
+      function () {
         const baz = () => {
           recordLocation(1);
           bar();
@@ -157,15 +157,15 @@ describe('instrumentAst', function() {
     );
   });
 
-  it('should instrument an arrow function with an expression body', function() {
+  it('should instrument an arrow function with an expression body', function () {
     /*eslint-disable*/
     expect(
-      function() {
+      function () {
         var baz = () => bar();
         baz();
       },
       'to come out as',
-      function() {
+      function () {
         var baz = () => (recordLocation(1), bar());
         baz();
       }
@@ -173,33 +173,33 @@ describe('instrumentAst', function() {
     /* eslint-enable */
   });
 
-  it('should instrument a getter', function() {
+  it('should instrument a getter', function () {
     expect(
-      function() {
+      function () {
         const baz = {
           get foo() {
             return bar();
-          }
+          },
         };
         baz();
       },
       'to come out as',
-      function() {
+      function () {
         const baz = {
           get foo() {
             recordLocation(1);
             return bar();
-          }
+          },
         };
         baz();
       }
     );
   });
 
-  it('should instrument an if statement', function() {
+  it('should instrument an if statement', function () {
     expect(
       /*eslint-disable*/
-      function() {
+      function () {
         if (true) {
           foo();
         } else {
@@ -207,7 +207,7 @@ describe('instrumentAst', function() {
         }
       },
       'to come out as',
-      function() {
+      function () {
         if (true) {
           recordLocation(1);
           foo();
@@ -220,16 +220,16 @@ describe('instrumentAst', function() {
     );
   });
 
-  it('should add and instrument the else branch if not already present', function() {
+  it('should add and instrument the else branch if not already present', function () {
     expect(
       /*eslint-disable*/
-      function() {
+      function () {
         if (true) {
           foo();
         }
       },
       'to come out as',
-      function() {
+      function () {
         if (true) {
           recordLocation(1);
           foo();
@@ -241,14 +241,14 @@ describe('instrumentAst', function() {
     );
   });
 
-  it('should rewrite a non-block consequent to a block and add the instrumentation', function() {
+  it('should rewrite a non-block consequent to a block and add the instrumentation', function () {
     expect(
       /*eslint-disable*/
-      function() {
+      function () {
         if (true) bar();
       },
       'to come out as',
-      function() {
+      function () {
         if (true) {
           recordLocation(1);
           bar();
@@ -260,16 +260,16 @@ describe('instrumentAst', function() {
     );
   });
 
-  it('should rewrite a non-block else to a block and add the instrumentation', function() {
+  it('should rewrite a non-block else to a block and add the instrumentation', function () {
     expect(
       /*eslint-disable*/
-      function() {
+      function () {
         if (true) {
           bar();
         } else quux();
       },
       'to come out as',
-      function() {
+      function () {
         if (true) {
           recordLocation(1);
           bar();
@@ -282,16 +282,16 @@ describe('instrumentAst', function() {
     );
   });
 
-  describe('with a while loop', function() {
-    it('should instrument the body', function() {
+  describe('with a while loop', function () {
+    it('should instrument the body', function () {
       expect(
-        function() {
+        function () {
           while (foo()) {
             bar();
           }
         },
         'to come out as',
-        function() {
+        function () {
           while (foo()) {
             recordLocation(1);
             bar();
@@ -300,14 +300,14 @@ describe('instrumentAst', function() {
       );
     });
 
-    it('should convert a non-block body to a block', function() {
+    it('should convert a non-block body to a block', function () {
       expect(
         /*eslint-disable*/
-        function() {
+        function () {
           while (foo()) bar();
         },
         'to come out as',
-        function() {
+        function () {
           while (foo()) {
             recordLocation(1);
             bar();
@@ -317,14 +317,14 @@ describe('instrumentAst', function() {
       );
     });
 
-    it('should convert an empty body to a block', function() {
+    it('should convert an empty body to a block', function () {
       expect(
         /*eslint-disable*/
-        function() {
+        function () {
           while (foo());
         },
         'to come out as',
-        function() {
+        function () {
           while (foo()) {
             recordLocation(1);
           }
@@ -334,16 +334,16 @@ describe('instrumentAst', function() {
     });
   });
 
-  describe('with a do..while loop', function() {
-    it('should instrument the body', function() {
+  describe('with a do..while loop', function () {
+    it('should instrument the body', function () {
       expect(
-        function() {
+        function () {
           do {
             bar();
           } while (foo());
         },
         'to come out as',
-        function() {
+        function () {
           do {
             recordLocation(1);
             bar();
@@ -352,15 +352,15 @@ describe('instrumentAst', function() {
       );
     });
 
-    it('should convert a non-block body to a block', function() {
+    it('should convert a non-block body to a block', function () {
       expect(
         /*eslint-disable*/
-        function() {
+        function () {
           do bar();
           while (foo());
         },
         'to come out as',
-        function() {
+        function () {
           do {
             recordLocation(1);
             bar();
@@ -371,16 +371,16 @@ describe('instrumentAst', function() {
     });
   });
 
-  describe('with a for loop', function() {
-    it('should instrument the body', function() {
+  describe('with a for loop', function () {
+    it('should instrument the body', function () {
       expect(
-        function() {
+        function () {
           for (let i = 0; i < 10; i += 1) {
             bar();
           }
         },
         'to come out as',
-        function() {
+        function () {
           for (let i = 0; recordProximity(i, '<', 10); i += 1) {
             recordLocation(1);
             bar();
@@ -389,14 +389,14 @@ describe('instrumentAst', function() {
       );
     });
 
-    it('should convert a non-block body to a block', function() {
+    it('should convert a non-block body to a block', function () {
       expect(
         /*eslint-disable*/
-        function() {
+        function () {
           for (var i = 0; i < 10; i += 1) bar();
         },
         'to come out as',
-        function() {
+        function () {
           for (var i = 0; recordProximity(i, '<', 10); i += 1) {
             recordLocation(1);
             bar();
@@ -406,14 +406,14 @@ describe('instrumentAst', function() {
       );
     });
 
-    it('should convert an empty body to a block', function() {
+    it('should convert an empty body to a block', function () {
       expect(
         /*eslint-disable*/
-        function() {
+        function () {
           for (var i = 0; i < 10; i += 1);
         },
         'to come out as',
-        function() {
+        function () {
           for (var i = 0; recordProximity(i, '<', 10); i += 1) {
             recordLocation(1);
           }
@@ -423,16 +423,16 @@ describe('instrumentAst', function() {
     });
   });
 
-  describe('with a for...in loop', function() {
-    it('should instrument the body', function() {
+  describe('with a for...in loop', function () {
+    it('should instrument the body', function () {
       expect(
-        function() {
+        function () {
           for (const a in bar()) {
             a();
           }
         },
         'to come out as',
-        function() {
+        function () {
           for (const a in bar()) {
             recordLocation(1);
             a();
@@ -441,14 +441,14 @@ describe('instrumentAst', function() {
       );
     });
 
-    it('should convert a non-block body to a block', function() {
+    it('should convert a non-block body to a block', function () {
       expect(
         /*eslint-disable*/
-        function() {
+        function () {
           for (var a in bar()) a();
         },
         'to come out as',
-        function() {
+        function () {
           for (var a in bar()) {
             recordLocation(1);
             a();
@@ -458,14 +458,14 @@ describe('instrumentAst', function() {
       );
     });
 
-    it('should convert an empty body to a block', function() {
+    it('should convert an empty body to a block', function () {
       expect(
         /*eslint-disable*/
-        function() {
+        function () {
           for (var a in bar());
         },
         'to come out as',
-        function() {
+        function () {
           for (var a in bar()) {
             recordLocation(1);
           }
@@ -475,16 +475,16 @@ describe('instrumentAst', function() {
     });
   });
 
-  describe('with a for...of loop', function() {
-    it('should instrument the body', function() {
+  describe('with a for...of loop', function () {
+    it('should instrument the body', function () {
       expect(
-        function() {
+        function () {
           for (const a of bar()) {
             a();
           }
         },
         'to come out as',
-        function() {
+        function () {
           for (const a of bar()) {
             recordLocation(1);
             a();
@@ -493,14 +493,14 @@ describe('instrumentAst', function() {
       );
     });
 
-    it('should convert a non-block body to a block', function() {
+    it('should convert a non-block body to a block', function () {
       expect(
         /*eslint-disable*/
-        function() {
+        function () {
           for (var a of bar()) a();
         },
         'to come out as',
-        function() {
+        function () {
           for (var a of bar()) {
             recordLocation(1);
             a();
@@ -510,14 +510,14 @@ describe('instrumentAst', function() {
       );
     });
 
-    it('should convert an empty body to a block', function() {
+    it('should convert an empty body to a block', function () {
       expect(
         /*eslint-disable*/
-        function() {
+        function () {
           for (var a of bar());
         },
         'to come out as',
-        function() {
+        function () {
           for (var a of bar()) {
             recordLocation(1);
           }
@@ -527,10 +527,10 @@ describe('instrumentAst', function() {
     });
   });
 
-  it('should instrument a switch statement', function() {
+  it('should instrument a switch statement', function () {
     expect(
       /*eslint-disable*/
-      function() {
+      function () {
         switch (foo) {
           case 'bar':
             bar();
@@ -542,7 +542,7 @@ describe('instrumentAst', function() {
         }
       },
       'to come out as',
-      function() {
+      function () {
         switch (foo) {
           case 'bar':
             recordLocation(1);
@@ -560,57 +560,57 @@ describe('instrumentAst', function() {
     );
   });
 
-  it('should instrument a ternary', function() {
+  it('should instrument a ternary', function () {
     expect(
       /*eslint-disable*/
-      function() {
+      function () {
         foo() ? quux() + 123 : bar();
       },
       'to come out as',
-      function() {
+      function () {
         foo() ? (recordLocation(1), quux() + 123) : (recordLocation(2), bar());
       }
       /* eslint-enable */
     );
   });
 
-  it('should instrument the RHS of a logical and', function() {
+  it('should instrument the RHS of a logical and', function () {
     expect(
       /*eslint-disable*/
-      function() {
+      function () {
         foo() && bar();
       },
       'to come out as',
-      function() {
+      function () {
         foo() && (recordLocation(1), bar());
       }
       /* eslint-enable */
     );
   });
 
-  it('should instrument the RHS of a logical or', function() {
+  it('should instrument the RHS of a logical or', function () {
     expect(
       /*eslint-disable*/
-      function() {
+      function () {
         foo() || bar();
       },
       'to come out as',
-      function() {
+      function () {
         foo() || (recordLocation(1), bar());
       }
       /* eslint-enable */
     );
   });
 
-  it('should instrument a default parameter', function() {
+  it('should instrument a default parameter', function () {
     expect(
       /*eslint-disable*/
-      function() {
+      function () {
         function baz({ theThing } = {}) {}
         baz();
       },
       'to come out as',
-      function() {
+      function () {
         function baz({ theThing } = (recordLocation(1), {})) {
           recordLocation(2);
         }
@@ -620,10 +620,10 @@ describe('instrumentAst', function() {
     );
   });
 
-  describe('with a try...catch', function() {
-    it('should instrument the catch block', function() {
+  describe('with a try...catch', function () {
+    it('should instrument the catch block', function () {
       expect(
-        function() {
+        function () {
           try {
             foo();
           } catch (err) {
@@ -631,7 +631,7 @@ describe('instrumentAst', function() {
           }
         },
         'to come out as',
-        function() {
+        function () {
           try {
             foo();
           } catch (err) {
@@ -643,10 +643,10 @@ describe('instrumentAst', function() {
     });
   });
 
-  describe('with a try...finally', function() {
-    it('should not make any modifications', function() {
+  describe('with a try...finally', function () {
+    it('should not make any modifications', function () {
       expect(
-        function() {
+        function () {
           try {
             foo();
           } finally {
@@ -654,7 +654,7 @@ describe('instrumentAst', function() {
           }
         },
         'to come out as',
-        function() {
+        function () {
           try {
             foo();
           } finally {
@@ -665,10 +665,10 @@ describe('instrumentAst', function() {
     });
   });
 
-  describe('gathering of magic values', function() {
-    it('should extract string literals', function() {
+  describe('gathering of magic values', function () {
+    it('should extract string literals', function () {
       expect(
-        function() {
+        function () {
           if (foo() === 'bar' && (bar() === 456) === true) {
             return 'yeah';
           }
@@ -678,9 +678,9 @@ describe('instrumentAst', function() {
       );
     });
 
-    it('should extract literal switch cases', function() {
+    it('should extract literal switch cases', function () {
       expect(
-        function() {
+        function () {
           switch (foo()) {
             case 'bar':
               break;
@@ -691,9 +691,9 @@ describe('instrumentAst', function() {
       );
     });
 
-    it('should not extract magic values from static require(<string>) expressions', function() {
+    it('should not extract magic values from static require(<string>) expressions', function () {
       expect(
-        function() {
+        function () {
           require('./bar')(123);
         },
         'to yield magic values',
@@ -703,9 +703,9 @@ describe('instrumentAst', function() {
 
     // Not sure how useful this actually is, but at least it serves to document
     // the current behavior:
-    it('should extract magic values from dynamic require(...) expressions', function() {
+    it('should extract magic values from dynamic require(...) expressions', function () {
       expect(
-        function() {
+        function () {
           require('./bar' + 456)(123);
         },
         'to yield magic values',
@@ -713,13 +713,13 @@ describe('instrumentAst', function() {
       );
     });
 
-    it('should not extract magic values from `import ... from <string>` expressions', function() {
+    it('should not extract magic values from `import ... from <string>` expressions', function () {
       expect("import foo from 'bar'; foo(123);", 'to yield magic values', [
-        123
+        123,
       ]);
     });
 
-    it('should not extract magic values from `export ... from <string>` expressions', function() {
+    it('should not extract magic values from `export ... from <string>` expressions', function () {
       expect(
         "export { foo } from 'bar'; alert(123);",
         'to yield magic values',
@@ -728,21 +728,21 @@ describe('instrumentAst', function() {
     });
 
     // For some reason this isn't supported by esprima 4 or estraverse yet:
-    it.skip('should not extract magic values from dynamic `import(<string>)` expressions', function() {
+    it.skip('should not extract magic values from dynamic `import(<string>)` expressions', function () {
       expect("import('foo').then(bar => 123);", 'to yield magic values', [123]);
     });
   });
 
-  describe('with conditions that consist of a BinaryExpression', function() {
-    it('should instrument the test of an if statement', function() {
+  describe('with conditions that consist of a BinaryExpression', function () {
+    it('should instrument the test of an if statement', function () {
       expect(
-        function() {
+        function () {
           if (foo() < bar() + 1) {
             quux();
           }
         },
         'to come out as',
-        function() {
+        function () {
           if (recordProximity(foo(), '<', bar() + 1)) {
             recordLocation(1);
             quux();
@@ -753,14 +753,14 @@ describe('instrumentAst', function() {
       );
     });
 
-    it('should instrument the test of a ternary', function() {
+    it('should instrument the test of a ternary', function () {
       expect(
         /*eslint-disable*/
-        function() {
+        function () {
           foo() > bar() ? 123 : 456;
         },
         'to come out as',
-        function() {
+        function () {
           recordProximity(foo(), '>', bar())
             ? (recordLocation(1), 123)
             : (recordLocation(2), 456);
@@ -769,28 +769,28 @@ describe('instrumentAst', function() {
       );
     });
 
-    it('should instrument the LHS of a logical and', function() {
+    it('should instrument the LHS of a logical and', function () {
       expect(
         /*eslint-disable*/
-        function() {
+        function () {
           foo() > bar() && quux();
         },
         'to come out as',
-        function() {
+        function () {
           recordProximity(foo(), '>', bar()) && (recordLocation(1), quux());
         }
         /* eslint-enable */
       );
     });
 
-    it('should instrument the LHS of a logical or', function() {
+    it('should instrument the LHS of a logical or', function () {
       expect(
         /*eslint-disable*/
-        function() {
+        function () {
           foo() > bar() || quux();
         },
         'to come out as',
-        function() {
+        function () {
           recordProximity(foo(), '>', bar()) || (recordLocation(1), quux());
         }
         /* eslint-enable */
@@ -805,13 +805,13 @@ describe('instrumentAst', function() {
 
     expect(
       /*eslint-disable*/
-      function() {
+      function () {
         if (10 < a && b < 20 && a === b && a * b === c) {
           console.log('success');
         }
       },
       'to come out as',
-      function() {
+      function () {
         if (
           recordProximity(10, '<', a) &&
           (recordLocation(1), recordProximity(b, '<', 20)) &&

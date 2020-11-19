@@ -11,9 +11,13 @@ const escape = require('lodash.escape');
 const unescape = require('lodash.unescape');
 const { string } = require('chance-generators');
 
-expect(text => {
-  expect(unescape(escape(text)), 'to equal', text);
-}, 'to be valid for all', string({ max: 200 }));
+expect(
+  (text) => {
+    expect(unescape(escape(text)), 'to equal', text);
+  },
+  'to be valid for all',
+  string({ max: 200 })
+);
 ```
 
 This will run 300 tests with random strings of length 0-200 and succeed.
@@ -22,16 +26,20 @@ You can specify the max number of iterations that the test should run and the
 number of errors it should collect before stopping.
 
 The algorithm searches for the smallest error output, so the more errors you
-allow it to collect the better the output will be. 
+allow it to collect the better the output will be.
 
 ```js
-expect(text => {
-  expect(unescape(escape(text)), 'to equal', text);
-}, 'to be valid for all', {
-  generators: [string({ max: 200 })],
-  maxIterations: 1000,
-  maxErrors: 30
-});
+expect(
+  (text) => {
+    expect(unescape(escape(text)), 'to equal', text);
+  },
+  'to be valid for all',
+  {
+    generators: [string({ max: 200 })],
+    maxIterations: 1000,
+    maxErrors: 30,
+  }
+);
 ```
 
 I found to following code for
@@ -42,23 +50,27 @@ if that code also fulfill our round trip test:
 ```js
 function rleEncode(input) {
   var encoding = [];
-  input.match(/(.)\1*/g).forEach(substr => {
+  input.match(/(.)\1*/g).forEach((substr) => {
     encoding.push([substr.length, substr[0]]);
   });
   return encoding;
 }
 
 function rleDecode(encoded) {
-  var output = "";
-  encoded.forEach(pair => {
-    output += new Array(1+pair[0]).join(pair[1]);
+  var output = '';
+  encoded.forEach((pair) => {
+    output += new Array(1 + pair[0]).join(pair[1]);
   });
   return output;
 }
 
-expect(text => {
-  expect(rleDecode(rleEncode(text)), 'to equal', text);
-}, 'to be valid for all', string({ max: 200 }));
+expect(
+  (text) => {
+    expect(rleDecode(rleEncode(text)), 'to equal', text);
+  },
+  'to be valid for all',
+  string({ max: 200 })
+);
 ```
 
 <!-- unexpected-markdown cleanStackTrace: true -->
@@ -91,12 +103,17 @@ Here is a test that uses more than one generator:
 ```js
 const { word } = require('chance-generators');
 
-expect((a, b) => {
-  return (a + b).length === a.length + b.length;
-}, 'to be valid for all', word, word);
+expect(
+  (a, b) => {
+    return (a + b).length === a.length + b.length;
+  },
+  'to be valid for all',
+  word,
+  word
+);
 ```
 
-Another example could be to generate actions. 
+Another example could be to generate actions.
 
 Let's create a simple queue:
 
@@ -125,30 +142,31 @@ Now let's test that items enqueued always comes out in the right order:
 ```js
 const { array, pickone } = require('chance-generators');
 
-var action = pickone([
-  { name: 'enqueue', value: string }, 
-  { name: 'dequeue' }
-]);
+var action = pickone([{ name: 'enqueue', value: string }, { name: 'dequeue' }]);
 
 var actions = array(action, 200);
 
-expect(function (actions) {
-  var queue = new Queue();
-  var enqueued = [];
-  var dequeued = [];
-  actions.forEach(function (action) {
-    if (action.name === 'enqueue') {
-      enqueued.push(action.value);
-      queue.enqueue(action.value);
-    } else if (!queue.isEmpty()) {
-      dequeued.push(queue.dequeue());
-    }
-  });
+expect(
+  function (actions) {
+    var queue = new Queue();
+    var enqueued = [];
+    var dequeued = [];
+    actions.forEach(function (action) {
+      if (action.name === 'enqueue') {
+        enqueued.push(action.value);
+        queue.enqueue(action.value);
+      } else if (!queue.isEmpty()) {
+        dequeued.push(queue.dequeue());
+      }
+    });
 
-  queue.drainTo(dequeued);
+    queue.drainTo(dequeued);
 
-  expect(dequeued, 'to equal', enqueued);
-}, 'to be valid for all', actions);
+    expect(dequeued, 'to equal', enqueued);
+  },
+  'to be valid for all',
+  actions
+);
 ```
 
 Support for asynchronous testing by returning a promise from the subject
@@ -157,18 +175,20 @@ function:
 ```js#async:true
 expect.use(require('unexpected-stream'));
 
-return expect(function (text) {
-  return expect(
-    text,
-    'when piped through',
-    [
-      require('zlib').Gzip(),
-      require('zlib').Gunzip()
-    ],
-    'to yield output satisfying',
-    'when decoded as', 'utf-8',
-    'to equal',
-    text
-  );
-}, 'to be valid for all', string);
+return expect(
+  function (text) {
+    return expect(
+      text,
+      'when piped through',
+      [require('zlib').Gzip(), require('zlib').Gunzip()],
+      'to yield output satisfying',
+      'when decoded as',
+      'utf-8',
+      'to equal',
+      text
+    );
+  },
+  'to be valid for all',
+  string
+);
 ```

@@ -6,10 +6,10 @@ generator that "fuzzes", or somehow creates test cases, based on the subject.
 ```js
 const { integer } = require('chance-generators');
 
-function makePrefixGenerator (str) {
-  return integer({min: 1, max: str.length - 1}).map(prefixLength => (
+function makePrefixGenerator(str) {
+  return integer({ min: 1, max: str.length - 1 }).map((prefixLength) =>
     str.substr(0, prefixLength)
-  ))
+  );
 }
 
 expect('abc', 'when fuzzed by', makePrefixGenerator, 'to match', /^a/);
@@ -21,9 +21,9 @@ prefix length to 0, we will see it generate the empty string fail:
 
 ```js
 function makePrefixGenerator(str) {
-    return integer({ min: 0, max: str.length - 1 }).map(prefixLength => (
-      str.substr(0, prefixLength)
-    ))
+  return integer({ min: 0, max: str.length - 1 }).map((prefixLength) =>
+    str.substr(0, prefixLength)
+  );
 }
 
 expect('abc', 'when fuzzed by', makePrefixGenerator, 'to match', /^a/);

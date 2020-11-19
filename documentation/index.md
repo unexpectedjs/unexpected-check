@@ -6,6 +6,7 @@ repository: https://github.com/unexpectedjs/unexpected-check
 ---
 
 # unexpected-check
+
 # property based testing plugin for unexpected
 
 <img alt="Checkmate!" src="./unexpected-check.jpg" style="display: block; max-width: 100%">
@@ -31,7 +32,6 @@ therefore provide much more precise error cases.
 
 ## Usage
 
-
 Install it with NPM or add it to your `package.json`:
 
 ```
@@ -55,16 +55,16 @@ function sort(arr) {
 
 Then we could write a test to ensure the following:
 
-* the resulting array has the same size as the input array.
-* the resulting array is sorted.
+- the resulting array has the same size as the input array.
+- the resulting array is sorted.
 
 First we will create an assertion for checking that an array is sorted:
 
 ```js
 expect.addAssertion('<array> to be sorted', (expect, subject) => {
-  const isSorted = subject.every((x, i) => (
-    subject.slice(i).every(y => x <= y)
-  ));
+  const isSorted = subject.every((x, i) =>
+    subject.slice(i).every((y) => x <= y)
+  );
 
   expect(isSorted, 'to be true');
 });
@@ -82,11 +82,15 @@ const numbers = array(integer({ min: -20, max: 20 }), { min: 1, max: 20 });
 Finally we make the assertion:
 
 ```js
-expect((arr) => {
-  const sorted = sort(arr);
-  expect(sorted, 'to have length', arr.length);
-  expect(sorted, 'to be sorted');
-}, 'to be valid for all', numbers);
+expect(
+  (arr) => {
+    const sorted = sort(arr);
+    expect(sorted, 'to have length', arr.length);
+    expect(sorted, 'to be sorted');
+  },
+  'to be valid for all',
+  numbers
+);
 ```
 
 But that assumption is actually not true as the build-in sort functions is based
@@ -111,11 +115,15 @@ function sortNumbers(arr) {
 ```
 
 ```js
-expect((arr) => {
-  const sorted = sortNumbers(arr);
-  expect(sorted, 'to have length', arr.length);
-  expect(sorted, 'to be sorted');
-}, 'to be valid for all', numbers);
+expect(
+  (arr) => {
+    const sorted = sortNumbers(arr);
+    expect(sorted, 'to have length', arr.length);
+    expect(sorted, 'to be sorted');
+  },
+  'to be valid for all',
+  numbers
+);
 ```
 
 ## Install
@@ -157,7 +165,10 @@ expect.use(weknowhow.unexpectedCheck);
 Include the library with RequireJS the following way:
 
 ```js#evaluate:false
-define(['unexpected', 'unexpected-check'], function (unexpected, unexpectedCheck) {
+define(['unexpected', 'unexpected-check'], function (
+  unexpected,
+  unexpectedCheck
+) {
   const expect = unexpected.clone();
   expect.use(unexpectedCheck);
   // Your code
@@ -173,46 +184,52 @@ function:
 const { string } = require('chance-generators');
 expect.use(require('unexpected-stream'));
 
-return expect(text => {
-  return expect(
-    text,
-    'when piped through',
-    [
-      require('zlib').Gzip(),
-      require('zlib').Gunzip()
-    ],
-    'to yield output satisfying',
-    'when decoded as', 'utf-8',
-    'to equal',
-    text
-  );
-}, 'to be valid for all', string);
+return expect(
+  (text) => {
+    return expect(
+      text,
+      'when piped through',
+      [require('zlib').Gzip(), require('zlib').Gunzip()],
+      'to yield output satisfying',
+      'when decoded as',
+      'utf-8',
+      'to equal',
+      text
+    );
+  },
+  'to be valid for all',
+  string
+);
 ```
 
 ## Options
 
-* `generators` (default []): an array of generators used to generate the example
+- `generators` (default []): an array of generators used to generate the example
   data.
-* `maxIterations` (default 300): the number of iterations that the subject
+- `maxIterations` (default 300): the number of iterations that the subject
   function it ran when no errors occur. You can control the default for this
   option by setting the environment variable `UNEXPECTED_CHECK_MAX_ITERATIONS`
   or setting the query parameter `maxiterations` in the browser.
-* `maxErrorIterations` (default 1000): the number of iterations unexpected-check
+- `maxErrorIterations` (default 1000): the number of iterations unexpected-check
   can use to find a better error when an error occurs.
-* `maxErrors` (default 201): the number of found errors before stopping the input
+- `maxErrors` (default 201): the number of found errors before stopping the input
   shrinking process.
 
 ```js
-expect((arr) => {
-  const sorted = sort(arr);
-  expect(sorted, 'to have length', arr.length);
-  expect(sorted, 'to be sorted');
-}, 'to be valid for all', {
+expect(
+  (arr) => {
+    const sorted = sort(arr);
+    expect(sorted, 'to have length', arr.length);
+    expect(sorted, 'to be sorted');
+  },
+  'to be valid for all',
+  {
     generators: [numbers],
     maxIterations: 100,
     maxErrorIterations: 100,
-    maxErrors: 10
-});
+    maxErrors: 10,
+  }
+);
 ```
 
 ```output

@@ -59,11 +59,11 @@
 
 ### v1.19.0 (2018-08-11)
 
-- [#14](https://github.com/unexpectedjs/unexpected-check/pull/14)  Use proximity as a feedback loop  ([Sune Simonsen](mailto:sune@we-knowhow.dk))
+- [#14](https://github.com/unexpectedjs/unexpected-check/pull/14) Use proximity as a feedback loop ([Sune Simonsen](mailto:sune@we-knowhow.dk))
 
 ### v1.18.0 (2018-01-13)
 
-- [#13](https://github.com/unexpectedjs/unexpected-check/pull/13)  Use of conditional proximity ([Andreas Lind](mailto:andreas.lind@peakon.com), [Andreas Lind](mailto:andreaslindpetersen@gmail.com), [Sune Simonsen](mailto:sune@we-knowhow.dk))
+- [#13](https://github.com/unexpectedjs/unexpected-check/pull/13) Use of conditional proximity ([Andreas Lind](mailto:andreas.lind@peakon.com), [Andreas Lind](mailto:andreaslindpetersen@gmail.com), [Sune Simonsen](mailto:sune@we-knowhow.dk))
 
 ### v1.17.0 (2018-01-08)
 
@@ -71,7 +71,7 @@
 
 ### v1.16.0 (2018-01-08)
 
-- [#11](https://github.com/unexpectedjs/unexpected-check/pull/11) Report when the first error was found.  ([Sune Simonsen](mailto:sune@we-knowhow.dk))
+- [#11](https://github.com/unexpectedjs/unexpected-check/pull/11) Report when the first error was found. ([Sune Simonsen](mailto:sune@we-knowhow.dk))
 
 ### v1.15.0 (2018-01-06)
 
@@ -93,4 +93,3 @@
 ### v1.8.0 (2016-07-17)
 
 - [#3](https://github.com/unexpectedjs/unexpected-check/pull/3) Support specifying the default max number of iterations ([Andreas Lind](mailto:andreas@one.com))
-
