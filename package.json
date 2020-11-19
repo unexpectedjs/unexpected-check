@@ -4,7 +4,7 @@
   "author": "Sune Simonsen",
   "license": "MIT",
   "repository": "git://github.com/unexpectedjs/unexpected-check.git",
-  "version": "2.4.1",
+  "version": "3.0.0",
   "main": "lib/unexpected-check.js",
   "scripts": {
     "changelog": "offline-github-changelog > CHANGELOG.md",
