@@ -9,7 +9,7 @@
   "scripts": {
     "changelog": "offline-github-changelog > CHANGELOG.md",
     "generate-site": "generate-site --require ./bootstrap-unexpected-markdown.js",
-    "lint": "eslint .",
+    "lint": "eslint . && prettier --check '**/*.{js,json,md}'",
     "test": "mocha test/**/*.spec.js documentation/**/*.md",
     "ci": "npm test && npm run lint",
     "update-examples": "generate-site --require ./bootstrap-unexpected-markdown.js --update-examples",
