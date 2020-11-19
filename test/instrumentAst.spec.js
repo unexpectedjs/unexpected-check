@@ -783,7 +783,7 @@ describe('instrumentAst', function() {
       );
     });
 
-    it('should instrument the LHS of a logical and', function() {
+    it('should instrument the LHS of a logical or', function() {
       expect(
         /*eslint-disable*/
         function() {
