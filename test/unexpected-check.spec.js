@@ -15,13 +15,12 @@ expect.addAssertion('<array> to be sorted', function (expect, subject) {
   expect(isSorted, 'to be true');
 });
 
-expect.addAssertion('<any> to inspect as <string>', function (
-  expect,
-  subject,
-  value
-) {
-  expect(expect.inspect(subject).toString(), 'to equal', value);
-});
+expect.addAssertion(
+  '<any> to inspect as <string>',
+  function (expect, subject, value) {
+    expect(expect.inspect(subject).toString(), 'to equal', value);
+  }
+);
 
 function sort(arr, cmp) {
   return [].concat(arr).sort(cmp);
