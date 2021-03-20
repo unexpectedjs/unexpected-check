@@ -43,7 +43,7 @@
     "lodash.escape": "^4.0.1",
     "lodash.unescape": "^4.0.1",
     "mocha": "^8.2.1",
-    "offline-github-changelog": "^1.2.0",
+    "offline-github-changelog": "^2.3.0",
     "prettier": "~2.2.0",
     "serve": "^11.0.0",
     "unexpected": "^12.0.0",
