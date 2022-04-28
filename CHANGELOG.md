@@ -1,3 +1,18 @@
+### v3.1.0 (2022-04-28)
+
+#### Pull requests
+
+- [#151](https://github.com/unexpectedjs/unexpected-check/pull/151) Upgrade mocha to version 9.1.3 ([depfu[bot]](mailto:23717796+depfu[bot]@users.noreply.github.com))
+
+#### Commits to master
+
+- [Update unexpected the dev dep to ^13.0.0, allow 13 for the peer dep](https://github.com/unexpectedjs/unexpected-check/commit/0df64dfc24a87e09162b8c882395ba133fa0a496) ([Andreas Lind](mailto:andreaslindpetersen@gmail.com))
+- [Update unexpected-stream to ^5.1.0](https://github.com/unexpectedjs/unexpected-check/commit/04f6d478928683bb5ac76ee5fcd3e6f7296dbc53) ([Andreas Lind](mailto:andreaslindpetersen@gmail.com))
+- [Fix lint](https://github.com/unexpectedjs/unexpected-check/commit/279fad6b069f599a8f982951f4f38d4421fa1209) ([Andreas Lind](mailto:andreas.lind@workday.com))
+- [eslint --fix .](https://github.com/unexpectedjs/unexpected-check/commit/bd3c66b1518a7b5f10f1307548b7246c2b1f23bd) ([Andreas Lind](mailto:andreas.lind@workday.com))
+- [npm i --save-dev eslint-plugin-n eslint-config-standard@latest && npm uninstall eslint-plugin-node eslint-plugin-standard](https://github.com/unexpectedjs/unexpected-check/commit/5c328926cf767de12ce2113c5b8d15719c3bc576) ([Andreas Lind](mailto:andreas.lind@workday.com))
+- [+13 more](https://github.com/unexpectedjs/unexpected-check/compare/v3.0.0...v3.1.0)
+
 ### v3.0.0 (2020-11-20)
 
 #### Pull requests
