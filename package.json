@@ -47,7 +47,7 @@
     "prettier": "~2.5.1",
     "serve": "^11.0.0",
     "unexpected": "^13.0.0",
-    "unexpected-documentation-site-generator": "^6.1.0",
+    "unexpected-documentation-site-generator": "^7.1.0",
     "unexpected-markdown": "^4.1.1",
     "unexpected-stream": "^5.1.0"
   },
