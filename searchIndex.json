@@ -1,10 +1,10 @@
 [
   {
-    "label": "to be valid for all (function)",
-    "url": "/assertions/function/to-be-valid-for-all/"
-  },
-  {
     "label": "when fuzzed by (any)",
     "url": "/assertions/any/when-fuzzed-by/"
+  },
+  {
+    "label": "to be valid for all (function)",
+    "url": "/assertions/function/to-be-valid-for-all/"
   }
 ]
