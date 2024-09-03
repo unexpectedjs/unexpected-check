@@ -1,3 +1,8 @@
+### v3.2.0 (2024-09-03)
+
+- [Inspect the precious counterexamples with infinite depth so the details don't get dotted out](https://github.com/unexpectedjs/unexpected-check/commit/f3667c188fc930ada88bbba0b208c783f191031c) ([Andreas Lind](mailto:andreas.lind@workday.com))
+- [Update changelog](https://github.com/unexpectedjs/unexpected-check/commit/1d1e24e9808b5af638deef5bcd35cf70cdb5a6df) ([Andreas Lind](mailto:andreaslindpetersen@gmail.com))
+
 ### v3.1.0 (2022-04-28)
 
 #### Pull requests
@@ -191,7 +196,8 @@
 
 - [#5](https://github.com/unexpectedjs/unexpected-check/pull/5) Print out the generators that was used to generated the failing input ([Sune Simonsen](mailto:sune@we-knowhow.dk))
 
-### v1.8.0
+### v1.8.0 (2016-07-17)
+
 #### Pull requests
 
 - [#3](https://github.com/unexpectedjs/unexpected-check/pull/3) Support specifying the default max number of iterations ([Andreas Lind](mailto:andreas@one.com))
