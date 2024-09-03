@@ -1,5 +1,5 @@
 /* global describe, it, beforeEach */
-const { array, integer, string } = require('chance-generators');
+const { array, integer, string, shape } = require('chance-generators');
 const assert = require('assert');
 const expect = require('unexpected').clone();
 expect.output.preferredWidth = 80;
@@ -57,6 +57,56 @@ describe('unexpected-check', function () {
         '\n' +
         '  Generated input: [ -2, -1 ]\n' +
         '  with: array({ itemGenerator: integer({ min: -20, max: 20 }), min: 1, max: 20 })\n' +
+        '\n' +
+        '  expected [ -1, -2 ] to be sorted'
+    );
+  });
+
+  it('does not dot out the failing example even when it is highly nested', function () {
+    expect(
+      function () {
+        expect(
+          function (input) {
+            const sorted = sort(input.numbers);
+
+            expect(sorted, 'to have length', input.numbers.length).and(
+              'to be sorted'
+            );
+          },
+          'to be valid for all',
+          {
+            generators: [
+              shape({
+                numbers: numbers,
+                a: {
+                  bunch: {
+                    of: {
+                      deeply: {
+                        nested: { but: { highly: { relevant: 'stuff' } } },
+                      },
+                    },
+                  },
+                },
+              }),
+            ],
+            maxIterations: 50,
+            maxErrorIterations: 200,
+            maxErrors: 30,
+          }
+        );
+      },
+      'to throw',
+      'Found an error after 1 iteration, 20 additional errors found.\n' +
+        'counterexample:\n' +
+        '\n' +
+        '  Generated input: {\n' +
+        '    numbers: [ -2, -1 ],\n' +
+        "    a: { bunch: { of: { deeply: { nested: { but: { highly: { relevant: 'stuff' } } } } } } }\n" +
+        '  }\n' +
+        '  with: shape({\n' +
+        '    numbers: array({ itemGenerator: integer({ min: -20, max: 20 }), min: 1, max: 20 }),\n' +
+        '    a: { bunch: { of: ... } }\n' +
+        '  })\n' +
         '\n' +
         '  expected [ -1, -2 ] to be sorted'
     );
