@@ -20,7 +20,7 @@
     "escodegen": "^2.0.0",
     "esprima": "^4.0.0",
     "estraverse": "^5.2.0",
-    "ignore": "^5.0.3",
+    "ignore": "^7.0.8",
     "pkg-up": "^3.0.1"
   },
   "peerDependencies": {
